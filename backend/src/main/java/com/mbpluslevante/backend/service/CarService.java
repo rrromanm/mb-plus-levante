@@ -10,4 +10,5 @@ public interface CarService
     Car findById(Long id);
     void addCar(Car car);
     void deleteCar(Long id);
+    List<Car> getFeaturedCars();
 }

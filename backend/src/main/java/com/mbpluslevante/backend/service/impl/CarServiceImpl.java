@@ -30,4 +30,9 @@ public class CarServiceImpl implements CarService {
     public void deleteCar(Long id) {
         carRepository.deleteById(id);
     }
+
+    @Override
+    public List<Car> getFeaturedCars() {
+        return carRepository.findByIsFeaturedTrue();
+    }
 }
