@@ -9,7 +9,7 @@ export default function Header() {
           <Image src="/mb-plus-logo.svg" alt="MB Plus Logo" width={160} height={60} />
         </div>
 
-        <nav className="hidden md:flex items-center gap-6 text-md font-medium text-foreground">
+        <nav className="hidden md:flex items-center gap-6 text-md font-medium text-white">
           <a href="/" className="hover:text-white transition-colors">
             Catalogo
           </a>

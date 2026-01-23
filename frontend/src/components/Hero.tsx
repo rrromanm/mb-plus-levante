@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Hero() {
   return (
-    <section className="relative h-screen overflow-hidden -mt-25">
+    <section className="relative h-255 overflow-hidden -mt-25">
       <Image
         src="/mercedes-hero.jpg"
         alt="Premium Mercedes vehicle"
