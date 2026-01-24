@@ -1,5 +1,6 @@
 package com.mbpluslevante.backend.controller;
 
+import com.mbpluslevante.backend.dto.FeaturedCarsDto;
 import com.mbpluslevante.backend.model.Car;
 import com.mbpluslevante.backend.service.CarService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,7 +23,7 @@ public class CarController
         return carService.findAll();
     }
     @GetMapping("/getFeatured")
-    public List<Car> featuredCar(){
+    public List<FeaturedCarsDto> featuredCar(){
         return carService.getFeaturedCars();
     }
     @GetMapping("/car/{id}")
