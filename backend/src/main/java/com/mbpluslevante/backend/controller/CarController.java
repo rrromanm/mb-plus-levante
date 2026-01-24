@@ -22,7 +22,7 @@ public class CarController
     public List<Car> car(){
         return carService.findAll();
     }
-    @GetMapping("/getFeatured")
+    @GetMapping("/getFeaturedCars")
     public List<FeaturedCarsDto> featuredCar(){
         return carService.getFeaturedCars();
     }
