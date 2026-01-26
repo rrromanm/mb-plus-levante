@@ -3,6 +3,7 @@ package com.mbpluslevante.backend.controller;
 import com.mbpluslevante.backend.model.Car;
 import com.mbpluslevante.backend.service.CarService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,5 +22,9 @@ public class AdminController
     @DeleteMapping("/deleteCar/{id}")
     public void deleteCar(@PathVariable Long id) {
         carService.deleteCar(id);
+    }
+    @GetMapping("/ping")
+    public ResponseEntity<Void> ping() {
+        return ResponseEntity.ok().build();
     }
 }
