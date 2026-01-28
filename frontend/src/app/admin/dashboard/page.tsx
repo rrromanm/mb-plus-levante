@@ -3,18 +3,26 @@
 import Sidebar from "@/components/Sidebar";
 import DashboardCard from "@/components/DashboardCard";
 import { Car, Key, User, Plus } from "lucide-react";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { useGetFeaturedCars } from "@/controller/useGetFeaturedCars";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import AddVehicleModal from "@/components/AddVehicleModal";
+import Image from "next/image";
 
 export default function AdminDashboard() {
   const { data: cars, loading, error } = useGetFeaturedCars();
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="force-light flex min-h-screen bg-gray-100">
       <Sidebar />
       <div className="flex-1 p-8">
         <div className="max-w-7xl mx-auto">
@@ -42,11 +50,11 @@ export default function AdminDashboard() {
 
           <div className="bg-white rounded-lg shadow">
             <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-gray-900">
+              <h2 className="text-xl font-semibold text-[#1D1D1D]">
                 Vehículos Disponibles
               </h2>
               <Button onClick={() => setOpen(true)} size="lg" variant="brand">
-                <Plus/>
+                <Plus />
                 Añadir Vehículo
               </Button>
               <AddVehicleModal open={open} onOpenChange={setOpen} />
@@ -69,11 +77,11 @@ export default function AdminDashboard() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Imagen</TableHead>
-                      <TableHead>Marca</TableHead>
-                      <TableHead>Año</TableHead>
-                      <TableHead>Precio</TableHead>
-                      <TableHead>Acciones</TableHead>
+                      <TableHead className="text-[#1D1D1D]">Imagen</TableHead>
+                      <TableHead className="text-[#1D1D1D]">Marca</TableHead>
+                      <TableHead className="text-[#1D1D1D]">Año</TableHead>
+                      <TableHead className="text-[#1D1D1D]">Precio</TableHead>
+                      <TableHead className="text-[#1D1D1D]">Acciones</TableHead>
                     </TableRow>
                   </TableHeader>
 
@@ -81,17 +89,25 @@ export default function AdminDashboard() {
                     {cars.map((car) => (
                       <TableRow key={car.slug}>
                         <TableCell>
-                          <img
+                          <Image
                             src={car.mainImageUrl}
-                            className="w-16 h-16 rounded-lg object-cover"
+                            alt={`${car.brand} ${car.model}`}
+                            width={80}
+                            height={48}
+                            className="rounded-lg object-cover"
+                            unoptimized
                           />
                         </TableCell>
-                        <TableCell>
+                        <TableCell className="text-[#1D1D1D]">
                           {car.brand} {car.model}
                         </TableCell>
-                        <TableCell>{car.year}</TableCell>
-                        <TableCell>€{car.price}</TableCell>
-                        <TableCell>...</TableCell>
+                        <TableCell className="text-[#1D1D1D]">
+                          {car.year}
+                        </TableCell>
+                        <TableCell className="text-[#1D1D1D]">
+                          €{car.price}
+                        </TableCell>
+                        <TableCell className="text-[#1D1D1D]">...</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
