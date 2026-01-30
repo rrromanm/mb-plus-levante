@@ -3,16 +3,7 @@
 import Sidebar from "@/components/Sidebar";
 import DashboardCard from "@/components/DashboardCard";
 import { Car, Key, User, Plus } from "lucide-react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { useGetFeaturedCars } from "@/controller/useGetFeaturedCars";
-import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import AddVehicleModal from "@/components/AddVehicleModal";
 import Image from "next/image";
@@ -53,12 +44,16 @@ export default function AdminDashboard() {
               <h2 className="text-xl font-semibold text-[#1D1D1D]">
                 Vehículos Disponibles
               </h2>
-              <Button onClick={() => setOpen(true)} size="lg" variant="brand">
+              <button
+                className="inline-flex items-center gap-2 rounded-md bg-[#880808]
+                  px-4 py-2 text-sm font-medium text-white hover:bg-[#660606] cursor-pointer"
+                onClick={() => setOpen(true)}
+              >
                 <Plus />
                 Añadir Vehículo
-              </Button>
-              <AddVehicleModal open={open} onOpenChange={setOpen} />
+              </button>
             </div>
+            <AddVehicleModal open={open} onOpenChange={setOpen} />
 
             <div className="overflow-x-auto">
               {loading ? (
@@ -74,44 +69,47 @@ export default function AdminDashboard() {
                   No hay vehículos disponibles
                 </div>
               ) : (
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="text-[#1D1D1D]">Imagen</TableHead>
-                      <TableHead className="text-[#1D1D1D]">Marca</TableHead>
-                      <TableHead className="text-[#1D1D1D]">Año</TableHead>
-                      <TableHead className="text-[#1D1D1D]">Precio</TableHead>
-                      <TableHead className="text-[#1D1D1D]">Acciones</TableHead>
-                    </TableRow>
-                  </TableHeader>
+                <table className="w-full text-sm">
+                  <thead className="border-b bg-gray-50">
+                    <tr className="text-left text-gray-900">
+                      <th className="px-4 py-3 font-medium">Imagen</th>
+                      <th className="px-4 py-3 font-medium">Marca</th>
+                      <th className="px-4 py-3 font-medium">Año</th>
+                      <th className="px-4 py-3 font-medium">Precio</th>
+                      <th className="px-4 py-3 font-medium">Acciones</th>
+                    </tr>
+                  </thead>
 
-                  <TableBody>
+                  <tbody>
                     {cars.map((car) => (
-                      <TableRow key={car.slug}>
-                        <TableCell>
+                      <tr
+                        key={car.slug}
+                        className="border-b last:border-0 hover:bg-gray-50"
+                      >
+                        <td className="px-4 py-3">
                           <Image
                             src={car.mainImageUrl}
-                            alt={`${car.brand} ${car.model}`}
-                            width={80}
+                            width={72}
                             height={48}
-                            className="rounded-lg object-cover"
+                            className="rounded-md object-cover"
                             unoptimized
+                            alt=""
                           />
-                        </TableCell>
-                        <TableCell className="text-[#1D1D1D]">
+                        </td>
+
+                        <td className="px-4 py-3 text-gray-900">
                           {car.brand} {car.model}
-                        </TableCell>
-                        <TableCell className="text-[#1D1D1D]">
-                          {car.year}
-                        </TableCell>
-                        <TableCell className="text-[#1D1D1D]">
+                        </td>
+
+                        <td className="px-4 py-3 text-gray-900">{car.year}</td>
+                        <td className="px-4 py-3 text-gray-900">
                           €{car.price}
-                        </TableCell>
-                        <TableCell className="text-[#1D1D1D]">...</TableCell>
-                      </TableRow>
+                        </td>
+                        <td className="px-4 py-3 text-gray-500">…</td>
+                      </tr>
                     ))}
-                  </TableBody>
-                </Table>
+                  </tbody>
+                </table>
               )}
             </div>
           </div>
