@@ -9,11 +9,10 @@ public class Brand
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
     @Column(nullable = false, unique = true)
-    private String key;
-    private String logoUrl;
+    private String slug;
 
     public Long getId() {
         return id;
@@ -31,20 +30,12 @@ public class Brand
         this.name = name;
     }
 
-    public String getKey() {
-        return key;
+    public String getSlug() {
+        return slug;
     }
 
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    public String getLogoUrl() {
-        return logoUrl;
-    }
-
-    public void setLogoUrl(String logoUrl) {
-        this.logoUrl = logoUrl;
+    public void setSlug(String slug) {
+        this.slug = slug.toLowerCase();
     }
 
 }

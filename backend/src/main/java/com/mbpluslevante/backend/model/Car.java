@@ -1,11 +1,11 @@
 package com.mbpluslevante.backend.model;
 
+import com.mbpluslevante.backend.model.enums.BodyType;
 import com.mbpluslevante.backend.model.enums.CarStatus;
 import com.mbpluslevante.backend.model.enums.FuelType;
 import com.mbpluslevante.backend.model.enums.Transmission;
 import jakarta.persistence.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +19,9 @@ public class Car {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id", nullable = false)
     private Brand brand;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "vehicle_type_id", nullable = false)
-    private VehicleType vehicleType;
+
+    @Enumerated(EnumType.STRING)
+    private BodyType vehicleType;
     @Column(nullable = false)
     private String model;
     private Integer year;
@@ -65,11 +65,11 @@ public class Car {
         this.brand = brand;
     }
 
-    public VehicleType getVehicleType() {
+    public BodyType getVehicleType() {
         return vehicleType;
     }
 
-    public void setVehicleType(VehicleType vehicleType) {
+    public void setVehicleType(BodyType vehicleType) {
         this.vehicleType = vehicleType;
     }
 
