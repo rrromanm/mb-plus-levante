@@ -41,7 +41,7 @@ export function ImageUploader() {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     onDropRejected,
-    maxFiles: 10,
+    maxFiles: 15,
     maxSize: 1024 * 1024 * 5,
     accept: {
       "image/*": [],
