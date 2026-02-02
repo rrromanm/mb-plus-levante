@@ -1,8 +1,22 @@
 import { fuelTypes } from "@/lib/enums/fuelType";
 import { bodyTypes } from "@/lib/enums/bodyType";
 import { transmissions } from "@/lib/enums/transmission";
+import { useGetAllBrands } from "@/controller/useGetAllBrands";
+import { useState, useEffect } from "react";
+import { Brand } from "@/services/brandsApi";
+import BrandSelector from "./BrandSelector";
 
-export default function CarDetailsForm() {
+type Props = {
+  resetTrigger?: number;
+};
+
+export default function CarDetailsForm({ resetTrigger }: Props) {
+  const { data: brands, loading } = useGetAllBrands();
+  const [selectedBrand, setSelectedBrand] = useState<Brand | null>(null);
+
+  useEffect(() => {
+    setSelectedBrand(null);
+  }, [resetTrigger]);
   return (
     <div className="space-y-6 text-sm text-gray-700">
       <div className="rounded-lg border bg-gray-50 p-4">
@@ -13,10 +27,12 @@ export default function CarDetailsForm() {
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="mb-1 block text-xs text-gray-500">Marca</label>
-            <input
-              type="text"
-              className="w-full rounded-md border bg-white px-3 py-2"
-              placeholder="Mercedes-Benz"
+
+            <BrandSelector
+              brands={brands}
+              value={selectedBrand}
+              onChange={setSelectedBrand}
+              disabled={loading}
             />
           </div>
 
@@ -89,8 +105,7 @@ export default function CarDetailsForm() {
               Transmisión
             </label>
             <select className="w-full rounded-md border px-3 py-2">
-                <option value="">Seleccionar</option>
-                
+              <option value="">Seleccionar</option>
             </select>
           </div>
         </div>

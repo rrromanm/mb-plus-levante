@@ -3,6 +3,7 @@
 import { X } from "lucide-react";
 import { ImageUploader } from "./ImageUploader";
 import CarDetailsForm from "./CarDetailsForm";
+import { useState, useEffect } from "react";
 
 type AddVehicleModalProps = {
   open: boolean;
@@ -13,6 +14,14 @@ export default function AddVehicleModal({
   open,
   onOpenChange,
 }: AddVehicleModalProps) {
+  const [resetTrigger, setResetTrigger] = useState(0);
+
+  useEffect(() => {
+    if (!open) {
+      setResetTrigger((prev) => prev + 1);
+    }
+  }, [open]);
+
   if (!open) return null;
 
   return (
@@ -40,7 +49,7 @@ export default function AddVehicleModal({
           </div>
 
           <div>
-            <CarDetailsForm />
+            <CarDetailsForm resetTrigger={resetTrigger} />
           </div>
         </div>
 
