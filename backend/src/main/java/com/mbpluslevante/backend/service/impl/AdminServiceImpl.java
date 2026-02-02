@@ -6,6 +6,7 @@ import com.mbpluslevante.backend.repository.AdminRepository;
 import com.mbpluslevante.backend.service.AdminService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,13 +15,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class AdminServiceImpl implements AdminService
 {
     private final AdminRepository adminRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public AdminServiceImpl(AdminRepository adminRepository){
+    public AdminServiceImpl(AdminRepository adminRepository, PasswordEncoder passwordEncoder) {
         this.adminRepository = adminRepository;
+        this.passwordEncoder = passwordEncoder;
     }
     @Override
     public boolean login(String username, String password) {
-        Admin admin = adminRepository.findByUsername(username).orElse(null);
-        return admin != null && admin.getPassword().equals(password);
+        Admin admin = adminRepository
+                .findByUsername(username)
+                .orElse(null);
+
+        if (admin == null) {
+            return false;
+        }
+
+        return passwordEncoder.matches(password, admin.getPasswordHash());
     }
 }
