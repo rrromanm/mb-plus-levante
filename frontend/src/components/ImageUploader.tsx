@@ -1,11 +1,15 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { toast } from "react-hot-toast";
 
-export function ImageUploader() {
-  const [files, setFiles] = useState<(File & { preview: string })[]>([]);
+type Props = {
+  files: (File & { preview: string })[];
+  setFiles: (files: (File & { preview: string })[]) => void;
+};
+
+export function ImageUploader({ files, setFiles }: Props) {
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const filesWithPreview = acceptedFiles.map((file) =>
       Object.assign(file, {
@@ -14,7 +18,7 @@ export function ImageUploader() {
     );
 
     setFiles(filesWithPreview);
-  }, []);
+  }, [setFiles]);
 
   const onDropRejected = useCallback((fileRejections: FileRejection[]) => {
     if (fileRejections.length > 0) {

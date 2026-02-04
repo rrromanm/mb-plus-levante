@@ -46,7 +46,7 @@ public class AuthController
 
         ResponseCookie cookie = ResponseCookie.from("admin_token", token)
                 .httpOnly(true)
-                .secure(false) // false for localhost
+                .secure(false)
                 .sameSite("Strict")
                 .path("/")
                 .maxAge(3600)
@@ -64,6 +64,8 @@ public class AuthController
                 .path("/")
                 .maxAge(0)
                 .httpOnly(true)
+                .secure(false)
+                .sameSite("Strict")
                 .build();
 
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());

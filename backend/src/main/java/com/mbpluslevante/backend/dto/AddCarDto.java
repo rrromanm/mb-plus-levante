@@ -1,25 +1,33 @@
 package com.mbpluslevante.backend.dto;
 
-import com.mbpluslevante.backend.model.CarImage;
 import com.mbpluslevante.backend.model.enums.BodyType;
 import com.mbpluslevante.backend.model.enums.FuelType;
 import com.mbpluslevante.backend.model.enums.Transmission;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
+@Data
+@NoArgsConstructor
 public class AddCarDto
 {
-    public int brandId;
+    @NotNull public Long brandId;
     public BodyType bodyType;
     public String model;
-    public int year;
-    public int mileage;
+    @Positive public int year;
+    public int mileageKm;
     public FuelType fuelType;
     public Transmission transmission;
     public String engine;
     public int powerHp;
-    public List<CarImage> images;
-    public AddCarDto(){}
 
+    @Min(0)
+    @NotNull
+    public int price;
+
+    public List<String> imageUrls;
 }

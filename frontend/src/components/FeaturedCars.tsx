@@ -59,9 +59,9 @@ export default function FeaturedCars() {
           className="inline-block rounded-md bg-[#C0C0C0] px-4 py-2 text-sm font-semibold text-black
           transition hover:bg-white"
         >
-          <Link href="/" className="w-full">
+          {/* <Link href="/" className="w-full">
             View All Cars <span aria-hidden>↗</span>
-          </Link>
+          </Link> */}
         </a>
       </div>
     </SectionBox>

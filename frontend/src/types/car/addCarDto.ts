@@ -13,4 +13,5 @@ export interface AddCarDto {
     engine: string;
     powerHp: number;
     price: number;
+    imageUrls?: string[];
 }

@@ -1,7 +1,11 @@
 package com.mbpluslevante.backend.model;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "car_sales")
 public class CarSale {
     @Id

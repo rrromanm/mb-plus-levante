@@ -73,7 +73,7 @@ export default function AdminDashboard() {
                   <thead className="border-b bg-gray-50">
                     <tr className="text-left text-gray-900">
                       <th className="px-4 py-3 font-medium">Imagen</th>
-                      <th className="px-4 py-3 font-medium">Marca</th>
+                      <th className="px-4 py-3 font-medium">Marca y modelo</th>
                       <th className="px-4 py-3 font-medium">Año</th>
                       <th className="px-4 py-3 font-medium">Precio</th>
                       <th className="px-4 py-3 font-medium">Acciones</th>

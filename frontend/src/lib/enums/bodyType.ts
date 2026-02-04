@@ -1,9 +1,8 @@
 export const bodyTypes = [
   { value: "SEDAN", label: "Berlina" },
-  { value: "HATCHBACK", label: "Compacto" },
-  { value: "SUV", label: "SUV" },
   { value: "COUPE", label: "Coupé" },
-  { value: "CONVERTIBLE", label: "Cabrio" },
+  { value: "SUV", label: "SUV" },
+  { value: "HATCHBACK", label: "Compacto" },
 ] as const;
 
 export type BodyType = (typeof bodyTypes)[number]["value"];
