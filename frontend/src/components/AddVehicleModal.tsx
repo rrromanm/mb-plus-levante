@@ -53,22 +53,6 @@ export default function AddVehicleModal({
           </div>
         </div>
 
-        <div className="mt-6 flex justify-end gap-3">
-          <button
-            type="button"
-            onClick={() => onOpenChange(false)}
-            className="rounded-md border px-4 py-2 text-sm"
-          >
-            Cancelar
-          </button>
-
-          <button
-            type="button"
-            className="rounded-md bg-[#880808] px-4 py-2 text-sm font-medium text-white hover:bg-[#6f0606]"
-          >
-            Guardar Vehículo
-          </button>
-        </div>
       </div>
     </div>
   );
