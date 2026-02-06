@@ -28,5 +28,5 @@ export default function useGetAllCars(): IProps {
     };
     fetchCars();
   }, []);
-  return { data, loading, error };
+  return { data, loading, error,};
 }

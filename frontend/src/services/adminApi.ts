@@ -17,6 +17,16 @@ const AdminApi = {
             throw new Error("Failed to add car. Please try again.");
         }
     },
+    deleteCar: async (id: number) => {
+        const response = await fetch(`${BASE_API_URL}/deleteCar/${id}`, {
+            method: "DELETE",
+            credentials: "include",
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to delete car. Please try again.");
+        }
+    }
 };
 
 export default AdminApi;

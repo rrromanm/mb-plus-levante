@@ -16,6 +16,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import com.mbpluslevante.backend.util.SlugUtil;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -36,13 +37,15 @@ public class CarServiceImpl implements CarService {
         return carRepository.findByDeletedAtNullOrderByCreatedAtDesc()
                 .stream()
                 .map(car -> new CarDto(
+                        car.getId(),
                         car.getBrand(),
                         car.getModel(),
                         car.getYear(),
-                        car.getMileageKm(),
                         car.getSalePrice(),
+                        car.getMileageKm(),
                         car.getSlug(),
-                        car.getMainImage()
+                        car.getMainImage(),
+                        car.isFeatured()
                 )).toList();
     }
     @Override
@@ -91,7 +94,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void deleteCar(Long id) {
-        carRepository.deleteById(id);
+        carRepository.updateDeletedAt(id, LocalDateTime.now());
     }
     @Override
     public List<FeaturedCarsDto> getFeaturedCars() {

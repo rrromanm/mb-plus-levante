@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class CarDto
 {
+    private Long id;
     private String brand;
     private String model;
     private Integer year;
@@ -12,8 +13,11 @@ public class CarDto
     private Integer mileageKm;
     private String slug;
     private String mainImageUrl;
+    private boolean isFeatured;
 
-    public CarDto(String brand, String model, Integer year, Integer price, Integer mileageKm, String slug, String mainImage){
+    public CarDto(Long id, String brand, String model, Integer year, Integer price, Integer mileageKm,
+                  String slug, String mainImage, boolean isFeatured){
+        this.id = id;
         this.brand = brand;
         this.model = model;
         this.year = year;
@@ -21,5 +25,6 @@ public class CarDto
         this.mileageKm = mileageKm;
         this.slug = slug;
         this.mainImageUrl = mainImage;
+        this.isFeatured = isFeatured;
     }
 }

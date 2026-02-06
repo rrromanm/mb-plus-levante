@@ -1,4 +1,4 @@
-import FilterCars from "@/components/catalogComponents/FilterCars";
+import FilterCars from "@/components/catalog/FilterCars";
 import Header from "@/components/Header";
 
 export default function CochesPage() {

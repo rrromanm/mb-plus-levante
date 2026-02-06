@@ -34,12 +34,19 @@ export default function AddVehicleModal({
   const onSubmit = async (data: AddCarDto) => {
     try {
       setUploading(true);
-      
+
       let imageUrls: string[] = [];
       if (files.length > 0) {
         toast.loading("Subiendo imágenes...", { id: "uploading-images" });
         imageUrls = await uploadMultipleImages(files);
-        toast.success(`${imageUrls.length} imágenes subidas`, { id: "uploading-images" });
+        toast.success(`${imageUrls.length} imágenes subidas`, {
+          id: "uploading-images",
+        });
+      }
+
+      if (files.length === 0) {
+        toast.error("Añade al menos una imagen");
+        return;
       }
 
       const carData: AddCarDto = {
@@ -48,7 +55,7 @@ export default function AddVehicleModal({
       };
 
       await addCar(carData);
-      
+
       onOpenChange(false);
     } catch (error) {
       toast.error("Error al subir las imágenes");
@@ -115,6 +122,7 @@ export default function AddVehicleModal({
                       />
                       <input
                         type="hidden"
+                        required
                         {...register("brandId")}
                         value={selectedBrand?.id ?? ""}
                       />
@@ -126,6 +134,7 @@ export default function AddVehicleModal({
                       </label>
                       <input
                         type="text"
+                        required
                         {...register("model")}
                         className="w-full rounded-md border bg-white px-3 py-2"
                         placeholder="C 220"
@@ -140,6 +149,7 @@ export default function AddVehicleModal({
                       </label>
                       <input
                         type="number"
+                        required
                         {...register("year")}
                         className="w-full rounded-md border bg-white px-3 py-2"
                         placeholder="2020"
@@ -152,6 +162,7 @@ export default function AddVehicleModal({
                       </label>
                       <input
                         type="number"
+                        required
                         {...register("mileageKm")}
                         className="w-full rounded-md border bg-white px-3 py-2"
                         placeholder="85.000"
@@ -164,6 +175,7 @@ export default function AddVehicleModal({
                       </label>
                       <input
                         type="number"
+                        required
                         {...register("price")}
                         className="w-full rounded-md border bg-white px-3 py-2 font-medium"
                         placeholder="24.900"
@@ -183,6 +195,7 @@ export default function AddVehicleModal({
                         Tipo de combustible
                       </label>
                       <select
+                        required
                         {...register("fuelType")}
                         className="w-full rounded-md border px-3 py-2"
                       >
@@ -200,12 +213,16 @@ export default function AddVehicleModal({
                         Transmisión
                       </label>
                       <select
+                        required
                         {...register("transmission")}
                         className="w-full rounded-md border px-3 py-2"
                       >
                         <option value="">Seleccionar</option>
                         {transmissions.map((transmission) => (
-                          <option key={transmission.value} value={transmission.value}>
+                          <option
+                            key={transmission.value}
+                            value={transmission.value}
+                          >
                             {transmission.label}
                           </option>
                         ))}
@@ -271,7 +288,11 @@ export default function AddVehicleModal({
                   disabled={uploading || adding}
                   className="rounded-md bg-[#880808] px-4 py-2 text-sm font-medium text-white hover:bg-[#6f0606] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {uploading ? "Subiendo imágenes..." : adding ? "Guardando..." : "Guardar Vehículo"}
+                  {uploading
+                    ? "Subiendo imágenes..."
+                    : adding
+                      ? "Guardando..."
+                      : "Guardar Vehículo"}
                 </button>
               </div>
             </form>

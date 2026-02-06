@@ -1,4 +1,5 @@
 export interface CarDto {
+    id: number;
     brand: string;
     model: string;
     year: number;
@@ -6,4 +7,5 @@ export interface CarDto {
     mileageKm: number;
     slug: string;
     mainImageUrl: string;
+    featured: boolean;
 }

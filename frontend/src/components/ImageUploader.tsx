@@ -1,8 +1,9 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { toast } from "react-hot-toast";
+import { X } from "lucide-react";
 
 type Props = {
   files: (File & { preview: string })[];
@@ -10,15 +11,54 @@ type Props = {
 };
 
 export function ImageUploader({ files, setFiles }: Props) {
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    const filesWithPreview = acceptedFiles.map((file) =>
-      Object.assign(file, {
-        preview: URL.createObjectURL(file),
-      }),
-    );
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
 
-    setFiles(filesWithPreview);
-  }, [setFiles]);
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      const filesWithPreview = acceptedFiles.map((file) =>
+        Object.assign(file, {
+          preview: URL.createObjectURL(file),
+        }),
+      );
+
+      setFiles(filesWithPreview);
+    },
+    [setFiles],
+  );
+
+  const handleDelete = useCallback(
+    (indexToDelete: number) => {
+      setFiles(files.filter((_, index) => index !== indexToDelete));
+    },
+    [files, setFiles],
+  );
+
+  const handleDragStart = (index: number) => {
+    setDraggedIndex(index);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e: React.DragEvent, dropIndex: number) => {
+    e.preventDefault();
+
+    if (draggedIndex === null || draggedIndex === dropIndex) {
+      return;
+    }
+
+    const newFiles = [...files];
+    const [draggedFile] = newFiles.splice(draggedIndex, 1);
+    newFiles.splice(dropIndex, 0, draggedFile);
+
+    setFiles(newFiles);
+    setDraggedIndex(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedIndex(null);
+  };
 
   const onDropRejected = useCallback((fileRejections: FileRejection[]) => {
     if (fileRejections.length > 0) {
@@ -89,11 +129,29 @@ export function ImageUploader({ files, setFiles }: Props) {
       </div>
       {files.length > 0 && (
         <div className="mt-4 grid grid-cols-5 gap-3">
-          {files.map((file) => (
+          {files.map((file, index) => (
             <div
               key={file.name}
-              className="relative aspect-4/3 max-h-28 overflow-hidden rounded-md border bg-muted"
+              draggable
+              onDragStart={() => handleDragStart(index)}
+              onDragOver={handleDragOver}
+              onDrop={(e) => handleDrop(e, index)}
+              onDragEnd={handleDragEnd}
+              className={`relative aspect-4/3 max-h-28 overflow-hidden rounded-md border bg-muted
+          cursor-move transition
+          ${draggedIndex === index ? "opacity-50 ring-2 ring-primary" : ""}
+        `}
             >
+              {/* Delete button */}
+              <button
+                type="button"
+                onClick={() => handleDelete(index)}
+                className="absolute right-1 top-1 z-10 rounded-full bg-black/60 p-1 text-white hover:bg-black"
+              >
+                <X size={14} />
+              </button>
+
+              {/* Image */}
               <img
                 src={file.preview}
                 alt={file.name}
