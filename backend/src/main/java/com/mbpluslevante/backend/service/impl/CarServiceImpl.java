@@ -1,6 +1,7 @@
 package com.mbpluslevante.backend.service.impl;
 
 import com.mbpluslevante.backend.dto.AddCarDto;
+import com.mbpluslevante.backend.dto.CarDto;
 import com.mbpluslevante.backend.dto.FeaturedCarsDto;
 import com.mbpluslevante.backend.model.Brand;
 import com.mbpluslevante.backend.model.Car;
@@ -31,8 +32,18 @@ public class CarServiceImpl implements CarService {
         this.carImageRepository = carImageRepository;
     }
     @Override
-    public List<Car> findAll() {
-        return carRepository.findAll();
+    public List<CarDto> findAll() {
+        return carRepository.findByDeletedAtNullOrderByCreatedAtDesc()
+                .stream()
+                .map(car -> new CarDto(
+                        car.getBrand(),
+                        car.getModel(),
+                        car.getYear(),
+                        car.getMileageKm(),
+                        car.getSalePrice(),
+                        car.getSlug(),
+                        car.getMainImage()
+                )).toList();
     }
     @Override
     public Car findById(Long id) {

@@ -54,6 +54,12 @@ public class Car {
     private LocalDateTime soldAt;
     private LocalDateTime deletedAt;
 
+    @OneToOne(mappedBy = "car")
+    private CarSale carSale;
+
+    @OneToOne(mappedBy = "car")
+    private CarRental carRental;
+
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("orderIndex ASC")
     private List<CarImage> images = new ArrayList<>();
@@ -61,4 +67,19 @@ public class Car {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
     }
+
+    public String getBrand(){
+        return brand.getName();
+    }
+    public Integer getSalePrice() {
+        return carSale != null ? carSale.getPrice() : null;
+    }
+    public String getMainImage() {
+        return images.stream()
+                .filter(CarImage::isPrimary)
+                .map(CarImage::getImageUrl)
+                .findFirst()
+                .orElse(null);
+    }
+
 }

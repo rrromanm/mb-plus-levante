@@ -1,4 +1,8 @@
 package com.mbpluslevante.backend.dto;
+
+import lombok.Data;
+
+@Data
 public class FeaturedCarsDto {
 
     private String brand;
@@ -25,26 +29,5 @@ public class FeaturedCarsDto {
         this.mileageKm = mileageKm;
         this.slug = slug;
         this.mainImageUrl = mainImageUrl;
-    }
-    public String getBrand() {
-        return brand;
-    }
-    public String getModel() {
-        return model;
-    }
-    public Integer getYear() {
-        return year;
-    }
-    public Integer getPrice() {
-        return price;
-    }
-    public Integer getMileageKm() {
-        return mileageKm;
-    }
-    public String getSlug() {
-        return slug;
-    }
-    public String getMainImageUrl() {
-        return mainImageUrl;
     }
 }

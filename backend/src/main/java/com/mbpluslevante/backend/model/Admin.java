@@ -4,8 +4,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
 
 @Entity
+@Getter
 @Table(name = "admin")
 public class Admin
 {
@@ -15,12 +17,4 @@ public class Admin
     private String username;
     @Column(nullable = false)
     private String passwordHash;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPasswordHash() {
-        return passwordHash;
-    }
 }

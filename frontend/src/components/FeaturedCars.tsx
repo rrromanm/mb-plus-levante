@@ -9,7 +9,7 @@ export default function FeaturedCars() {
   const { data, loading, error } = useGetFeaturedCars();
 
   return (
-    <SectionBox title="FEATURED CARS">
+    <SectionBox>
       {loading && (
         <div className="text-center py-12">
           <p className="text-white/60">Loading featured cars...</p>
@@ -45,8 +45,8 @@ export default function FeaturedCars() {
                   {car.brand} {car.model}
                 </h3>
                 <p className="text-xs text-white/60">
-                  {car.year} • {car.mileageKm.toLocaleString()} km • €
-                  {car.price.toLocaleString()}
+                  {car.year} • {car.mileageKm} km • €
+                  {car.price}
                 </p>
               </div>
             </div>
@@ -59,9 +59,9 @@ export default function FeaturedCars() {
           className="inline-block rounded-md bg-[#C0C0C0] px-4 py-2 text-sm font-semibold text-black
           transition hover:bg-white"
         >
-          {/* <Link href="/" className="w-full">
+          <Link href="/coches" className="w-full">
             View All Cars <span aria-hidden>↗</span>
-          </Link> */}
+          </Link>
         </a>
       </div>
     </SectionBox>

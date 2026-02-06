@@ -3,13 +3,13 @@
 import Sidebar from "@/components/Sidebar";
 import DashboardCard from "@/components/DashboardCard";
 import { Car, Key, User, Plus } from "lucide-react";
-import { useGetFeaturedCars } from "@/controller/useGetFeaturedCars";
 import { useState } from "react";
 import AddVehicleModal from "@/components/AddVehicleModal";
 import Image from "next/image";
+import useGetAllCars from "@/controller/useGetAllCars";
 
 export default function AdminDashboard() {
-  const { data: cars, loading, error } = useGetFeaturedCars();
+  const { data: cars, loading, error } = useGetAllCars();
   const [open, setOpen] = useState(false);
 
   return (

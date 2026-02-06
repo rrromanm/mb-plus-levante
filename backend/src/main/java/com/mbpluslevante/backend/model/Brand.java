@@ -1,8 +1,12 @@
 package com.mbpluslevante.backend.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "brands")
 public class Brand
 {
@@ -13,29 +17,4 @@ public class Brand
     private String name;
     @Column(nullable = false, unique = true)
     private String slug;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSlug() {
-        return slug;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug.toLowerCase();
-    }
-
 }

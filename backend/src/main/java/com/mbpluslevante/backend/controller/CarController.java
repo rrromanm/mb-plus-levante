@@ -1,5 +1,6 @@
 package com.mbpluslevante.backend.controller;
 
+import com.mbpluslevante.backend.dto.CarDto;
 import com.mbpluslevante.backend.dto.FeaturedCarsDto;
 import com.mbpluslevante.backend.model.Car;
 import com.mbpluslevante.backend.service.CarService;
@@ -19,7 +20,7 @@ public class CarController
         this.carService = carServiceImpl;
     }
     @GetMapping("/getAll")
-    public List<Car> car(){
+    public List<CarDto> car(){
         return carService.findAll();
     }
     @GetMapping("/getFeaturedCars")
