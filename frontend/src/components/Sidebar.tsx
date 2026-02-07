@@ -4,6 +4,7 @@ import Link from "next/link";
 import { House, Car, KeyRound, LogOut } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import { useAuth } from "@/context/AuthContext";
 
 const menuItems = [
   {
@@ -25,6 +26,7 @@ const menuItems = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const { logout } = useAuth();
 
   return (
     <div className="w-72 bg-[#1D1D1D] min-h-screen flex flex-col text-[#C0C0C0]">
@@ -57,7 +59,10 @@ export default function Sidebar() {
         })}
       </nav>
 
-      <div className="p-4 border-t border-gray-700">
+      <div
+          onClick={logout}
+          className="flex items-center gap-3 px-4 py-3 w-full rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-200">
+        
         <button className="flex items-center gap-3 px-4 py-3 w-full rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-200">
           <LogOut className="w-5 h-5" />
           <span className="font-medium">Logout</span>

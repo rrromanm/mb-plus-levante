@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 export default function AdminLayout({
   children,
@@ -10,32 +11,31 @@ export default function AdminLayout({
 }) {
   const router = useRouter();
   const pathname = usePathname();
-  const [checking, setChecking] = useState(true);
+  const { user, isLoading, isAdmin, checkAuth } = useAuth();
 
   useEffect(() => {
     if (pathname === "/admin/login") {
-      setChecking(false);
       return;
     }
 
-    fetch("http://localhost:8080/admin/ping", {
-      credentials: "include",
-    })
-      .then((res) => {
-        if (!res.ok) {
-          router.push("/admin/login");
-        }
-      })
-      .catch(() => {
-        router.push("/admin/login");
-      })
-      .finally(() => {
-        setChecking(false);
-      });
+    checkAuth();
   }, [pathname]);
 
-  if (checking) {
+  useEffect(() => {
+    if (pathname === "/admin/login") {
+      return;
+    }
+    if (!isLoading && (!user || !isAdmin)) {
+      router.push("/admin/login");
+    }
+  }, [user, isLoading, isAdmin, pathname, router]);
+
+  if (pathname !== "/admin/login" && isLoading) {
     return <div className="p-8">Checking admin access…</div>;
+  }
+
+  if (pathname !== "/admin/login" && !user) {
+    return <div className="p-8">Redirecting to login…</div>;
   }
 
   return <>{children}</>;

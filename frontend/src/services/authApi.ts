@@ -9,9 +9,31 @@ export interface LoginResponse {
   role?: string;
 }
 
+export interface MeResponse {
+  username: string;
+  roles: Array<{ authority: string }>;
+}
+
 const BASE_API_URL = "http://localhost:8080/auth";
 
 const AuthApi = {
+  me: async (): Promise<MeResponse | null> => {
+    try {
+      const response = await fetch(`${BASE_API_URL}/me`, {
+        method: "GET",
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        return null;
+      }
+
+      return await response.json();
+    } catch {
+      return null;
+    }
+  },
+
   login: async (credentials: LoginRequest): Promise<void> => {
     const response = await fetch(`${BASE_API_URL}/login`, {
       method: "POST",

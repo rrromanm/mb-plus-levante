@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import AuthApi from "@/services/authApi";
+import { useAuth } from "@/context/AuthContext";
 
 export default function AdminLoginPage() {
   const [username, setUsername] = useState("");
@@ -11,6 +12,13 @@ export default function AdminLoginPage() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { user, isAdmin, checkAuth } = useAuth();
+
+  useEffect(() => {
+    if (user && isAdmin) {
+      router.push("/admin/dashboard");
+    }
+  }, [user, isAdmin, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,7 +26,7 @@ export default function AdminLoginPage() {
     setIsLoading(true);
     try {
       await AuthApi.login({ username, password });
-
+      await checkAuth();
       router.push("/admin/dashboard");
     } catch (err) {
       setError("Invalid username or password");
