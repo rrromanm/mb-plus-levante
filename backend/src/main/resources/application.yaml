@@ -19,8 +19,8 @@ spring:
       mode: never
 
 jwt:
-  secret: "aa24a9a8a89bba72bc6f69f6a94d9119"
-  expiration-ms: 360000
+  secret: "z3sw89ZmSrp1LuNfmu1KFIWxlznf0OX4ef+F72Z5pn4="
+  expiration-ms: 1800000
 
 server:
   port: 8080

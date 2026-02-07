@@ -11,12 +11,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -42,14 +43,17 @@ public class AuthController
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
-        String token = jwt.generateToken();
+        String token = jwt.generateToken(
+                admin.getUsername(),
+                List.of("ADMIN")
+        );
 
-        ResponseCookie cookie = ResponseCookie.from("admin_token", token)
+        ResponseCookie cookie = ResponseCookie.from("access_token", token)
                 .httpOnly(true)
-                .secure(false)
+                .secure(false) //true in prod
                 .sameSite("Strict")
                 .path("/")
-                .maxAge(3600)
+                .maxAge(jwt.getExpirationSeconds())
                 .build();
 
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
@@ -60,11 +64,11 @@ public class AuthController
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(HttpServletResponse response) {
 
-        ResponseCookie cookie = ResponseCookie.from("admin_token", "")
+        ResponseCookie cookie = ResponseCookie.from("access_token", "")
                 .path("/")
                 .maxAge(0)
                 .httpOnly(true)
-                .secure(false)
+                .secure(false) //true in prod
                 .sameSite("Strict")
                 .build();
 
@@ -72,6 +76,17 @@ public class AuthController
 
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> me(Authentication auth) {
+        return ResponseEntity.ok(
+                Map.of(
+                        "username", auth.getName(),
+                        "roles", auth.getAuthorities()
+                )
+        );
+    }
+
 
 
 }

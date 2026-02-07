@@ -30,20 +30,40 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
 
-        String token = extractTokenFromCookie(request);
+        String path = request.getRequestURI();
 
-        if (token != null && jwtService.isValid(token)) {
-
-            UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(
-                            "ADMIN",
-                            null,
-                            List.of(new SimpleGrantedAuthority("ROLE_ADMIN"))
-                    );
-
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+        if (path.startsWith("/auth") && !path.equals("/auth/me")) {
+            filterChain.doFilter(request, response);
+            return;
         }
 
+        String token = extractTokenFromCookie(request);
+
+        if (token == null) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        if (!jwtService.isValid(token)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        String username = jwtService.extractUsername(token);
+        List<String> roles = jwtService.extractRoles(token);
+
+        var authorities = roles.stream()
+                .map(r -> new SimpleGrantedAuthority("ROLE_" + r))
+                .toList();
+
+        UsernamePasswordAuthenticationToken authentication =
+                new UsernamePasswordAuthenticationToken(
+                        username,
+                        null,
+                        authorities
+                );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         filterChain.doFilter(request, response);
     }
 
@@ -51,7 +71,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         if (request.getCookies() == null) return null;
 
         for (Cookie cookie : request.getCookies()) {
-            if ("admin_token".equals(cookie.getName())) {
+            if ("access_token".equals(cookie.getName())) {
                 return cookie.getValue();
             }
         }
