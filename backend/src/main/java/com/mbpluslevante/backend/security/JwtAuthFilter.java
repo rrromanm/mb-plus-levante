@@ -32,7 +32,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String path = request.getRequestURI();
 
-        if (path.startsWith("/auth") && !path.equals("/auth/me")) {
+        if (path.startsWith("/auth/login")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -40,12 +40,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String token = extractTokenFromCookie(request);
 
         if (token == null) {
+            SecurityContextHolder.clearContext();
             filterChain.doFilter(request, response);
             return;
         }
 
         if (!jwtService.isValid(token)) {
-            filterChain.doFilter(request, response);
+            SecurityContextHolder.clearContext();
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
 
