@@ -54,7 +54,7 @@ public class AuthController
         ResponseCookie cookie = ResponseCookie.from("access_token", token)
                 .httpOnly(true)
                 .secure(cookieProperties.isSecure())
-                .sameSite("None")
+                .sameSite(cookieProperties.getSameSite())
                 .path("/")
                 .maxAge(jwt.getExpirationSeconds())
                 .build();
@@ -72,7 +72,7 @@ public class AuthController
                 .maxAge(0)
                 .httpOnly(true)
                 .secure(cookieProperties.isSecure())
-                .sameSite("None")
+                .sameSite(cookieProperties.getSameSite())
                 .build();
 
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());

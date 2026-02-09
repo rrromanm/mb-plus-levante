@@ -28,3 +28,4 @@ server:
 app:
   cookie:
     secure: false
+    same-site: "Strict"
