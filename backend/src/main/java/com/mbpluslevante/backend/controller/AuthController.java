@@ -1,5 +1,6 @@
 package com.mbpluslevante.backend.controller;
 
+import com.mbpluslevante.backend.config.CookieProperties;
 import com.mbpluslevante.backend.dto.LoginRequestDto;
 import com.mbpluslevante.backend.model.Admin;
 import com.mbpluslevante.backend.repository.AdminRepository;
@@ -27,11 +28,13 @@ public class AuthController
     private final AdminRepository adminRepository;
     private final JwtService jwt;
     private final BCryptPasswordEncoder encoder;
+    private final CookieProperties cookieProperties;
 
-    public AuthController(AdminRepository adminRepository, JwtService jwt, BCryptPasswordEncoder encoder) {
+    public AuthController(AdminRepository adminRepository, JwtService jwt, BCryptPasswordEncoder encoder, CookieProperties cookieProperties) {
         this.adminRepository = adminRepository;
         this.jwt = jwt;
         this.encoder = encoder;
+        this.cookieProperties = cookieProperties;
     }
     @PostMapping("/login")
     public ResponseEntity<Void> login(@Valid @RequestBody LoginRequestDto request, HttpServletResponse response)
@@ -50,8 +53,8 @@ public class AuthController
 
         ResponseCookie cookie = ResponseCookie.from("access_token", token)
                 .httpOnly(true)
-                .secure(true)
-                .sameSite("Strict")
+                .secure(cookieProperties.isSecure())
+                .sameSite("Lax")
                 .path("/")
                 .maxAge(jwt.getExpirationSeconds())
                 .build();
@@ -68,8 +71,8 @@ public class AuthController
                 .path("/")
                 .maxAge(0)
                 .httpOnly(true)
-                .secure(true)
-                .sameSite("Strict")
+                .secure(cookieProperties.isSecure())
+                .sameSite("Lax")
                 .build();
 
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
@@ -79,6 +82,9 @@ public class AuthController
 
     @GetMapping("/me")
     public ResponseEntity<?> me(Authentication auth) {
+        if (auth == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
         return ResponseEntity.ok(
                 Map.of(
                         "username", auth.getName(),
