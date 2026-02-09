@@ -1,7 +1,7 @@
 import { FeaturedCarDto } from "@/types/car/featuredCarDto";
 import { CarDto } from "@/types/car/carDto";
 
-const BASE_API_URL = "http://localhost:8080/cars";
+const BASE_API_URL = process.env.NEXT_PUBLIC_API_URL + "/cars";
 
 const CarsApi = {
   getAllCars: async (): Promise<CarDto[]> => {

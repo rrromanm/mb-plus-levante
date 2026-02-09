@@ -14,7 +14,7 @@ export interface MeResponse {
   roles: Array<{ authority: string }>;
 }
 
-const BASE_API_URL = "http://localhost:8080/auth";
+const BASE_API_URL = process.env.NEXT_PUBLIC_API_URL + "/auth";
 
 const AuthApi = {
   me: async (): Promise<MeResponse | null> => {

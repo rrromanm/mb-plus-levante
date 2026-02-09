@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import CarsApi, { FeaturedCarDto } from "@/services/carsApi";
+import CarsApi from "@/services/carsApi";
+import { FeaturedCarDto } from "@/types/car/featuredCarDto";
 
 interface UseGetFeaturedCarsReturn {
   data: FeaturedCarDto[];
