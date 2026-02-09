@@ -1,16 +1,17 @@
 spring:
   datasource:
-    url: ${DB_URL}
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://localhost:5432/mbplus
+    username: rrromanm
+    password: ""
     driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
-      ddl-auto: validate
-    show-sql: false
+      ddl-auto: update
+    show-sql: true
     properties:
       hibernate:
+        format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
   sql:
@@ -18,8 +19,8 @@ spring:
       mode: never
 
 jwt:
-  secret: ${JWT_SECRET}
+  secret: "z3sw89ZmSrp1LuNfmu1KFIWxlznf0OX4ef+F72Z5pn4="
   expiration-ms: 1800000
 
 server:
-  port: ${PORT:8080}
+  port: 8080
