@@ -64,7 +64,9 @@ public class SecurityConfig {
 
         config.setAllowedOrigins(List.of(
                 "http://localhost:5173", // Vite
-                "http://localhost:3000"  // CRA (if used)
+                "http://localhost:3000",
+                "https://mb-plus-levante-six.vercel.app"
+                // CRA (if used)
         ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));

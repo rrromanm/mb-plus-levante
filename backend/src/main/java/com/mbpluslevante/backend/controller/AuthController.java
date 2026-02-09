@@ -50,7 +50,7 @@ public class AuthController
 
         ResponseCookie cookie = ResponseCookie.from("access_token", token)
                 .httpOnly(true)
-                .secure(false) //true in prod
+                .secure(true)
                 .sameSite("Strict")
                 .path("/")
                 .maxAge(jwt.getExpirationSeconds())
@@ -68,7 +68,7 @@ public class AuthController
                 .path("/")
                 .maxAge(0)
                 .httpOnly(true)
-                .secure(false) //true in prod
+                .secure(true)
                 .sameSite("Strict")
                 .build();
 

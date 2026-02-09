@@ -57,7 +57,6 @@ public class JwtService
         return parseToken(token).getSubject();
     }
 
-    @SuppressWarnings("unchecked")
     public List<String> extractRoles(String token) {
         Claims claims = parseToken(token);
         Object roles = claims.get("roles");
