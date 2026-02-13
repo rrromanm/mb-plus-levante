@@ -64,7 +64,7 @@ export default function Dashboard() {
         <div className="max-w-7xl mx-auto">
           <h1 className="text-3xl font-bold text-gray-900 mb-8">Dashboard</h1>
 
-          <div className="grid grid-cols-4 gap-4 mb-8">
+          {/* <div className="grid grid-cols-4 gap-4 mb-8">
             <DashboardCard
               title={"Vehiculos en venta"}
               value={cars.length}
@@ -82,7 +82,7 @@ export default function Dashboard() {
               value={"0"}
               icon={Key}
             />
-          </div>
+          </div> */}
 
           <div className="bg-white rounded-lg shadow">
             <div className="p-6 border-b border-gray-200 flex items-center justify-between">

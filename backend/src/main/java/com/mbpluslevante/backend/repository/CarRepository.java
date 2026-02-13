@@ -9,6 +9,7 @@
 
     import java.time.LocalDateTime;
     import java.util.List;
+    import java.util.Optional;
 
     public interface CarRepository extends JpaRepository<Car, Long>
     {
@@ -22,4 +23,5 @@
         """)
         void updateDeletedAt(@Param("id") Long id, @Param("deletedAt") LocalDateTime dateTime);
         boolean existsBySlug(String slug);
+        Optional<Car> findBySlugAndDeletedAtIsNull(String slug);
     }

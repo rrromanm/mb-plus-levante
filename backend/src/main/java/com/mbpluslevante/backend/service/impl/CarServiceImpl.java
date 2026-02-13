@@ -1,8 +1,6 @@
 package com.mbpluslevante.backend.service.impl;
 
-import com.mbpluslevante.backend.dto.AddCarDto;
-import com.mbpluslevante.backend.dto.CarDto;
-import com.mbpluslevante.backend.dto.FeaturedCarsDto;
+import com.mbpluslevante.backend.dto.*;
 import com.mbpluslevante.backend.model.Brand;
 import com.mbpluslevante.backend.model.Car;
 import com.mbpluslevante.backend.model.CarImage;
@@ -57,8 +55,36 @@ public class CarServiceImpl implements CarService {
                 )).toList();
     }
     @Override
-    public CarDto findById(Long id) {
-        return carRepository.findById(id).map(car -> new CarDto(
+    public CarDetailsDto findBySlug(String slug) {
+        Car car = carRepository.findBySlugAndDeletedAtIsNull(slug)
+                .orElseThrow(() -> new RuntimeException("Car not found"));
+
+        return new CarDetailsDto(
+                        car.getId(),
+                        car.getBrand(),
+                        car.getModel(),
+                        car.getYear(),
+                        car.getSalePrice(),
+                        car.getMileageKm(),
+                        car.getSlug(),
+                        car.getImages()
+                                .stream()
+                                .map(image -> new CarImageDto(
+                                        image.getImageUrl(),
+                                        image.isPrimary(),
+                                        image.getOrderIndex()
+                                ))
+                                .toList(),
+                        car.isFeatured()
+                );
+    }
+
+    @Override
+    public CarDetailsDto findById(Long id) {
+        Car car = carRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Car not found"));
+
+        return new CarDetailsDto(
                 car.getId(),
                 car.getBrand(),
                 car.getModel(),
@@ -66,10 +92,18 @@ public class CarServiceImpl implements CarService {
                 car.getSalePrice(),
                 car.getMileageKm(),
                 car.getSlug(),
-                car.getMainImage(),
+                car.getImages()
+                        .stream()
+                        .map(image -> new CarImageDto(
+                                image.getImageUrl(),
+                                image.isPrimary(),
+                                image.getOrderIndex()
+                        ))
+                        .toList(),
                 car.isFeatured()
-        )).orElse(null);
+        );
     }
+
     @Override
     public void addCar(AddCarDto dto, List<MultipartFile> images) {
         Brand brand = brandRepository.findById(dto.brandId).orElse(null);

@@ -1,6 +1,8 @@
 package com.mbpluslevante.backend.controller;
 
 import com.mbpluslevante.backend.dto.AddCarDto;
+import com.mbpluslevante.backend.dto.CarDetailsDto;
+import com.mbpluslevante.backend.model.Car;
 import com.mbpluslevante.backend.service.CarService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -26,6 +28,11 @@ public class AdminController
     )
     public void addCar(@Valid @ModelAttribute AddCarDto dto, @RequestParam("images") List<MultipartFile> images) {
         carService.addCar(dto, images);
+    }
+
+    @GetMapping("/getCarById/{id}")
+    public CarDetailsDto getCarById(@PathVariable("id") Long id) {
+        return carService.findById(id);
     }
 
     @PutMapping("/toggleFeatured/{id}")
