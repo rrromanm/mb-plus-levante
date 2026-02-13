@@ -5,16 +5,19 @@ import Sidebar from "../Sidebar";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import DashboardCard from "../DashboardCard";
-import { Car, Key, PencilIcon, Plus, Star, Trash2, User } from "lucide-react";
-import AddVehicleModal from "../AddVehicleModal";
+import { Car, Key, PencilIcon, Plus, Star, User } from "lucide-react";
+import AddVehicleModal from "./modals/AddVehicleModal";
 import useDeleteCar from "@/controller/useDeleteCar";
 import { CarDto } from "@/types/car/carDto";
 import toast from "react-hot-toast";
 import { getCloudinaryUrl } from "@/services/cloudinary";
+import DeleteCarDialog from "./modals/DeleteCarDialog";
+import { useToggleFeatured } from "@/controller/useToggleFeatured";
 
 export default function Dashboard() {
   const { data: carsData, loading, error } = useGetAllCars();
   const [cars, setCars] = useState<CarDto[]>([]);
+  const { toggleFeatured } = useToggleFeatured();
   const [open, setOpen] = useState(false);
   const { deleteCar } = useDeleteCar();
 
@@ -27,7 +30,30 @@ export default function Dashboard() {
       await deleteCar(id);
       setCars((prevCars) => prevCars.filter((car) => car.id !== id));
     } catch (err) {
-      toast.error("Error al eliminar el vehículo. Por favor, inténtalo de nuevo.");
+      toast.error(
+        "Error al eliminar el vehículo. Por favor, inténtalo de nuevo.",
+      );
+    }
+  };
+
+  const onToggleFeatured = async (id: number) => {
+    setCars((prevCars) =>
+      prevCars.map((car) =>
+        car.id === id ? { ...car, featured: !car.featured } : car,
+      ),
+    );
+
+    try {
+      await toggleFeatured(id);
+      toast.success("Vehículo actualizado correctamente");
+    } catch (err) {
+      setCars((prevCars) =>
+        prevCars.map((car) =>
+          car.id === id ? { ...car, featured: !car.featured } : car,
+        ),
+      );
+
+      toast.error("Error al actualizar...");
     }
   };
 
@@ -108,7 +134,12 @@ export default function Dashboard() {
                       >
                         <td className="px-4 py-3">
                           <Image
-                            src={getCloudinaryUrl(car.mainImageUrl, 78, 48, "eco")}
+                            src={getCloudinaryUrl(
+                              car.mainImageUrl,
+                              78,
+                              48,
+                              "eco",
+                            )}
                             width={78}
                             height={48}
                             className="rounded-md object-cover"
@@ -137,13 +168,10 @@ export default function Dashboard() {
                             <Star
                               stroke="black"
                               fill={car.featured ? "gold" : "none"}
+                              onClick={() => onToggleFeatured(car.id)}
                               className="w-4 h-4 cursor-pointer "
                             />
-                            <Trash2
-                              onClick={() => onDelete(car.id)}
-                              color="black"
-                              className="w-4 h-4 cursor-pointer"
-                            />
+                            <DeleteCarDialog onDelete={onDelete} car={car} />
                           </div>
                         </td>
                       </tr>

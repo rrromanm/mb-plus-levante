@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import SectionBox from "./SectionBox";
 import { useGetFeaturedCars } from "@/controller/useGetFeaturedCars";
+import { getCloudinaryUrl } from "@/services/cloudinary";
 
 export default function FeaturedCars() {
   const { data, loading, error } = useGetFeaturedCars();
@@ -27,26 +28,30 @@ export default function FeaturedCars() {
           {data.map((car) => (
             <div
               key={car.slug}
-              className="overflow-hidden rounded-xl bg-black/40"
+              className="overflow-hidden rounded-2xl bg-[#111] shadow-lg transition-transform duration-300 hover:-translate-y-1 cursor-pointer"
             >
-              <div className="relative h-60 w-full">
+              <div className="relative aspect-video w-full">
                 <Image
-                  src={car.mainImageUrl}
+                  src={getCloudinaryUrl(car.mainImageUrl, 1200, 800, "good")}
                   alt={`${car.brand} ${car.model}`}
                   fill
+                  unoptimized
                   className="object-cover"
                   sizes="(min-width: 768px) 33vw, 100vw"
-                  priority={false}
                 />
               </div>
 
               <div className="p-4">
-                <h3 className="text-sm font-semibold text-white">
+                <h3 className="text-lg font-semibold text-white">
                   {car.brand} {car.model}
                 </h3>
-                <p className="text-xs text-white/60">
-                  {car.year} • {car.mileageKm} km • €
-                  {car.price}
+
+                <p className="mt-1 text-sm text-white/60">
+                  {car.year} • {car.mileageKm} km
+                </p>
+
+                <p className="mt-2 text-base font-medium text-white">
+                  €{car.price}
                 </p>
               </div>
             </div>

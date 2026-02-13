@@ -27,6 +27,12 @@ public class AdminController
     public void addCar(@Valid @ModelAttribute AddCarDto dto, @RequestParam("images") List<MultipartFile> images) {
         carService.addCar(dto, images);
     }
+
+    @PutMapping("/toggleFeatured/{id}")
+    public void toggleFeatured(@PathVariable Long id) {
+        carService.toggleFeatured(id);
+    }
+
     @DeleteMapping("/deleteCar/{id}")
     public void deleteCar(@PathVariable Long id) {
         carService.deleteCar(id);

@@ -13,9 +13,9 @@ import com.mbpluslevante.backend.repository.CarRepository;
 import com.mbpluslevante.backend.repository.CarSaleRepository;
 import com.mbpluslevante.backend.service.CarService;
 import com.mbpluslevante.backend.service.ImageService;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import com.mbpluslevante.backend.util.SlugUtil;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Service
+@Transactional
 public class CarServiceImpl implements CarService {
     private final CarRepository carRepository;
     private final CarSaleRepository carSaleRepository;
@@ -56,11 +57,20 @@ public class CarServiceImpl implements CarService {
                 )).toList();
     }
     @Override
-    public Car findById(Long id) {
-        return carRepository.findById(id).orElse(null);
+    public CarDto findById(Long id) {
+        return carRepository.findById(id).map(car -> new CarDto(
+                car.getId(),
+                car.getBrand(),
+                car.getModel(),
+                car.getYear(),
+                car.getSalePrice(),
+                car.getMileageKm(),
+                car.getSlug(),
+                car.getMainImage(),
+                car.isFeatured()
+        )).orElse(null);
     }
     @Override
-    @Transactional
     public void addCar(AddCarDto dto, List<MultipartFile> images) {
         Brand brand = brandRepository.findById(dto.brandId).orElse(null);
         String slug = generateSlug(brand, dto);
@@ -94,6 +104,15 @@ public class CarServiceImpl implements CarService {
     public List<FeaturedCarsDto> getFeaturedCars() {
         return carSaleRepository.findByFeaturedTrue();
     }
+
+    @Override
+    public void toggleFeatured(Long id) {
+        Car car = carRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Car not found"));
+
+        car.setFeatured(!car.isFeatured());
+    }
+
     private String generateSlug(Brand brand, AddCarDto dto) {
         String slug = SlugUtil.slugify(
                 brand.getSlug() + " " +

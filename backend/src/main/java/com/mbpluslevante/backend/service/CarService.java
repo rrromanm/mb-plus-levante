@@ -11,8 +11,9 @@ import java.util.List;
 public interface CarService
 {
     List<CarDto> findAll();
-    Car findById(Long id);
+    CarDto findById(Long id);
     void addCar(AddCarDto dto, List<MultipartFile> images);
     void deleteCar(Long id);
     List<FeaturedCarsDto> getFeaturedCars();
+    void toggleFeatured(Long id);
 }

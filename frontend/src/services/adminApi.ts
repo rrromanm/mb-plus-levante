@@ -10,6 +10,12 @@ const AdminApi = {
             body: formData,
         });
     },
+    toggleFeatured: async (id: number) => {
+        await apiRequest(`${BASE_API_URL}/toggleFeatured/${id}`, {
+            credentials: "include",
+            method: "PUT",
+        });
+    },
     deleteCar: async (id: number) => {
         await apiRequest(`${BASE_API_URL}/deleteCar/${id}`, {
             credentials: "include",
