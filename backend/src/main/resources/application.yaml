@@ -28,3 +28,6 @@ app:
   cookie:
     secure: true
     sameSite: "None"
+
+cloudinary:
+  folder: mbplus/prod

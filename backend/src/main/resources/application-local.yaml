@@ -4,6 +4,8 @@ spring:
     username: rrromanm
     password: ""
     driver-class-name: org.postgresql.Driver
+  config:
+    import: optional:classpath:application-local-secrets.yaml
 
   jpa:
     hibernate:
@@ -29,3 +31,7 @@ app:
   cookie:
     secure: false
     same-site: "Strict"
+
+cloudinary:
+  folder: mbplus/local
+

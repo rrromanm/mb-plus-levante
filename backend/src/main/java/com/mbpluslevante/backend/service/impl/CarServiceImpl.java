@@ -12,9 +12,11 @@ import com.mbpluslevante.backend.repository.CarImageRepository;
 import com.mbpluslevante.backend.repository.CarRepository;
 import com.mbpluslevante.backend.repository.CarSaleRepository;
 import com.mbpluslevante.backend.service.CarService;
+import com.mbpluslevante.backend.service.ImageService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import com.mbpluslevante.backend.util.SlugUtil;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,12 +27,15 @@ public class CarServiceImpl implements CarService {
     private final CarSaleRepository carSaleRepository;
     private final BrandRepository brandRepository;
     private final CarImageRepository carImageRepository;
+    private final ImageService imageService;
 
-    public CarServiceImpl(CarRepository carRepository, CarSaleRepository carSaleRepository, BrandRepository brandRepository, CarImageRepository carImageRepository) {
+    public CarServiceImpl(CarRepository carRepository, CarSaleRepository carSaleRepository, BrandRepository brandRepository,
+                          CarImageRepository carImageRepository, ImageService imageService) {
         this.carRepository = carRepository;
         this.carSaleRepository = carSaleRepository;
         this.brandRepository = brandRepository;
         this.carImageRepository = carImageRepository;
+        this.imageService = imageService;
     }
     @Override
     public List<CarDto> findAll() {
@@ -54,7 +59,7 @@ public class CarServiceImpl implements CarService {
     }
     @Override
     @Transactional
-    public void addCar(AddCarDto dto) {
+    public void addCar(AddCarDto dto, List<MultipartFile> images) {
         Brand brand = brandRepository.findById(dto.brandId).orElse(null);
         String slug = generateSlug(brand, dto);
         Car car = new Car();
@@ -77,14 +82,16 @@ public class CarServiceImpl implements CarService {
 
         carSaleRepository.save(carSale);
 
-        for (int i = 0; i < dto.imageUrls.size(); i++) {
-            String url = dto.imageUrls.get(i);
+        for (int i = 0; i < images.size(); i++) {
+            MultipartFile file = images.get(i);
 
-            if (url == null || url.isBlank()) continue;
+            if (file.isEmpty()) continue;
+
+            String publicId = imageService.upload(file);
 
             CarImage image = new CarImage();
             image.setCar(car);
-            image.setImageUrl(url);
+            image.setImageUrl(publicId);
             image.setOrderIndex(i);
             image.setPrimary(i == 0);
 

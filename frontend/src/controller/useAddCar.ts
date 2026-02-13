@@ -6,11 +6,11 @@ export function useAddCar() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const addCar = async (data: AddCarDto) => {
+  const addCar = async (formData: FormData) => {
     try {
       setLoading(true);
       setError(null);
-      await AdminApi.addCar(data);
+      await AdminApi.addCar(formData);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
       throw err;
