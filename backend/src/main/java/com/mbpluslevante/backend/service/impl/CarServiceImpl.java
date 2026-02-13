@@ -19,7 +19,9 @@ import com.mbpluslevante.backend.util.SlugUtil;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class CarServiceImpl implements CarService {
@@ -73,30 +75,15 @@ public class CarServiceImpl implements CarService {
         car.setPowerHp(dto.powerHp);
         car.setTransmission(dto.transmission);
         car.setSlug(slug);
-
         carRepository.save(car);
 
         CarSale carSale = new CarSale();
         carSale.setPrice(dto.price);
         carSale.setCar(car);
-
         carSaleRepository.save(carSale);
 
-        for (int i = 0; i < images.size(); i++) {
-            MultipartFile file = images.get(i);
-
-            if (file.isEmpty()) continue;
-
-            String publicId = imageService.upload(file);
-
-            CarImage image = new CarImage();
-            image.setCar(car);
-            image.setImageUrl(publicId);
-            image.setOrderIndex(i);
-            image.setPrimary(i == 0);
-
-            carImageRepository.save(image);
-        }
+        List<CarImage> uploadedImages = uploadCarImages(images, car);
+        carImageRepository.saveAll(uploadedImages);
     }
 
     @Override
@@ -122,4 +109,41 @@ public class CarServiceImpl implements CarService {
 
         return uniqueSlug;
     }
+
+    private List<CarImage> uploadCarImages(
+            List<MultipartFile> images,
+            Car car
+    ) {
+
+        List<CompletableFuture<CarImage>> futures = new ArrayList<>();
+
+        for (int i = 0; i < images.size(); i++) {
+
+            MultipartFile file = images.get(i);
+
+            if (file == null || file.isEmpty()) continue;
+
+            int index = i;
+
+            futures.add(
+                    CompletableFuture.supplyAsync(() -> {
+
+                        String publicId = imageService.upload(file);
+
+                        CarImage image = new CarImage();
+                        image.setCar(car);
+                        image.setImageUrl(publicId);
+                        image.setOrderIndex(index);
+                        image.setPrimary(index == 0);
+
+                        return image;
+                    })
+            );
+        }
+
+        return futures.stream()
+                .map(CompletableFuture::join)
+                .toList();
+    }
+
 }

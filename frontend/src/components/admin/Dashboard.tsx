@@ -108,12 +108,12 @@ export default function Dashboard() {
                       >
                         <td className="px-4 py-3">
                           <Image
-                            src={getCloudinaryUrl(car.mainImageUrl, 78)}
+                            src={getCloudinaryUrl(car.mainImageUrl, 78, 48, "eco")}
                             width={78}
                             height={48}
                             className="rounded-md object-cover"
                             unoptimized
-                            alt=""
+                            alt={car.slug}
                           />
                         </td>
 
