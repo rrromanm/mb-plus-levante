@@ -12,7 +12,6 @@ import BrandSelector from "./BrandSelector";
 import { useForm } from "react-hook-form";
 import { AddCarDto } from "@/types/car/addCarDto";
 import { useAddCar } from "@/controller/useAddCar";
-import { uploadMultipleImages } from "@/lib/cloudinary";
 import { toast } from "react-hot-toast";
 
 type AddVehicleModalProps = {
@@ -27,41 +26,39 @@ export default function AddVehicleModal({
   const { data: brands, loading } = useGetAllBrands();
   const [selectedBrand, setSelectedBrand] = useState<Brand | null>(null);
   const [files, setFiles] = useState<(File & { preview: string })[]>([]);
-  const [uploading, setUploading] = useState(false);
   const { register, handleSubmit, reset, setValue } = useForm<AddCarDto>();
   const { addCar, loading: adding, error: addError } = useAddCar();
 
   const onSubmit = async (data: AddCarDto) => {
+    if (files.length === 0) {
+      toast.error("Por favor, sube al menos una imagen");
+      return;
+    }
+
     try {
-      setUploading(true);
+      const formData = new FormData();
 
-      let imageUrls: string[] = [];
-      if (files.length > 0) {
-        toast.loading("Subiendo imágenes...", { id: "uploading-images" });
-        imageUrls = await uploadMultipleImages(files);
-        toast.success(`${imageUrls.length} imágenes subidas`, {
-          id: "uploading-images",
-        });
-      }
+      formData.append("brandId", data.brandId.toString());
+      formData.append("model", data.model);
+      formData.append("year", data.year.toString());
+      formData.append("mileageKm", data.mileageKm.toString());
+      formData.append("price", data.price.toString());
+      formData.append("fuelType", data.fuelType);
+      formData.append("transmission", data.transmission);
+      
+      if (data.bodyType) formData.append("bodyType", data.bodyType);
+      if (data.engine) formData.append("engine", data.engine);
+      if (data.powerHp) formData.append("powerHp", data.powerHp.toString());
 
-      if (files.length === 0) {
-        toast.error("Añade al menos una imagen");
-        return;
-      }
+      files.forEach((file) => {
+        formData.append("images", file);
+      });
 
-      const carData: AddCarDto = {
-        ...data,
-        imageUrls,
-      };
-
-      await addCar(carData);
-
+      await addCar(formData);
+      toast.success("Vehículo añadido correctamente");
       onOpenChange(false);
-    } catch (error) {
-      toast.error("Error al subir las imágenes");
-      console.error("Error uploading images:", error);
-    } finally {
-      setUploading(false);
+    } catch (err) {
+      toast.error("Error al añadir el vehículo");
     }
   };
 
@@ -285,14 +282,10 @@ export default function AddVehicleModal({
 
                 <button
                   type="submit"
-                  disabled={uploading || adding}
+                  disabled={adding}
                   className="rounded-md bg-[#880808] px-4 py-2 text-sm font-medium text-white hover:bg-[#6f0606] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {uploading
-                    ? "Subiendo imágenes..."
-                    : adding
-                      ? "Guardando..."
-                      : "Guardar Vehículo"}
+                  {adding ? "Guardando..." : "Guardar Vehículo"}
                 </button>
               </div>
             </form>

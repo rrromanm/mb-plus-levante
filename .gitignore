@@ -17,3 +17,4 @@ buildNumber.properties
 .classpath
 backend/src/main/java/com/mbpluslevante/backend/config/PasswordDebugRunner.java
 .DS_Store
+/backend/src/main/resources/application-local-secrets.yaml

@@ -4,8 +4,12 @@ import com.mbpluslevante.backend.dto.AddCarDto;
 import com.mbpluslevante.backend.service.CarService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
@@ -16,9 +20,12 @@ public class AdminController
     public AdminController(CarService carService){
         this.carService = carService;
     }
-    @PostMapping("/addCar")
-    public void addCar(@Valid @RequestBody AddCarDto dto) {
-        carService.addCar(dto);
+    @PostMapping(
+            value = "/addCar",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
+    public void addCar(@Valid @ModelAttribute AddCarDto dto, @RequestParam("images") List<MultipartFile> images) {
+        carService.addCar(dto, images);
     }
     @DeleteMapping("/deleteCar/{id}")
     public void deleteCar(@PathVariable Long id) {

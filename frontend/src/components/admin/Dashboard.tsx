@@ -10,6 +10,7 @@ import AddVehicleModal from "../AddVehicleModal";
 import useDeleteCar from "@/controller/useDeleteCar";
 import { CarDto } from "@/types/car/carDto";
 import toast from "react-hot-toast";
+import { getCloudinaryUrl } from "@/services/cloudinary";
 
 export default function Dashboard() {
   const { data: carsData, loading, error } = useGetAllCars();
@@ -107,8 +108,8 @@ export default function Dashboard() {
                       >
                         <td className="px-4 py-3">
                           <Image
-                            src={car.mainImageUrl}
-                            width={72}
+                            src={getCloudinaryUrl(car.mainImageUrl, 78)}
+                            width={78}
                             height={48}
                             className="rounded-md object-cover"
                             unoptimized
