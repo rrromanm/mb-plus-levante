@@ -2,17 +2,22 @@
 
 import { X } from "lucide-react";
 import { ImageUploader } from "../../ImageUploader";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { fuelTypes } from "@/lib/enums/fuelType";
 import { transmissions } from "@/lib/enums/transmission";
 import { bodyTypes } from "@/lib/enums/bodyType";
+import type { FuelType } from "@/lib/enums/fuelType";
+import type { Transmission } from "@/lib/enums/transmission";
+import type { BodyType } from "@/lib/enums/bodyType";
 import { useGetAllBrands } from "@/controller/useGetAllBrands";
 import { Brand } from "@/services/brandsApi";
-import BrandSelector from "../../BrandSelector";
+import { FilterSelect } from "../../filters/FiltersSelect";
+import { FilterOption } from "@/types/filter";
 import { useForm } from "react-hook-form";
 import { AddCarDto } from "@/types/car/addCarDto";
 import { useAddCar } from "@/controller/useAddCar";
 import { toast } from "react-hot-toast";
+import FUEL_CONFIG from "@/lib/FUEL_CONFIG";
 
 type AddVehicleModalProps = {
   open: boolean;
@@ -27,9 +32,52 @@ export default function AddVehicleModal({
 }: AddVehicleModalProps) {
   const { data: brands, loading } = useGetAllBrands();
   const [selectedBrand, setSelectedBrand] = useState<Brand | null>(null);
+  const [selectedFuelType, setSelectedFuelType] = useState<string>("");
+  const [selectedTransmission, setSelectedTransmission] = useState<string>("");
+  const [selectedBodyType, setSelectedBodyType] = useState<string>("");
   const [files, setFiles] = useState<(File & { preview: string })[]>([]);
-  const { register, handleSubmit, reset, setValue } = useForm<AddCarDto>();
+  const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<AddCarDto>();
   const { addCar, loading: adding, error: addError } = useAddCar();
+
+  const brandOptions: FilterOption[] = useMemo(
+    () =>
+      brands.map((brand) => ({
+        value: brand.id.toString(),
+        label: brand.name,
+        logo: `/brands/${brand.slug}.svg`,
+      })),
+    [brands]
+  );
+
+  const fuelTypeOptions: FilterOption[] = useMemo(
+    () =>
+      fuelTypes.map((fuel) => ({
+        value: fuel.value,
+        label: fuel.label,
+        icon: FUEL_CONFIG[fuel.value as keyof typeof FUEL_CONFIG]?.icon,
+        iconColor: FUEL_CONFIG[fuel.value as keyof typeof FUEL_CONFIG]?.color,
+      })),
+    []
+  );
+
+  const transmissionOptions: FilterOption[] = useMemo(
+    () =>
+      transmissions.map((transmission) => ({
+        value: transmission.value,
+        label: transmission.label,
+        logo: `/transmission/${transmission.value.toLowerCase()}.svg`,
+      })),
+    []
+  );
+
+  const bodyTypeOptions: FilterOption[] = useMemo(
+    () =>
+      bodyTypes.map((bodyType) => ({
+        value: bodyType.value,
+        label: bodyType.label,
+      })),
+    []
+  );
 
   const onSubmit = async (data: AddCarDto) => {
     if (files.length === 0) {
@@ -68,6 +116,9 @@ export default function AddVehicleModal({
   useEffect(() => {
     if (!open) {
       setSelectedBrand(null);
+      setSelectedFuelType("");
+      setSelectedTransmission("");
+      setSelectedBodyType("");
       setFiles([]);
       reset();
     }
@@ -108,29 +159,35 @@ export default function AddVehicleModal({
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="mb-1 block text-xs text-gray-500">
-                        Marca
+                        Marca <span className="text-red-500">*</span>
                       </label>
 
-                      <BrandSelector
-                        brands={brands}
-                        value={selectedBrand}
-                        onChange={(brand) => {
-                          setSelectedBrand(brand);
-                          setValue("brandId", brand.id);
+                      <FilterSelect
+                        options={brandOptions}
+                        placeholder="Seleccionar marca"
+                        value={selectedBrand?.id.toString()}
+                        onChange={(value) => {
+                          const brand = brands.find((b) => b.id.toString() === value);
+                          if (brand) {
+                            setSelectedBrand(brand);
+                            setValue("brandId", brand.id, { shouldValidate: true });
+                          }
                         }}
-                        disabled={loading}
+                        showLogo={true}
                       />
                       <input
                         type="hidden"
-                        required
-                        {...register("brandId")}
+                        {...register("brandId", { required: "La marca es obligatoria" })}
                         value={selectedBrand?.id ?? ""}
                       />
+                      {errors.brandId && (
+                        <p className="mt-1 text-xs text-red-500">{errors.brandId.message}</p>
+                      )}
                     </div>
 
                     <div>
                       <label className="mb-1 block text-xs text-gray-500">
-                        Modelo
+                        Modelo <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="text"
@@ -145,7 +202,7 @@ export default function AddVehicleModal({
                   <div className="mt-4 grid grid-cols-3 gap-4">
                     <div>
                       <label className="mb-1 block text-xs text-gray-500">
-                        Año
+                        Año <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="number"
@@ -158,7 +215,7 @@ export default function AddVehicleModal({
 
                     <div>
                       <label className="mb-1 block text-xs text-gray-500">
-                        Kilometraje (km)
+                        Kilometraje (km) <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="number"
@@ -171,7 +228,7 @@ export default function AddVehicleModal({
 
                     <div>
                       <label className="mb-1 block text-xs text-gray-500">
-                        Precio (€)
+                        Precio (€) <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="number"
@@ -192,41 +249,50 @@ export default function AddVehicleModal({
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="mb-1 block text-xs text-gray-500">
-                        Tipo de combustible
+                        Tipo de combustible <span className="text-red-500">*</span>
                       </label>
-                      <select
-                        required
-                        {...register("fuelType")}
-                        className="w-full rounded-md border px-3 py-2"
-                      >
-                        <option value="">Seleccionar</option>
-                        {fuelTypes.map((fuel) => (
-                          <option key={fuel.value} value={fuel.value}>
-                            {fuel.label}
-                          </option>
-                        ))}
-                      </select>
+                      <FilterSelect
+                        options={fuelTypeOptions}
+                        placeholder="Seleccionar"
+                        value={selectedFuelType}
+                        onChange={(value) => {
+                          setSelectedFuelType(value);
+                          setValue("fuelType", value as FuelType, { shouldValidate: true });
+                        }}
+                        showIcon={true}
+                      />
+                      <input
+                        type="hidden"
+                        {...register("fuelType", { required: "El tipo de combustible es obligatorio" })}
+                        value={selectedFuelType}
+                      />
+                      {errors.fuelType && (
+                        <p className="mt-1 text-xs text-red-500">{errors.fuelType.message}</p>
+                      )}
                     </div>
 
                     <div>
                       <label className="mb-1 block text-xs text-gray-500">
-                        Transmisión
+                        Transmisión <span className="text-red-500">*</span>
                       </label>
-                      <select
-                        required
-                        {...register("transmission")}
-                        className="w-full rounded-md border px-3 py-2"
-                      >
-                        <option value="">Seleccionar</option>
-                        {transmissions.map((transmission) => (
-                          <option
-                            key={transmission.value}
-                            value={transmission.value}
-                          >
-                            {transmission.label}
-                          </option>
-                        ))}
-                      </select>
+                      <FilterSelect
+                        options={transmissionOptions}
+                        placeholder="Seleccionar"
+                        value={selectedTransmission}
+                        onChange={(value) => {
+                          setSelectedTransmission(value);
+                          setValue("transmission", value as Transmission, { shouldValidate: true });
+                        }}
+                        showLogo={true}
+                      />
+                      <input
+                        type="hidden"
+                        {...register("transmission", { required: "La transmisión es obligatoria" })}
+                        value={selectedTransmission}
+                      />
+                      {errors.transmission && (
+                        <p className="mt-1 text-xs text-red-500">{errors.transmission.message}</p>
+                      )}
                     </div>
                   </div>
 
@@ -257,19 +323,25 @@ export default function AddVehicleModal({
 
                     <div>
                       <label className="mb-1 block text-xs text-gray-500">
-                        Carrocería
+                        Carrocería <span className="text-red-500">*</span>
                       </label>
-                      <select
-                        {...register("bodyType")}
-                        className="w-full rounded-md border px-3 py-2"
-                      >
-                        <option value="">Seleccionar</option>
-                        {bodyTypes.map((bodyType) => (
-                          <option key={bodyType.value} value={bodyType.value}>
-                            {bodyType.label}
-                          </option>
-                        ))}
-                      </select>
+                      <FilterSelect
+                        options={bodyTypeOptions}
+                        placeholder="Seleccionar"
+                        value={selectedBodyType}
+                        onChange={(value) => {
+                          setSelectedBodyType(value);
+                          setValue("bodyType", value as BodyType, { shouldValidate: true });
+                        }}
+                      />
+                      <input
+                        type="hidden"
+                        {...register("bodyType", { required: "La carrocería es obligatoria" })}
+                        value={selectedBodyType}
+                      />
+                      {errors.bodyType && (
+                        <p className="mt-1 text-xs text-red-500">{errors.bodyType.message}</p>
+                      )}
                     </div>
                   </div>
                 </div>

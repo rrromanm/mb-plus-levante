@@ -115,13 +115,16 @@ export function ImageUploader({ files, setFiles }: Props) {
             <p>Drop the files here ...</p>
           ) : (
             <div className="flex flex-col items-center justify-center h-full w-full gap-y-3">
-              <p>Drag 'n' drop some files here, or click to select files</p>
+              <p>
+                Arrastra aqui las imagenes, o clickea para selectionar imagenes
+              </p>
+              <p className="text-xs">Minimo 1 imagen, maximo 15</p>
               <button
                 type="button"
                 className="rounded-md bg-[#880808] opacity-50 px-4 py-2 text-sm 
               font-medium text-white disabled:opacity-50 cursor-pointer"
               >
-                Click here
+                Subir imagenes
               </button>
             </div>
           )}
