@@ -5,7 +5,7 @@ import Sidebar from "../Sidebar";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import DashboardCard from "../DashboardCard";
-import { Car, Key, PencilIcon, Plus, Star, User } from "lucide-react";
+import { Plus, Star, CircleCheck } from "lucide-react";
 import AddVehicleModal from "./modals/AddVehicleModal";
 import useDeleteCar from "@/controller/useDeleteCar";
 import { CarDto } from "@/types/car/carDto";
@@ -13,6 +13,14 @@ import toast from "react-hot-toast";
 import { getCloudinaryUrl } from "@/services/cloudinary";
 import DeleteCarDialog from "./modals/DeleteCarDialog";
 import { useToggleFeatured } from "@/controller/useToggleFeatured";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
+import SoldCarDialog from "./modals/SoldCarDialog";
+import useMarkCarAsSold from "@/controller/useMarkCarAsSold";
 
 export default function Dashboard() {
   const { data: carsData, loading, error } = useGetAllCars();
@@ -20,6 +28,7 @@ export default function Dashboard() {
   const { toggleFeatured } = useToggleFeatured();
   const [open, setOpen] = useState(false);
   const { deleteCar } = useDeleteCar();
+  const { markCarAsSold } = useMarkCarAsSold();
 
   useEffect(() => {
     setCars(carsData);
@@ -32,6 +41,18 @@ export default function Dashboard() {
     } catch (err) {
       toast.error(
         "Error al eliminar el vehículo. Por favor, inténtalo de nuevo.",
+      );
+    }
+  };
+
+  const onSold = async (id: number) => {
+    try {
+      await markCarAsSold(id);
+      setCars((prevCars) => prevCars.filter((car) => car.id !== id));
+      toast.success("Vehículo marcado como vendido correctamente");
+    } catch (err) {
+      toast.error(
+        "Error al marcar el vehículo como vendido. Por favor, inténtalo de nuevo.",
       );
     }
   };
@@ -161,17 +182,39 @@ export default function Dashboard() {
                         </td>
                         <td className="px-4 py-3">
                           <div className="flex gap-3">
-                            <PencilIcon
-                              color="black"
-                              className="w-4 h-4 cursor-pointer"
-                            />
-                            <Star
-                              stroke="black"
-                              fill={car.featured ? "gold" : "none"}
-                              onClick={() => onToggleFeatured(car.id)}
-                              className="w-4 h-4 cursor-pointer "
-                            />
-                            <DeleteCarDialog onDelete={onDelete} car={car} />
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger>
+                                  <Star
+                                    stroke="black"
+                                    fill={car.featured ? "gold" : "none"}
+                                    onClick={() => onToggleFeatured(car.id)}
+                                    className="w-4 h-4 cursor-pointer "
+                                  />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  Marcar como destacado
+                                </TooltipContent>
+                              </Tooltip>
+
+                              <Tooltip>
+                                <TooltipTrigger>
+                                  <SoldCarDialog onSold={onSold} car={car} />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  Marcar como vendido
+                                </TooltipContent>
+                              </Tooltip>
+
+                              <Tooltip>
+                                <TooltipTrigger>
+                                  <DeleteCarDialog onDelete={onDelete} car={car} />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  Eliminar vehículo
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
                           </div>
                         </td>
                       </tr>

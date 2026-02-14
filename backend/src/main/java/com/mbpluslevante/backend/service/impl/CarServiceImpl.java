@@ -5,6 +5,7 @@ import com.mbpluslevante.backend.model.Brand;
 import com.mbpluslevante.backend.model.Car;
 import com.mbpluslevante.backend.model.CarImage;
 import com.mbpluslevante.backend.model.CarSale;
+import com.mbpluslevante.backend.model.enums.CarStatus;
 import com.mbpluslevante.backend.repository.BrandRepository;
 import com.mbpluslevante.backend.repository.CarImageRepository;
 import com.mbpluslevante.backend.repository.CarRepository;
@@ -40,7 +41,7 @@ public class CarServiceImpl implements CarService {
     }
     @Override
     public List<CarDto> findAll() {
-        return carRepository.findByDeletedAtNullOrderByCreatedAtDesc()
+        return carRepository.findByStatusOrderByCreatedAtDesc(CarStatus.ACTIVE)
                 .stream()
                 .map(car -> new CarDto(
                         car.getId(),
@@ -131,8 +132,20 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    public void markCarAsSold(Long id) {
+        Car car = carRepository.findById(id).orElseThrow(() -> new RuntimeException("Car not found"));
+
+        car.setSoldAt(LocalDateTime.now());
+        car.setStatus(CarStatus.SOLD);
+    }
+
+    @Override
     public void deleteCar(Long id) {
-        carRepository.updateDeletedAt(id, LocalDateTime.now());
+        Car car = carRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Car not found"));
+
+        car.setDeletedAt(LocalDateTime.now());
+        car.setStatus(CarStatus.DELETED);
     }
     @Override
     public List<FeaturedCarsDto> getFeaturedCars() {

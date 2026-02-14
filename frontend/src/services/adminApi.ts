@@ -10,6 +10,12 @@ const AdminApi = {
             body: formData,
         });
     },
+    markCarAsSold: async (id: number) => {
+        await apiRequest(`${BASE_API_URL}/markCarAsSold/${id}`, {
+            credentials: "include",
+            method: "PATCH",
+        });
+    },
     toggleFeatured: async (id: number) => {
         await apiRequest(`${BASE_API_URL}/toggleFeatured/${id}`, {
             credentials: "include",

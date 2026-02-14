@@ -15,6 +15,7 @@ public interface CarService
     CarDetailsDto findBySlug(String slug);
     CarDetailsDto findById(Long id);
     void addCar(AddCarDto dto, List<MultipartFile> images);
+    void markCarAsSold(Long id);
     void deleteCar(Long id);
     List<FeaturedCarsDto> getFeaturedCars();
     void toggleFeatured(Long id);

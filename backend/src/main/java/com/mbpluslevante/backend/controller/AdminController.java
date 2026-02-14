@@ -40,6 +40,11 @@ public class AdminController
         carService.toggleFeatured(id);
     }
 
+    @PatchMapping("/markCarAsSold/{id}")
+    public void markAsSold(@PathVariable Long id) {
+        carService.markCarAsSold(id);
+    }
+
     @DeleteMapping("/deleteCar/{id}")
     public void deleteCar(@PathVariable Long id) {
         carService.deleteCar(id);
