@@ -1,11 +1,9 @@
 "use client";
 
 import { Sun, Moon } from "lucide-react";
-import { Switch } from "./ui/switch";
+import { Switch } from "../ui/switch";
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
-import { set } from "react-hook-form";
-
 export function ThemeSwitch() {
   const [mounted, setMounted] = useState(false);
   const { setTheme, resolvedTheme } = useTheme();

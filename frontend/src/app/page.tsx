@@ -1,7 +1,7 @@
-import Header from "@/components/Header";
-import Hero from "@/components/Hero";
-import FeaturedCars from "@/components/FeaturedCars";
-import { IntroSection } from "@/components/IntroSection";
+import Header from "@/components/generic/Header";
+import Hero from "@/components/homepage/Hero";
+import FeaturedCars from "@/components/homepage/FeaturedCars";
+import { IntroSection } from "@/components/homepage/IntroSection";
 
 export default function Home() {
   return (

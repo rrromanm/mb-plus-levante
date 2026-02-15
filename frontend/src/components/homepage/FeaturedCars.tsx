@@ -1,16 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import SectionBox from "./SectionBox";
+import SectionBox from "../generic/SectionBox";
 import { useGetFeaturedCars } from "@/controller/useGetFeaturedCars";
-import { CarCard } from "./CarCard";
+import { CarCard } from "../generic/CarCard";
 import Autoplay from "embla-carousel-autoplay";
 import { useRef } from "react";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-} from "./ui/carousel";
+} from "../ui/carousel";
 
 export default function FeaturedCars() {
   const { data, loading, error } = useGetFeaturedCars();

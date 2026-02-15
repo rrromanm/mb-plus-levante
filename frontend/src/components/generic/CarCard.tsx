@@ -4,8 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { FeaturedCarDto } from "@/types/car/featuredCarDto";
 import { getCloudinaryUrl } from "@/services/cloudinary";
-import { Card, CardContent } from "./ui/card";
-import { Badge } from "./ui/badge";
+import { Card, CardContent } from "../ui/card";
+import { Badge } from "../ui/badge";
 import { cn } from "@/lib/utils";
 
 type CarCardProps = {

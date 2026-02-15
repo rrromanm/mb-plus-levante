@@ -1,10 +1,10 @@
 "use client";
 
 import useGetAllCars from "@/controller/useGetAllCars";
-import Sidebar from "../Sidebar";
+import Sidebar from "./Sidebar";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import DashboardCard from "../DashboardCard";
+import DashboardCard from "./DashboardCard";
 import { Plus, Star, CircleCheck } from "lucide-react";
 import AddVehicleModal from "./modals/AddVehicleModal";
 import useDeleteCar from "@/controller/useDeleteCar";
