@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Switch } from "@/components/ui/switch";
 import { Moon } from "lucide-react";
+import { ThemeSwitch } from "./ThemeSwitch";
 
 export default function Header() {
   return (
@@ -28,8 +29,7 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-4">
-          <Switch id="theme-toggle"/>
-          <Moon size={16} />
+          <ThemeSwitch />
         </div>
       </div>
     </header>
