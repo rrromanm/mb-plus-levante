@@ -1,34 +1,36 @@
 import Image from "next/image";
-import { Switch } from "@/components/ui/switch";
-import { Moon } from "lucide-react";
+import Link from "next/link";
 import { ThemeSwitch } from "./ThemeSwitch";
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 h-25 bg-[#1D1D1D] text-white shadow-md">
-      <div className="mx-auto flex h-full items-center justify-between px-16">
+    <header className="sticky top-0 z-50 border-b border-border bg-card/90 text-foreground shadow-sm backdrop-blur supports-backdrop-filter:bg-card/70">
+      <div className="mx-auto flex h-20 items-center justify-between px-6 md:px-12">
         <div className="flex items-center gap-2">
-          <Image
-            src="/mb-plus-logo.svg"
-            alt="MB Plus Logo"
-            width={160}
-            height={60}
-          />
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/mb-plus-logo.svg"
+              alt="MB Plus Logo"
+              width={160}
+              height={60}
+              priority
+            />
+          </Link>
         </div>
 
-        <nav className="hidden md:flex items-center gap-6 text-md font-medium text-white">
-          <a href="/" className="hover:text-white transition-colors">
+        <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-foreground">
+          <Link href="/" className="transition-colors hover:text-primary">
             Catalogo
-          </a>
-          <a href="/" className="hover:text-white transition-colors">
+          </Link>
+          <Link href="/" className="transition-colors hover:text-primary">
             Contacto
-          </a>
-          <a href="/" className="hover:text-white transition-colors">
+          </Link>
+          <Link href="/" className="transition-colors hover:text-primary">
             Sobre nosotros
-          </a>
+          </Link>
         </nav>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           <ThemeSwitch />
         </div>
       </div>

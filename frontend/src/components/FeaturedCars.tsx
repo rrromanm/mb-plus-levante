@@ -1,73 +1,95 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import SectionBox from "./SectionBox";
 import { useGetFeaturedCars } from "@/controller/useGetFeaturedCars";
-import { getCloudinaryUrl } from "@/services/cloudinary";
+import { CarCard } from "./CarCard";
+import Autoplay from "embla-carousel-autoplay";
+import { useRef } from "react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "./ui/carousel";
 
 export default function FeaturedCars() {
   const { data, loading, error } = useGetFeaturedCars();
+  const hasCars = data.length > 0;
+  const shouldUseCarousel = data.length > 3;
+
+  const autoplay = useRef(
+    Autoplay({
+      delay: 7000,
+      stopOnInteraction: false,
+    }),
+  );
 
   return (
     <SectionBox>
-      {loading && (
-        <div className="text-center py-12">
-          <p className="text-white/60">Loading featured cars...</p>
+      <div className="flex flex-col gap-8">
+        <div>
+          <h2 className="text-2xl font-semibold text-foreground">
+            Coches destacados
+          </h2>
         </div>
-      )}
 
-      {error && (
-        <div className="text-center py-12">
-          <p className="text-red-400">Error: {error}</p>
-        </div>
-      )}
+        {loading && (
+          <div className="py-12 text-center">
+            <p className="text-muted-foreground">Loading featured cars...</p>
+          </div>
+        )}
 
-      {!loading && !error && (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {data.map((car) => (
-            <div
-              key={car.slug}
-              className="overflow-hidden rounded-2xl bg-[#111] shadow-lg transition-transform duration-300 hover:-translate-y-1 cursor-pointer"
-            >
-              <div className="relative aspect-video w-full">
-                <Image
-                  src={getCloudinaryUrl(car.mainImageUrl, 1200, 800, "good")}
-                  alt={`${car.brand} ${car.model}`}
-                  fill
-                  unoptimized
-                  className="object-cover"
-                  sizes="(min-width: 768px) 33vw, 100vw"
-                />
+        {error && (
+          <div className="py-12 text-center">
+            <p className="text-destructive">Error: {error}</p>
+          </div>
+        )}
+
+        {!loading && !error && hasCars && (
+          <>
+            {shouldUseCarousel ? (
+              <Carousel
+                opts={{ align: "start", loop: true, dragFree: true }}
+                plugins={[autoplay.current]}
+                className="w-full"
+                onMouseEnter={() => autoplay.current.stop()}
+                onMouseLeave={() => autoplay.current.play()}
+              >
+                <CarouselContent>
+                  {data.map((car) => (
+                    <CarouselItem
+                      key={car.slug}
+                      className="basis-full sm:basis-1/2 lg:basis-1/3"
+                    >
+                      <CarCard car={car} />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+              </Carousel>
+            ) : (
+              <div className="grid gap-6 grid-cols-[repeat(auto-fit,minmax(280px,1fr))]">
+                {data.map((car) => (
+                  <CarCard key={car.slug} car={car} />
+                ))}
               </div>
+            )}
+          </>
+        )}
 
-              <div className="p-4">
-                <h3 className="text-lg font-semibold text-white">
-                  {car.brand} {car.model}
-                </h3>
+        {!loading && !error && !hasCars && (
+          <p className="py-12 text-center text-muted-foreground">
+            No hay coches destacados por ahora.
+          </p>
+        )}
 
-                <p className="mt-1 text-sm text-white/60">
-                  {car.year} • {car.mileageKm} km
-                </p>
-
-                <p className="mt-2 text-base font-medium text-white">
-                  €{car.price}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      <div className="text-center pt-8">
-        <a
-          className="inline-block rounded-md bg-[#C0C0C0] px-4 py-2 text-sm font-semibold text-black
-          transition hover:bg-white"
-        >
-          <Link href="/coches" className="w-full">
-            View All Cars <span aria-hidden>↗</span>
+        <div className="text-center pt-4">
+          <Link
+            href="/coches"
+            className="inline-flex items-center justify-center rounded-md bg-secondary px-4 py-2 text-sm font-semibold text-secondary-foreground transition hover:bg-secondary/80"
+          >
+            Ver todos
           </Link>
-        </a>
+        </div>
       </div>
     </SectionBox>
   );
