@@ -4,7 +4,7 @@ export const bodyTypes = [
   { value: "CONVERTIBLE", label: "Cabrio" },
   { value: "SUV", label: "SUV" },
   { value: "HATCHBACK", label: "Compacto (Hatchback)" },
-  { value: "WAGON", label: "Familiar" },
+  { value: "WAGON", label: "Familiar (Wagon)" },
   { value: "PICKUP", label: "Pickup" },
   { value: "VAN", label: "Monovolumen/Furgoneta" },
   { value: "OTHER", label: "Otro" },
