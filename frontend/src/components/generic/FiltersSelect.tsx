@@ -28,8 +28,8 @@ export function FilterSelect({
   showIcon = false,
 }: FilterSelectProps) {
   return (
-    <Select value={value} onValueChange={onChange}>
-      <SelectTrigger className="w-full">
+    <Select value={value} onValueChange={onChange} >
+      <SelectTrigger className="w-full cursor-pointer">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
 

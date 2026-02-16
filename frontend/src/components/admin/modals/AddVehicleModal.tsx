@@ -177,6 +177,7 @@ export default function AddVehicleModal({
                       />
                       <input
                         type="hidden"
+                        
                         {...register("brandId", { required: "La marca es obligatoria" })}
                         value={selectedBrand?.id ?? ""}
                       />

@@ -23,7 +23,7 @@ import SoldCarDialog from "./modals/SoldCarDialog";
 import useMarkCarAsSold from "@/controller/useMarkCarAsSold";
 
 export default function Dashboard() {
-  const { data: carsData, loading, error } = useGetAllCars();
+  const { data: carsData, loading, error, refetch } = useGetAllCars();
   const [cars, setCars] = useState<CarDto[]>([]);
   const { toggleFeatured } = useToggleFeatured();
   const [open, setOpen] = useState(false);
@@ -37,7 +37,7 @@ export default function Dashboard() {
   const onDelete = async (id: number) => {
     try {
       await deleteCar(id);
-      setCars((prevCars) => prevCars.filter((car) => car.id !== id));
+      refetch();
     } catch (err) {
       toast.error(
         "Error al eliminar el vehículo. Por favor, inténtalo de nuevo.",
@@ -48,7 +48,7 @@ export default function Dashboard() {
   const onSold = async (id: number) => {
     try {
       await markCarAsSold(id);
-      setCars((prevCars) => prevCars.filter((car) => car.id !== id));
+      refetch();
       toast.success("Vehículo marcado como vendido correctamente");
     } catch (err) {
       toast.error(
@@ -58,14 +58,14 @@ export default function Dashboard() {
   };
 
   const onToggleFeatured = async (id: number) => {
-    setCars((prevCars) =>
-      prevCars.map((car) =>
-        car.id === id ? { ...car, featured: !car.featured } : car,
-      ),
-    );
 
     try {
       await toggleFeatured(id);
+      setCars((prevCars) =>
+      prevCars.map((car) =>
+        car.id === id ? { ...car, featured: !car.featured } : car,
+      ),
+      );
       toast.success("Vehículo actualizado correctamente");
     } catch (err) {
       setCars((prevCars) =>
@@ -119,20 +119,20 @@ export default function Dashboard() {
                 Añadir Vehículo
               </button>
             </div>
-            <AddVehicleModal open={open} onOpenChange={setOpen} />
+            <AddVehicleModal open={open} onOpenChange={setOpen} onSuccess={refetch} />
 
             <div className="overflow-x-auto">
               {loading ? (
                 <div className="p-8 text-center text-gray-500">
                   Cargando vehículos...
                 </div>
-              ) : error ? (
-                <div className="p-8 text-center text-red-500">
-                  Error: {error}
-                </div>
               ) : cars.length === 0 ? (
                 <div className="p-8 text-center text-gray-500">
                   No hay vehículos disponibles
+                </div>
+              ) : error ? (
+                <div className="p-8 text-center text-red-500">
+                  Error: {error}
                 </div>
               ) : (
                 <table className="w-full text-sm">
@@ -208,7 +208,10 @@ export default function Dashboard() {
 
                               <Tooltip>
                                 <TooltipTrigger>
-                                  <DeleteCarDialog onDelete={onDelete} car={car} />
+                                  <DeleteCarDialog
+                                    onDelete={onDelete}
+                                    car={car}
+                                  />
                                 </TooltipTrigger>
                                 <TooltipContent>
                                   Eliminar vehículo
