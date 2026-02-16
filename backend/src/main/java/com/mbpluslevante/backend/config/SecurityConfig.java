@@ -63,6 +63,8 @@ public class SecurityConfig {
         config.setAllowedOrigins(List.of(
                 "http://localhost:5173", // Vite
                 "http://localhost:3000",
+                "https://mbplusbenidorm.es",
+                "https://www.mbplusbenidorm.es",
                 "https://mb-plus-levante-six.vercel.app"
                 // CRA (if used)
         ));
