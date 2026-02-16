@@ -1,7 +1,7 @@
 "use client"
 
 import useGetAllCars from "@/controller/useGetAllCars";
-import SectionBox from "../SectionBox";
+import SectionBox from "../generic/SectionBox";
 import Image from "next/image";
 
 export default function FilterCars() {

@@ -1,7 +1,7 @@
 "use client";
 
 import { X } from "lucide-react";
-import { ImageUploader } from "../../ImageUploader";
+import { ImageUploader } from "../ImageUploader";
 import { useState, useEffect, useMemo } from "react";
 import { fuelTypes } from "@/lib/enums/fuelType";
 import { transmissions } from "@/lib/enums/transmission";
@@ -11,7 +11,7 @@ import type { Transmission } from "@/lib/enums/transmission";
 import type { BodyType } from "@/lib/enums/bodyType";
 import { useGetAllBrands } from "@/controller/useGetAllBrands";
 import { Brand } from "@/services/brandsApi";
-import { FilterSelect } from "../../filters/FiltersSelect";
+import { FilterSelect } from "../../generic/FiltersSelect";
 import { FilterOption } from "@/types/filter";
 import { useForm } from "react-hook-form";
 import { AddCarDto } from "@/types/car/addCarDto";
