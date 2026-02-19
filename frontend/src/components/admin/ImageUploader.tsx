@@ -115,7 +115,7 @@ export function ImageUploader({ files, setFiles }: Props) {
             <p>Drop the files here ...</p>
           ) : (
             <div className="flex flex-col items-center justify-center h-full w-full gap-y-3">
-              <p>
+              <p className="text-center">
                 Arrastra aqui las imagenes, o clickea para selectionar imagenes
               </p>
               <p className="text-xs">Minimo 1 imagen, maximo 15</p>

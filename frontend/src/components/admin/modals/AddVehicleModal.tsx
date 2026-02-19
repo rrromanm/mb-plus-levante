@@ -47,11 +47,11 @@ export default function AddVehicleModal({
 
   const brandOptions: FilterOption[] = useMemo(
     () =>
-      brands.map((brand) => ({
+      brands?.map((brand) => ({
         value: brand.id.toString(),
         label: brand.name,
         logo: `/brands/${brand.slug}.svg`,
-      })),
+      })) || [],
     [brands],
   );
 

@@ -40,7 +40,7 @@ export default function Sidebar() {
     <>
       <div className="p-6 border-b flex items-center justify-between">
         <Image
-          src="/mb-plus-logo.svg"
+          src="/mb-plus-white.svg"
           alt="MB Plus Logo"
           width={240}
           height={60}
@@ -98,7 +98,7 @@ export default function Sidebar() {
 
       <div className="md:hidden w-full bg-[#1D1D1D] text-white border-b border-white/10 sticky top-0 z-20">
         <div className="flex items-center justify-between px-4 py-4">
-          <Image src="/mb-plus-logo.svg" alt="MB Plus Logo" width={160} height={40} />
+          <Image src="/mb-plus-white.svg" alt="MB Plus Logo" width={160} height={40} />
           <button
             aria-label={isMobileOpen ? "Close menu" : "Open menu"}
             className="rounded-full border border-white/20 p-2 text-white hover:bg-white/10"

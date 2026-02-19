@@ -43,7 +43,7 @@ export default function AdminLoginPage() {
       >
         <div className="text-center">
           <Image
-            src="/mb-plus-logo.svg"
+            src="/mb-plus-white.svg"
             alt="MB Plus Logo"
             width={640}
             height={60}
