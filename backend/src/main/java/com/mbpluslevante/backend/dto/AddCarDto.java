@@ -25,6 +25,7 @@ public class AddCarDto
     public Transmission transmission;
     public String engine;
     public int powerHp;
+    public String description;
 
     @Min(0)
     @NotNull

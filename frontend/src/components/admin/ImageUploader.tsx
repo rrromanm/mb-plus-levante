@@ -71,7 +71,7 @@ export function ImageUploader({ files, setFiles }: Props) {
       );
 
       if (tooManyFiles) {
-        toast.error("Has superado el número máximo de archivos (15)");
+        toast.error("Has superado el número máximo de archivos (20)");
       }
 
       if (fileTooLarge) {
@@ -85,7 +85,7 @@ export function ImageUploader({ files, setFiles }: Props) {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     onDropRejected,
-    maxFiles: 15,
+    maxFiles: 25,
     maxSize: 1024 * 1024 * 5,
     accept: {
       "image/*": [],
@@ -118,7 +118,7 @@ export function ImageUploader({ files, setFiles }: Props) {
               <p className="text-center">
                 Arrastra aqui las imagenes, o clickea para selectionar imagenes
               </p>
-              <p className="text-xs">Minimo 1 imagen, maximo 15</p>
+              <p className="text-xs">Minimo 1 imagen, maximo 20</p>
               <button
                 type="button"
                 className="rounded-md bg-[#880808] opacity-50 px-4 py-2 text-sm 

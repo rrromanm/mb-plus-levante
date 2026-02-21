@@ -8,4 +8,5 @@ export interface CarDto {
     slug: string;
     mainImageUrl: string;
     featured: boolean;
+    derscription?: string;
 }
