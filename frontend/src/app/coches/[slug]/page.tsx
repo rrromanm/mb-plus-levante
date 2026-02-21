@@ -1,13 +1,21 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
 import { useGetCarBySlug } from "@/controller/useGetCarsBySlug";
 import { useParams, useRouter } from "next/navigation";
-import { getCloudinaryUrl } from "@/services/cloudinary";
 import Header from "@/components/generic/Header";
 import { ArrowLeft } from "lucide-react";
 import SectionBox from "@/components/generic/SectionBox";
+import CarCarousel from "@/components/cars/CarCarousel";
+import { fuelTypes } from "@/lib/enums/fuelType";
+import { transmissions } from "@/lib/enums/transmission";
+import { bodyTypes } from "@/lib/enums/bodyType";
+
+function getLabel(
+  list: readonly { value: string; label: string }[],
+  value?: string,
+): string | undefined {
+  return list.find((item) => item.value === value)?.label;
+}
 
 export default function CarDetailPage() {
   const params = useParams();
@@ -15,7 +23,6 @@ export default function CarDetailPage() {
   const slug = params?.slug as string;
 
   const { data, loading, error } = useGetCarBySlug(slug);
-  const [selectedImage, setSelectedImage] = useState(0);
 
   if (loading) return <p className="p-10">Cargando...</p>;
   if (error) return <p className="p-10">Error: {error}</p>;
@@ -24,95 +31,102 @@ export default function CarDetailPage() {
   const sortedImages =
     data.images?.sort((a, b) => a.orderIndex - b.orderIndex) || [];
 
+  const formattedPrice = new Intl.NumberFormat("es-ES", {
+    style: "currency",
+    currency: "EUR",
+    maximumFractionDigits: 0,
+  }).format(data.price);
+
+  const formattedMileage = `${new Intl.NumberFormat("es-ES").format(data.mileageKm)} km`;
+
   return (
     <>
       <Header />
 
-      <div className="min-h-screen px-6 py-10">
-        <div className="max-w-7xl mx-auto space-y-6">
+      <div className="min-h-screen bg-linear-to-b from-background to-muted/30 px-6 py-12">
+        <div className="max-w-7xl mx-auto space-y-12">
           <p
             onClick={() => router.push("/catalogo")}
-            className="flex items-center gap-2 cursor-pointer text-sm"
+            className="inline-flex items-center gap-2 cursor-pointer text-sm text-muted-foreground hover:text-foreground transition"
           >
             <ArrowLeft className="w-4 h-4" />
             Volver al catálogo
           </p>
 
-          <div className="grid lg:grid-cols-2 gap-10">
-            <div className="space-y-4">
-              {sortedImages.length > 0 && (
-                <>
-                  <div className="relative w-full h-125 rounded-2xl overflow-hidden shadow">
-                    <Image
-                      src={getCloudinaryUrl(
-                        sortedImages[selectedImage].imageUrl,
-                        1200,
-                        800,
-                        "best",
-                      )}
-                      fill
-                      className="object-cover"
-                      alt={`${data.slug}-main`}
-                      unoptimized
-                    />
-                  </div>
+          <div className="grid lg:grid-cols-2 gap-14 items-start">
+            <CarCarousel images={sortedImages} slug={data.slug} />
 
-                  <div className="flex gap-3 overflow-x-auto">
-                    {sortedImages.map(({ imageUrl }, index) => (
-                      <div
-                        key={index}
-                        onClick={() => setSelectedImage(index)}
-                        className={`relative w-28 h-20 rounded-lg overflow-hidden cursor-pointer border-2 transition ${
-                          selectedImage === index
-                            ? "border-black"
-                            : "border-transparent"
-                        }`}
-                      >
-                        <Image
-                          src={getCloudinaryUrl(imageUrl, 300, 200, "best")}
-                          fill
-                          className="object-cover"
-                          alt={`${data.slug}-thumb-${index}`}
-                          unoptimized
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
-            <SectionBox>
-              <div>
-                <p className="text-xs uppercase tracking-widest">
-                  Colección Premium
-                </p>
+            {/* PREMIUM INFO CARD */}
+            <div className="bg-card border border-border/50 rounded-3xl p-10 shadow-xl flex flex-col gap-7">
 
-                <h1 className="text-4xl font-bold mt-2">
-                  {data.brand} {data.model}
+              <div className="space-y-2">
+                <h1 className="text-4xl font-semibold leading-tight tracking-tight">
+                   {data.brand} {data.model}
                 </h1>
-
-                <p className="text-sm mt-1">{data.year}</p>
+                <p className="text-base text-muted-foreground">
+                  {data.year} · {formattedMileage}
+                </p>
               </div>
 
-              <div className="flex gap-4">
-                <button className="bg-[#0f172a] text-white px-6 py-3 rounded-full font-medium hover:opacity-90 transition">
+              {/* Price */}
+              <p className="text-4xl font-bold tracking-tight">
+                {formattedPrice}
+              </p>
+
+              {/* Specs — semantic dl for SEO */}
+              <dl className="grid grid-cols-2 gap-x-8 gap-y-5 border-t border-border/50 pt-6 text-sm">
+                <Spec label="Año" value={data.year} />
+                <Spec label="Kilometraje" value={formattedMileage} />
+                <Spec label="Combustible" value={getLabel(fuelTypes, data.fuelType)} />
+                <Spec label="Transmisión" value={getLabel(transmissions, data.transmission)} />
+                <Spec label="Motor" value={data.engine} />
+                <Spec label="Potencia" value={`${data.powerHp} HP`} />
+                <Spec label="Carrocería" value={getLabel(bodyTypes, data.bodyType)} />
+              </dl>
+
+              {/* CTA */}
+              <div className="flex flex-wrap gap-3 pt-2">
+                <button className="bg-foreground text-background px-8 py-3 rounded-full font-medium shadow-md hover:opacity-90 transition">
                   Reservar cita
                 </button>
-
-                <button className="border px-6 py-3 rounded-full font-medium hover:bg-gray-100 transition">
+                <button className="border border-border px-8 py-3 rounded-full font-medium hover:bg-muted transition">
                   Solicitar información
                 </button>
               </div>
-            </SectionBox>
+            </div>
           </div>
+
+          {/* Description Section */}
+          {data.description && (
+            <div className="bg-card border border-border/50 rounded-3xl p-10 shadow-sm">
+              <h2 className="text-xl font-semibold mb-4">Descripción</h2>
+              <p className="leading-relaxed text-muted-foreground max-w-4xl">
+                {data.description}
+              </p>
+            </div>
+          )}
         </div>
-        <SectionBox classname="max-w-7xl mx-auto py-10">
-          <h2 className="font-semibold text-lg mb-2">Descripción</h2>
-          <p className="leading-relaxed">
-            {data.description || "Este vehículo aún no tiene descripción."}
-          </p>
-        </SectionBox>
       </div>
     </>
+  );
+}
+
+
+function Spec({
+  label,
+  value,
+}: {
+  label: string;
+  value?: string | number;
+}) {
+  return (
+    <div>
+      <dt className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+        {label}
+      </dt>
+      <dd className="mt-1 font-semibold text-base">
+        {value || "-"}
+      </dd>
+    </div>
   );
 }

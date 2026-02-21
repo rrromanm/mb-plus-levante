@@ -76,7 +76,12 @@ public class CarServiceImpl implements CarService {
                                         image.getOrderIndex()
                                 ))
                                 .toList(),
-                        car.getDescription()
+                        car.getDescription(),
+                        car.getFuelType(),
+                        car.getTransmission(),
+                        car.getEngine(),
+                        car.getPowerHp(),
+                        car.getBodyType()
                 );
     }
 
@@ -100,7 +105,12 @@ public class CarServiceImpl implements CarService {
                                 image.getOrderIndex()
                         ))
                         .toList(),
-                car.getDescription()
+                car.getDescription(),
+                car.getFuelType(),
+                car.getTransmission(),
+                car.getEngine(),
+                car.getPowerHp(),
+                car.getBodyType()
         );
     }
 

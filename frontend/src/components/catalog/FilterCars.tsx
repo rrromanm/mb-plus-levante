@@ -3,6 +3,7 @@
 import useGetAllCars from "@/controller/useGetAllCars";
 import SectionBox from "../generic/SectionBox";
 import Image from "next/image";
+import { getCloudinaryUrl } from "@/services/cloudinary";
 
 export default function FilterCars() {
   const { data, loading, error } = useGetAllCars();
@@ -94,7 +95,7 @@ export default function FilterCars() {
               >
                 <div className="relative h-60 w-full">
                   <Image
-                    src={car.mainImageUrl}
+                    src={getCloudinaryUrl(car.mainImageUrl, 600, 400, "good")}
                     alt={`${car.brand} ${car.model}`}
                     fill
                     className="object-cover"
