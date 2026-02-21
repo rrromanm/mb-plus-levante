@@ -7,7 +7,6 @@ import java.util.List;
 @Data
 public class CarDetailsDto
 {
-    private Long id;
     private String brand;
     private String model;
     private Integer year;
@@ -15,12 +14,10 @@ public class CarDetailsDto
     private Integer mileageKm;
     private String slug;
     private List<CarImageDto> images;
-    private boolean isFeatured;
     private String description;
 
-    public CarDetailsDto(Long id, String brand, String model, Integer year, Integer price, Integer mileageKm,
-                  String slug, List<CarImageDto> images, boolean isFeatured, String description) {
-        this.id = id;
+    public CarDetailsDto(String brand, String model, Integer year, Integer price, Integer mileageKm,
+                  String slug, List<CarImageDto> images, String description) {
         this.brand = brand;
         this.model = model;
         this.year = year;
@@ -28,7 +25,6 @@ public class CarDetailsDto
         this.mileageKm = mileageKm;
         this.slug = slug;
         this.images = images;
-        this.isFeatured = isFeatured;
         this.description = description;
     }
 }

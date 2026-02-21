@@ -62,7 +62,6 @@ public class CarServiceImpl implements CarService {
                 .orElseThrow(() -> new RuntimeException("Car not found"));
 
         return new CarDetailsDto(
-                        car.getId(),
                         car.getBrand(),
                         car.getModel(),
                         car.getYear(),
@@ -77,7 +76,6 @@ public class CarServiceImpl implements CarService {
                                         image.getOrderIndex()
                                 ))
                                 .toList(),
-                        car.isFeatured(),
                         car.getDescription()
                 );
     }
@@ -88,7 +86,6 @@ public class CarServiceImpl implements CarService {
                 .orElseThrow(() -> new RuntimeException("Car not found"));
 
         return new CarDetailsDto(
-                car.getId(),
                 car.getBrand(),
                 car.getModel(),
                 car.getYear(),
@@ -103,7 +100,6 @@ public class CarServiceImpl implements CarService {
                                 image.getOrderIndex()
                         ))
                         .toList(),
-                car.isFeatured(),
                 car.getDescription()
         );
     }
