@@ -5,6 +5,7 @@ import com.mbpluslevante.backend.model.enums.CarStatus;
 import com.mbpluslevante.backend.model.enums.FuelType;
 import com.mbpluslevante.backend.model.enums.Transmission;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -41,6 +42,8 @@ public class Car {
     @Enumerated(EnumType.STRING)
     private Transmission transmission;
 
+    @Size(max = 800)
+    private String description;
     private String engine;
     private Integer powerHp;
 

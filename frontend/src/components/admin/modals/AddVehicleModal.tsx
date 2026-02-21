@@ -41,9 +41,13 @@ export default function AddVehicleModal({
     handleSubmit,
     reset,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<AddCarDto>();
   const { addCar, loading: adding, error: addError } = useAddCar();
+
+  const descriptionValue = watch("description") ?? "";
+  const remainingDescriptionChars = 800 - descriptionValue.length;
 
   const brandOptions: FilterOption[] = useMemo(
     () =>
@@ -105,6 +109,7 @@ export default function AddVehicleModal({
       if (data.bodyType) formData.append("bodyType", data.bodyType);
       if (data.engine) formData.append("engine", data.engine);
       if (data.powerHp) formData.append("powerHp", data.powerHp.toString());
+      if (data.description) formData.append("description", data.description);
 
       files.forEach((file) => {
         formData.append("images", file);
@@ -378,6 +383,22 @@ export default function AddVehicleModal({
                           </p>
                         )}
                       </div>
+                    </div>
+
+                    <div className="mt-4">
+                      <div className="mb-1 flex items-center justify-between text-xs text-gray-500">
+                        <span>Descripción</span>
+                        <span>
+                          {remainingDescriptionChars} caracteres restantes
+                        </span>
+                      </div>
+                      <textarea
+                        {...register("description")}
+                        className="w-full rounded-md border px-3 py-2"
+                        rows={4}
+                        maxLength={800}
+                        placeholder="Añade detalles relevantes del vehículo"
+                      />
                     </div>
                   </div>
                 </div>

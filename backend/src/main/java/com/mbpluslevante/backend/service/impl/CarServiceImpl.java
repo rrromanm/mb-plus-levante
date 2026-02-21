@@ -52,7 +52,8 @@ public class CarServiceImpl implements CarService {
                         car.getMileageKm(),
                         car.getSlug(),
                         car.getMainImage(),
-                        car.isFeatured()
+                        car.isFeatured(),
+                        car.getDescription()
                 )).toList();
     }
     @Override
@@ -76,7 +77,8 @@ public class CarServiceImpl implements CarService {
                                         image.getOrderIndex()
                                 ))
                                 .toList(),
-                        car.isFeatured()
+                        car.isFeatured(),
+                        car.getDescription()
                 );
     }
 
@@ -101,7 +103,8 @@ public class CarServiceImpl implements CarService {
                                 image.getOrderIndex()
                         ))
                         .toList(),
-                car.isFeatured()
+                car.isFeatured(),
+                car.getDescription()
         );
     }
 
@@ -120,6 +123,7 @@ public class CarServiceImpl implements CarService {
         car.setPowerHp(dto.powerHp);
         car.setTransmission(dto.transmission);
         car.setSlug(slug);
+        car.setDescription(dto.description);
         carRepository.save(car);
 
         CarSale carSale = new CarSale();
@@ -146,6 +150,7 @@ public class CarServiceImpl implements CarService {
 
         car.setDeletedAt(LocalDateTime.now());
         car.setStatus(CarStatus.DELETED);
+        car.setFeatured(false);
     }
     @Override
     public List<FeaturedCarsDto> getFeaturedCars() {
