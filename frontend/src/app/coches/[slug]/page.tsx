@@ -4,11 +4,15 @@ import { useGetCarBySlug } from "@/controller/useGetCarsBySlug";
 import { useParams, useRouter } from "next/navigation";
 import Header from "@/components/generic/Header";
 import { ArrowLeft } from "lucide-react";
-import SectionBox from "@/components/generic/SectionBox";
+import Link from "next/link";
 import CarCarousel from "@/components/cars/CarCarousel";
+import CarsContactForm from "@/components/cars/CarsContactForm";
+import { useGetFeaturedCars } from "@/controller/useGetFeaturedCars";
+import { CarCard } from "@/components/generic/CarCard";
 import { fuelTypes } from "@/lib/enums/fuelType";
 import { transmissions } from "@/lib/enums/transmission";
 import { bodyTypes } from "@/lib/enums/bodyType";
+import { SimilarCars } from "@/components/cars/SimilarCars";
 
 function getLabel(
   list: readonly { value: string; label: string }[],
@@ -56,7 +60,6 @@ export default function CarDetailPage() {
           <div className="grid lg:grid-cols-2 gap-14 items-start">
             <CarCarousel images={sortedImages} slug={data.slug} />
 
-            {/* PREMIUM INFO CARD */}
             <div className="bg-card border border-border/50 rounded-3xl p-10 shadow-xl flex flex-col gap-7">
 
               <div className="space-y-2">
@@ -68,12 +71,10 @@ export default function CarDetailPage() {
                 </p>
               </div>
 
-              {/* Price */}
               <p className="text-4xl font-bold tracking-tight">
                 {formattedPrice}
               </p>
 
-              {/* Specs — semantic dl for SEO */}
               <dl className="grid grid-cols-2 gap-x-8 gap-y-5 border-t border-border/50 pt-6 text-sm">
                 <Spec label="Año" value={data.year} />
                 <Spec label="Kilometraje" value={formattedMileage} />
@@ -84,7 +85,6 @@ export default function CarDetailPage() {
                 <Spec label="Carrocería" value={getLabel(bodyTypes, data.bodyType)} />
               </dl>
 
-              {/* CTA */}
               <div className="flex flex-wrap gap-3 pt-2">
                 <button className="bg-foreground text-background px-8 py-3 rounded-full font-medium shadow-md hover:opacity-90 transition">
                   Reservar cita
@@ -96,7 +96,6 @@ export default function CarDetailPage() {
             </div>
           </div>
 
-          {/* Description Section */}
           {data.description && (
             <div className="bg-card border border-border/50 rounded-3xl p-10 shadow-sm">
               <h2 className="text-xl font-semibold mb-4">Descripción</h2>
@@ -105,6 +104,14 @@ export default function CarDetailPage() {
               </p>
             </div>
           )}
+
+          <CarsContactForm
+            carTitle={`${data.brand} ${data.model} (${data.year})`}
+            brand={data.brand}
+            model={data.model}
+          />
+
+          <SimilarCars currentSlug={data.slug} />
         </div>
       </div>
     </>
