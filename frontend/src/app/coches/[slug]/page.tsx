@@ -3,16 +3,15 @@
 import { useGetCarBySlug } from "@/controller/useGetCarsBySlug";
 import { useParams, useRouter } from "next/navigation";
 import Header from "@/components/generic/Header";
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
+import { ArrowLeft, Share2 } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 import CarCarousel from "@/components/cars/CarCarousel";
-import CarsContactForm from "@/components/cars/CarsContactForm";
-import { useGetFeaturedCars } from "@/controller/useGetFeaturedCars";
-import { CarCard } from "@/components/generic/CarCard";
 import { fuelTypes } from "@/lib/enums/fuelType";
 import { transmissions } from "@/lib/enums/transmission";
 import { bodyTypes } from "@/lib/enums/bodyType";
 import { SimilarCars } from "@/components/cars/SimilarCars";
+
+const WHATSAPP_NUMBER = "34623622557"; // Replace with the actual business WhatsApp number
 
 function getLabel(
   list: readonly { value: string; label: string }[],
@@ -50,7 +49,7 @@ export default function CarDetailPage() {
       <div className="min-h-screen bg-linear-to-b from-background to-muted/30 px-6 py-12">
         <div className="max-w-7xl mx-auto space-y-12">
           <p
-            onClick={() => router.push("/catalogo")}
+            onClick={() => router.push("/coches")}
             className="inline-flex items-center gap-2 cursor-pointer text-sm text-muted-foreground hover:text-foreground transition"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -86,11 +85,29 @@ export default function CarDetailPage() {
               </dl>
 
               <div className="flex flex-wrap gap-3 pt-2">
-                <button className="bg-foreground text-background px-8 py-3 rounded-full font-medium shadow-md hover:opacity-90 transition">
-                  Reservar cita
-                </button>
-                <button className="border border-border px-8 py-3 rounded-full font-medium hover:bg-muted transition">
-                  Solicitar información
+                <a
+                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hola, estoy interesado en el ${data.brand} ${data.model} (${data.year}) por ${formattedPrice} ¿Está disponible?\n${typeof window !== "undefined" ? window.location.href : ""}`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-green-500 text-white px-8 py-3 rounded-full font-medium shadow-md hover:bg-green-600 transition"
+                >
+                  <FaWhatsapp className="w-4 h-4" />
+                  Contactar por WhatsApp
+                </a>
+                <button
+                  onClick={async () => {
+                    const url = window.location.href;
+                    if (navigator.share) {
+                      await navigator.share({ title: `${data.brand} ${data.model} (${data.year})`, url });
+                    } else {
+                      await navigator.clipboard.writeText(url);
+                      alert("Enlace copiado al portapapeles");
+                    }
+                  }}
+                  className="inline-flex items-center gap-2 border border-border px-8 py-3 rounded-full font-medium hover:bg-muted transition"
+                >
+                  <Share2 className="w-4 h-4" />
+                  Compartir
                 </button>
               </div>
             </div>
@@ -104,12 +121,6 @@ export default function CarDetailPage() {
               </p>
             </div>
           )}
-
-          <CarsContactForm
-            carTitle={`${data.brand} ${data.model} (${data.year})`}
-            brand={data.brand}
-            model={data.model}
-          />
 
           <SimilarCars currentSlug={data.slug} />
         </div>
