@@ -1,56 +1,63 @@
-import Image from "next/image";
-import Link from "next/link";
-import { Phone } from "lucide-react";
-import { Button } from "../ui/button";
-import { CONTACT } from "@/lib/contactInfo";
+
 
 export default function Hero() {
   return (
-    <section className="relative h-255 overflow-hidden -mt-25">
-      <Image
-        src="/mercedes-hero.jpg"
-        alt="Concesionario MB Plus Levante — coches de segunda mano en Alicante"
-        fill
-        priority
-        className="object-cover -scale-x-100"
-      />
+    <section className="relative min-h-screen w-full overflow-hidden bg-neutral-950 text-white">
+      <div className="absolute inset-0">
+        <img
+          src="/wheel.avif"
+          alt="Mercedes-Benz de ocasion en Alicante"
+          className="h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-linear-to-r from-black/80 via-black/55 to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(80%_60%_at_20%_20%,rgba(255,255,255,0.12),transparent_60%)]" />
+      </div>
 
-      <div className="absolute inset-0 bg-black/40" />
+      <div className="relative z-10 grid min-h-screen w-full items-center gap-10 px-5 py-16 sm:gap-12 sm:px-8 md:px-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-14 lg:px-16">
+        <div className="space-y-8">
+          <div className="inline-flex flex-wrap items-center gap-2 border border-white/15 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-white/80 sm:text-xs">
+            Alicante · Mercedes-Benz · Segunda Mano
+          </div>
 
-      <div className="relative z-10 flex h-full flex-col justify-center px-8 sm:px-16">
-        <div className="max-w-3xl text-white">
-          <p className="text-xs uppercase tracking-widest opacity-70 mb-4">
-            Concesionario en L'Albir · Alicante
-          </p>
+          <div className="space-y-5">
+            <h1 className="text-3xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">
+              Coches de ocasion en Alicante
+            </h1>
+            <p className="max-w-2xl text-sm text-white/85 sm:text-lg">
+              Seleccion exclusiva de Mercedes-Benz de ocasion por menos de 20.000€,
+              revisados en taller propio y con garantia oficial de hasta 12 meses.
+            </p>
+          </div>
 
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight tracking-tight">
-            Coches de ocasión
-            <br />
-            <span className="opacity-80">en Alicante</span>
-          </h1>
-
-          <p className="mt-4 text-base sm:text-lg opacity-80 max-w-xl leading-relaxed">
-            Especialistas en Mercedes-Benz de segunda mano. ITV pasada,
-            garantía hasta 12 meses y entrega inmediata desde L'Albir.
-          </p>
-
-          <div className="mt-10 flex flex-wrap gap-3">
-            <Button asChild size="lg" className="bg-white text-black hover:bg-white/90 font-semibold">
-              <Link href="/coches">Ver catálogo</Link>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="border-white/60 text-white bg-transparent hover:bg-white/10 hover:text-white"
+          <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
+            <a
+              href="/coches"
+              className="inline-flex w-full items-center justify-center bg-white px-6 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-neutral-950 transition hover:bg-white/90 sm:w-auto sm:text-sm"
             >
-              <a href={`tel:${CONTACT.phone.replace(/\s/g, "")}`}>
-                <Phone className="w-4 h-4" />
-                Llamar ahora
-              </a>
-            </Button>
+              Ver catalogo
+            </a>
+            <a
+              href="tel:+34623622557"
+              className="inline-flex w-full items-center justify-center gap-2 border border-white/60 px-6 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-white transition hover:border-white hover:bg-white/10 sm:w-auto sm:text-sm"
+            >
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M4.5 5.5c0 7.18 6.82 14 14 14l2-3.5-3.5-2-2 2c-2.76-1.24-5.26-3.74-6.5-6.5l2-2-2-3.5-3.5 2z" />
+              </svg>
+              Llamar ahora
+            </a>
           </div>
         </div>
+
+        
       </div>
     </section>
   );

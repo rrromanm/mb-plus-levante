@@ -7,7 +7,7 @@ const SIGNALS = [
   },
   {
     icon: BadgeCheck,
-    text: "ITV pasada antes de la entrega",
+    text: "Revisión técnica e ITV al día",
   },
   {
     icon: Wrench,

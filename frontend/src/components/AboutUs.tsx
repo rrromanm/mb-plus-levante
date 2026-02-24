@@ -29,7 +29,6 @@ export function AboutUs() {
     <section id="sobre-nosotros" className="scroll-mt-24">
       <div className="grid grid-cols-1 lg:grid-cols-2">
 
-        {/* Dark left panel — invariant dark, not bg-foreground which flips in dark mode */}
         <div className="bg-zinc-900 dark:bg-zinc-800 text-white flex flex-col justify-between gap-10 px-8 sm:px-12 lg:px-16 py-16 lg:py-24">
           <div className="space-y-3">
             <p className="text-xs uppercase tracking-widest opacity-50">
@@ -55,7 +54,7 @@ export function AboutUs() {
             ))}
           </div>
 
-          <div className="flex flex-wrap gap-8 border-t border-white/15 pt-8">
+          <div className="flex flex-wrap gap-8 border-t border-white/15 pt-8 justify-center">
             <div>
               <p className="text-3xl font-bold tabular-nums">+200</p>
               <p className="text-xs opacity-50 uppercase tracking-wider mt-0.5">Coches vendidos</p>
@@ -76,8 +75,7 @@ export function AboutUs() {
             </div>
           </div>
         </div>
-
-        {/* Image right panel */}
+        
         <div className="relative min-h-80 lg:min-h-0">
           <Image
             src="/wheel.avif"

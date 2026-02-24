@@ -6,17 +6,15 @@ import { CONTACT } from "@/lib/contactInfo";
 export function CompanyInfo() {
   return (
     <SectionBox id="contacto">
-
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-10">
         <div>
-          <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">L'Albir, Alicante</p>
+          <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">
+            L'Albir, Alicante
+          </p>
           <h2 className="text-3xl sm:text-4xl font-semibold leading-tight">
             Visítanos o contáctanos
           </h2>
         </div>
-        <p className="text-sm text-muted-foreground max-w-xs">
-          Estamos en L'Albir — fácil acceso desde Benidorm, Altea y Calpe.
-        </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
@@ -55,28 +53,44 @@ export function CompanyInfo() {
             </a>
           </div>
 
-          <p className="text-xs text-muted-foreground -mt-2">
-            Respondemos en menos de 1 hora en horario de apertura
+          <p className="text-sm text-muted-foreground">
+            Estamos en L'Albir — fácil acceso desde Benidorm, Altea y Calpe.
           </p>
 
           <div className="flex flex-col gap-4 pt-2 border-t border-border">
-            <a href={`mailto:${CONTACT.email}`} className="flex items-start gap-3 group">
+            <a
+              href={`mailto:${CONTACT.email}`}
+              className="flex items-start gap-3 group"
+            >
               <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted text-foreground">
                 <Mail className="w-4 h-4" />
               </span>
               <div>
-                <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Email</p>
-                <p className="text-sm font-medium mt-0.5 group-hover:text-primary transition-colors">{CONTACT.email}</p>
+                <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
+                  Email
+                </p>
+                <p className="text-sm font-medium mt-0.5 group-hover:text-primary transition-colors">
+                  {CONTACT.email}
+                </p>
               </div>
             </a>
 
-            <a href={`https://maps.google.com/?q=${encodeURIComponent(CONTACT.address)}`} target="_blank" rel="noopener noreferrer" className="flex items-start gap-3 group">
+            <a
+              href={`https://maps.google.com/?q=${encodeURIComponent(CONTACT.address)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-start gap-3 group"
+            >
               <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted text-foreground">
                 <MapPin className="w-4 h-4" />
               </span>
               <div>
-                <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Dirección</p>
-                <p className="text-sm font-medium mt-0.5 group-hover:text-primary transition-colors">{CONTACT.address}</p>
+                <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
+                  Dirección
+                </p>
+                <p className="text-sm font-medium mt-0.5 group-hover:text-primary transition-colors">
+                  {CONTACT.address}
+                </p>
               </div>
             </a>
 
@@ -85,7 +99,9 @@ export function CompanyInfo() {
                 <Clock className="w-4 h-4" />
               </span>
               <div>
-                <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Horario</p>
+                <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
+                  Horario
+                </p>
                 <p className="text-sm font-medium mt-0.5">{CONTACT.hours}</p>
               </div>
             </div>
