@@ -1,25 +1,24 @@
 import Image from "next/image";
 import { ShieldCheck, Wrench, Star, Clock } from "lucide-react";
-import SectionBox from "./generic/SectionBox";
 
 const PILLARS = [
   {
-    icon: <ShieldCheck className="w-5 h-5 shrink-0 mt-0.5 text-foreground/70" />,
+    icon: ShieldCheck,
     title: "Garantía de hasta 12 meses",
     desc: "Todos nuestros vehículos se entregan con inspección técnica reciente y garantía de hasta 12 meses o 10.000 km.",
   },
   {
-    icon: <Wrench className="w-5 h-5 shrink-0 mt-0.5 text-foreground/70" />,
+    icon: Wrench,
     title: "Taller propio",
-    desc: "Revisamos, preparamos y mantenemos cada coche en nuestras propias instalaciones.",
+    desc: "Revisamos, preparamos y mantenemos cada coche en nuestras propias instalaciones antes de la entrega.",
   },
   {
-    icon: <Star className="w-5 h-5 shrink-0 mt-0.5 text-foreground/70" />,
+    icon: Star,
     title: "Especialistas en Mercedes-Benz",
     desc: "Nuestro enfoque principal son los vehículos Mercedes-Benz, aunque también trabajamos con otras marcas reconocidas.",
   },
   {
-    icon: <Clock className="w-5 h-5 shrink-0 mt-0.5 text-foreground/70" />,
+    icon: Clock,
     title: "Más de 10 años de experiencia",
     desc: "Una década ayudando a nuestros clientes a encontrar el coche que necesitan, al precio que buscan.",
   },
@@ -27,67 +26,68 @@ const PILLARS = [
 
 export function AboutUs() {
   return (
-    <SectionBox id="sobre-nosotros">
-      <h2 className="text-3xl font-bold text-center mb-8">Sobre nosotros</h2>
+    <section id="sobre-nosotros" className="scroll-mt-24">
+      <div className="grid grid-cols-1 lg:grid-cols-2">
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 rounded-2xl overflow-hidden border border-border shadow-md">
-
-        <div className="flex flex-col gap-8 p-8 sm:p-10 bg-card">
-
-          <div className="space-y-2">
-            <p className="text-xs uppercase tracking-widest text-muted-foreground">Concesionario MB Plus · Albir, Alicante</p>
-            <h3 className="text-2xl font-bold leading-snug">
-              Coches de segunda mano con garantía y respaldo profesional
-            </h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              En MB Plus somos un concesionario especializado en la venta de coches de ocasión. Más de 10 años de experiencia avalan nuestro compromiso con la calidad y la transparencia.
+        {/* Dark left panel — invariant dark, not bg-foreground which flips in dark mode */}
+        <div className="bg-zinc-900 dark:bg-zinc-800 text-white flex flex-col justify-between gap-10 px-8 sm:px-12 lg:px-16 py-16 lg:py-24">
+          <div className="space-y-3">
+            <p className="text-xs uppercase tracking-widest opacity-50">
+              Coches de segunda mano en Alicante · MB Plus Levante
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-semibold leading-snug">
+              Respaldo profesional desde L'Albir
+            </h2>
+            <p className="text-sm opacity-60 leading-relaxed max-w-md">
+              En MB Plus Levante somos un concesionario especializado en la venta de coches de ocasión. Más de 10 años de experiencia avalan nuestro compromiso con la calidad y la transparencia.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {PILLARS.map(({ icon, title, desc }) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {PILLARS.map(({ icon: Icon, title, desc }) => (
               <div key={title} className="flex gap-3">
-                {icon}
+                <Icon className="w-5 h-5 shrink-0 mt-0.5 opacity-50" />
                 <div className="space-y-0.5">
                   <p className="text-sm font-semibold">{title}</p>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{desc}</p>
+                  <p className="text-xs opacity-50 leading-relaxed">{desc}</p>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="hidden sm:flex flex-wrap gap-6 border-t border-border pt-6">
+          <div className="flex flex-wrap gap-8 border-t border-white/15 pt-8">
             <div>
-              <p className="text-2xl font-bold">+200</p>
-              <p className="text-xs text-muted-foreground uppercase tracking-wider">Coches vendidos</p>
+              <p className="text-3xl font-bold tabular-nums">+200</p>
+              <p className="text-xs opacity-50 uppercase tracking-wider mt-0.5">Coches vendidos</p>
             </div>
             <div>
-              <p className="text-2xl font-bold">ITV</p>
-              <p className="text-xs text-muted-foreground uppercase tracking-wider">Pasada antes de la entrega</p>
+              <p className="text-3xl font-bold">ITV ✓</p>
+              <p className="text-xs opacity-50 uppercase tracking-wider mt-0.5">Revisión técnica pasada</p>
             </div>
             <div>
-              <p className="text-2xl font-bold flex items-center gap-1">
-                3.9 <span className="text-yellow-400 text-xl">★</span>
+              <p className="text-3xl font-bold flex items-center gap-1">
+                3.9 <span className="text-yellow-400 text-2xl">★</span>
               </p>
-              <p className="text-xs text-muted-foreground uppercase tracking-wider">Opiniones en Google</p>
+              <p className="text-xs opacity-50 uppercase tracking-wider mt-0.5">Opiniones en Google</p>
             </div>
             <div>
-              <p className="text-2xl font-bold">+10</p>
-              <p className="text-xs text-muted-foreground uppercase tracking-wider">Años de experiencia</p>
+              <p className="text-3xl font-bold tabular-nums">+10</p>
+              <p className="text-xs opacity-50 uppercase tracking-wider mt-0.5">Años de experiencia</p>
             </div>
           </div>
         </div>
 
-        <div className="relative min-h-70 lg:min-h-0">
+        {/* Image right panel */}
+        <div className="relative min-h-80 lg:min-h-0">
           <Image
             src="/wheel.avif"
-            alt="Detalle de rueda — MB Plus concesionario"
+            alt="Detalle de rueda — MB Plus Levante concesionario Alicante"
             fill
             className="object-cover"
             sizes="(min-width: 1024px) 50vw, 100vw"
           />
         </div>
       </div>
-    </SectionBox>
+    </section>
   );
 }

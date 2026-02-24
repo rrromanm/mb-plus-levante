@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import SectionBox from "../generic/SectionBox";
 import { useGetFeaturedCars } from "@/controller/useGetFeaturedCars";
 import { CarCard } from "../generic/CarCard";
 import Autoplay from "embla-carousel-autoplay";
 import { useRef } from "react";
+import { MoveUpRight } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -25,17 +25,32 @@ export default function FeaturedCars() {
   );
 
   return (
-    <SectionBox>
-      <div className="flex flex-col gap-8">
-        <div>
-          <h2 className="text-2xl font-semibold text-foreground">
-            Coches destacados
-          </h2>
+    <section className="bg-muted/40 py-14 sm:py-20">
+      <div className="mx-auto max-w-7xl px-6 lg:px-12 flex flex-col gap-10">
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+          <div>
+            <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">
+              Disponibles ahora
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-semibold leading-tight">
+              Vehículos en nuestro concesionario
+            </h2>
+            <p className="text-sm text-muted-foreground mt-1">
+              Mercedes-Benz y otras marcas premium — L'Albir, Alicante
+            </p>
+          </div>
+          <Link
+            href="/coches"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-foreground hover:opacity-70 transition-opacity shrink-0"
+          >
+            Ver todo el catálogo
+            <MoveUpRight className="w-4 h-4" />
+          </Link>
         </div>
 
         {loading && (
           <div className="py-12 text-center">
-            <p className="text-muted-foreground">Loading featured cars...</p>
+            <p className="text-muted-foreground">Cargando vehículos...</p>
           </div>
         )}
 
@@ -81,16 +96,7 @@ export default function FeaturedCars() {
             No hay coches destacados por ahora.
           </p>
         )}
-
-        <div className="text-center pt-4">
-          <Link
-            href="/coches"
-            className="inline-flex items-center justify-center rounded-md bg-secondary px-4 py-2 text-sm font-semibold text-secondary-foreground transition hover:bg-secondary/80"
-          >
-            Ver todos
-          </Link>
-        </div>
       </div>
-    </SectionBox>
+    </section>
   );
 }
