@@ -56,7 +56,7 @@ export function AboutUs() {
             ))}
           </div>
 
-          <div className="flex flex-wrap gap-6 border-t border-border pt-6">
+          <div className="hidden sm:flex flex-wrap gap-6 border-t border-border pt-6">
             <div>
               <p className="text-2xl font-bold">+200</p>
               <p className="text-xs text-muted-foreground uppercase tracking-wider">Coches vendidos</p>
