@@ -45,7 +45,7 @@ export default function Header() {
           <Link href="/" className="transition-colors hover:text-primary">
             Contacto
           </Link>
-          <Link href="/" className="transition-colors hover:text-primary">
+          <Link href="/sobre-nosotros" className="transition-colors hover:text-primary">
             Sobre nosotros
           </Link>
         </nav>

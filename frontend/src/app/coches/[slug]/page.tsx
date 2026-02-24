@@ -10,8 +10,8 @@ import { fuelTypes } from "@/lib/enums/fuelType";
 import { transmissions } from "@/lib/enums/transmission";
 import { bodyTypes } from "@/lib/enums/bodyType";
 import { SimilarCars } from "@/components/cars/SimilarCars";
-
-const WHATSAPP_NUMBER = "34623622557"; // Replace with the actual business WhatsApp number
+import { CONTACT } from "@/lib/contactInfo";
+import { CompanyInfo } from "@/components/CompanyInfo";
 
 function getLabel(
   list: readonly { value: string; label: string }[],
@@ -44,8 +44,6 @@ export default function CarDetailPage() {
 
   return (
     <>
-      <Header />
-
       <div className="min-h-screen bg-linear-to-b from-background to-muted/30 px-4 py-8 sm:px-6 sm:py-12">
         <div className="max-w-7xl mx-auto space-y-8 sm:space-y-12">
           <p
@@ -86,7 +84,7 @@ export default function CarDetailPage() {
 
               <div className="flex flex-col sm:flex-row flex-wrap gap-3 pt-2">
                 <a
-                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hola, estoy interesado en el ${data.brand} ${data.model} (${data.year}) por ${formattedPrice} ¿Está disponible?\n${typeof window !== "undefined" ? window.location.href : ""}`)}`}
+                  href={`https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(`Hola, estoy interesado en el ${data.brand} ${data.model} (${data.year}) por ${formattedPrice} ¿Está disponible?\n${typeof window !== "undefined" ? window.location.href : ""}`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 bg-green-500 text-white px-8 py-3 rounded-full font-medium shadow-md hover:bg-green-600 transition"
@@ -122,6 +120,7 @@ export default function CarDetailPage() {
             </div>
           )}
 
+          {/* <CompanyInfo /> */}
           <SimilarCars currentSlug={data.slug} />
         </div>
       </div>

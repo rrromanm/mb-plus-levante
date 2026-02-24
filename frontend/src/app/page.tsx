@@ -7,7 +7,6 @@ import { AboutSection } from "@/components/homepage/AboutSection";
 export default function Home() {
   return (
     <>
-      <Header />
       <Hero />
       <StatsSection />
       <FeaturedCars />
