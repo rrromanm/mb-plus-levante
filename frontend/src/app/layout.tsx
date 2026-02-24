@@ -1,19 +1,21 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Playfair_Display, Manrope } from "next/font/google"
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "@/context/AuthContext";
 import { Providers } from "@/app/providers";
 import Header from "@/components/generic/Header";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+export const playfair = Playfair_Display({
   subsets: ["latin"],
-});
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-serif",
+})
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+export const manrope = Manrope({
   subsets: ["latin"],
-});
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-sans",
+})
 
 export default function RootLayout({
   children,
@@ -23,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${playfair.variable} ${manrope.variable} font-sans`}
       >
         <Providers>
           <AuthProvider>
