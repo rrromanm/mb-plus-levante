@@ -27,7 +27,7 @@ const PILLARS = [
 
 export function AboutUs() {
   return (
-    <SectionBox>
+    <SectionBox id="sobre-nosotros">
       <h2 className="text-3xl font-bold text-center mb-8">Sobre nosotros</h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 rounded-2xl overflow-hidden border border-border shadow-md">
