@@ -1,9 +1,12 @@
+"use client";
+
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "@/context/AuthContext";
 import { Providers } from "@/app/providers";
 import Header from "@/components/generic/Header";
+import { usePathname } from "next/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,6 +23,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+  const isAdminRoute = pathname?.startsWith("/admin");
+
   return (
     <html lang="es" suppressHydrationWarning>
       <body
@@ -27,7 +33,7 @@ export default function RootLayout({
       >
         <Providers>
           <AuthProvider>
-            <Header />
+            {!isAdminRoute && <Header />}
             {children}
             <Toaster position="top-right" />
           </AuthProvider>
