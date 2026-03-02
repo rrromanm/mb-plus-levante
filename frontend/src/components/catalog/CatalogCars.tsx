@@ -26,7 +26,7 @@ export default function CatalogCars() {
   const { data, loading, error } = useGetAllCars();
 
   return (
-    <section className="mx-auto w-full max-w-7xl px-6 lg:px-12 py-6 pb-16">
+    <section className="mx-auto w-full max-w-screen-2xl px-6 lg:px-12 py-6 pb-16">
       <div className="mb-6 flex items-end justify-between">
         <div>
           <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">
@@ -49,8 +49,8 @@ export default function CatalogCars() {
       )}
 
       {loading && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {Array.from({ length: 6 }).map((_, i) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {Array.from({ length: 8 }).map((_, i) => (
             <SkeletonCard key={i} />
           ))}
         </div>
@@ -66,7 +66,7 @@ export default function CatalogCars() {
       )}
 
       {!loading && !error && data.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {data.map((car) => (
             <CarCard key={car.slug} car={car} />
           ))}

@@ -4,7 +4,7 @@ import FilterCars from "@/components/catalog/FilterCars";
 export default function CochesPage() {
   return (
     <div className="min-h-screen bg-muted/40">
-      <div className="mx-auto max-w-7xl px-6 lg:px-12 pt-14 pb-2">
+      <div className="mx-auto max-w-screen-2xl px-6 lg:px-12 pt-14 pb-2">
         <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">
           Alicante · Mercedes-Benz · Segunda mano
         </p>

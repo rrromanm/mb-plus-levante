@@ -12,7 +12,7 @@ const selectCls =
 
 export default function FilterCars() {
   return (
-    <section className="mx-auto w-full max-w-7xl px-6 lg:px-12 pt-10 pb-4">
+    <section className="mx-auto w-full max-w-screen-2xl px-6 lg:px-12 pt-10 pb-4">
       <div className="rounded-2xl border border-border bg-card shadow-md p-6">
         <div className="flex items-center gap-2 mb-5">
           <SlidersHorizontal className="w-4 h-4 text-muted-foreground" />
