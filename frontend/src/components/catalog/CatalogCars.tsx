@@ -27,7 +27,7 @@ export default function CatalogCars() {
 
   return (
     <section className="mx-auto w-full max-w-screen-2xl px-6 lg:px-12 py-6 pb-16">
-      <div className="mb-6 flex items-end justify-between">
+      {/* <div className="mb-6 flex items-end justify-between">
         <div>
           <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">
             Catálogo completo
@@ -38,7 +38,7 @@ export default function CatalogCars() {
               : `${data.length} vehículo${data.length !== 1 ? "s" : ""} disponible${data.length !== 1 ? "s" : ""}`}
           </h2>
         </div>
-      </div>
+      </div> */}
 
       {error && (
         <div className="rounded-2xl border border-destructive/30 bg-destructive/10 p-8 text-center">
