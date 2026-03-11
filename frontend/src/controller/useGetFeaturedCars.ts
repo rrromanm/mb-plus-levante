@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import CarsApi from "@/services/carsApi";
-import { FeaturedCarDto } from "@/types/car/featuredCarDto";
+import { CarDto } from "@/types/car/carDto";
 
 interface UseGetFeaturedCarsReturn {
-  data: FeaturedCarDto[];
+  data: CarDto[];
   loading: boolean;
   error: string | null;
 }
 
 export const useGetFeaturedCars = (): UseGetFeaturedCarsReturn => {
-  const [data, setData] = useState<FeaturedCarDto[]>([]);
+  const [data, setData] = useState<CarDto[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 

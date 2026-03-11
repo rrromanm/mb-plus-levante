@@ -21,11 +21,14 @@ public class CarController
         this.carService = carServiceImpl;
     }
     @GetMapping("/getAll")
-    public List<CarDto> car(){
-        return carService.findAll();
+    public List<CarDto> getAllCars(
+            @RequestParam(defaultValue = "createdAt") String sort,
+            @RequestParam(defaultValue = "desc") String order
+    ) {
+        return carService.findAll(sort, order);
     }
     @GetMapping("/getFeaturedCars")
-    public List<FeaturedCarsDto> featuredCar(){
+    public List<CarDto> featuredCar(){
         return carService.getFeaturedCars();
     }
     @GetMapping("/getCarBySlug/{slug}")

@@ -1,7 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import useGetAllCars from "@/controller/useGetAllCars";
 import { CarCard } from "@/components/generic/CarCard";
+import { SortSelect } from "@/components/generic/SortSelect";
+import { SortKey, SORT_OPTIONS, SORT_MAP } from "@/lib/catalogSortConfig";
 import { Car } from "lucide-react";
 
 function SkeletonCard() {
@@ -23,11 +26,13 @@ function SkeletonCard() {
 }
 
 export default function CatalogCars() {
-  const { data, loading, error } = useGetAllCars();
+  const [sortKey, setSortKey] = useState<SortKey>("year-desc");
+  const { sort, order } = SORT_MAP[sortKey];
+  const { data, loading, error } = useGetAllCars({ sort, order });
 
   return (
     <section className="mx-auto w-full max-w-screen-2xl px-6 lg:px-12 py-6 pb-16">
-      {/* <div className="mb-6 flex items-end justify-between">
+      <div className="mb-5 flex items-end justify-between">
         <div>
           <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">
             Catálogo completo
@@ -38,7 +43,12 @@ export default function CatalogCars() {
               : `${data.length} vehículo${data.length !== 1 ? "s" : ""} disponible${data.length !== 1 ? "s" : ""}`}
           </h2>
         </div>
-      </div> */}
+        <SortSelect
+          options={SORT_OPTIONS}
+          value={sortKey}
+          onChange={setSortKey}
+        />
+      </div>
 
       {error && (
         <div className="rounded-2xl border border-destructive/30 bg-destructive/10 p-8 text-center">

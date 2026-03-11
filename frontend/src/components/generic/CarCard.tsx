@@ -2,13 +2,15 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { FeaturedCarDto } from "@/types/car/featuredCarDto";
 import { getCloudinaryUrl } from "@/services/cloudinary";
-import { cn } from "@/lib/utils";
-import { Calendar, Gauge } from "lucide-react";
+import { cn, formatPrice, formatMileage } from "@/lib/utils";
+import { Calendar, Fuel, Gauge, Settings, Zap } from "lucide-react";
+import { CarDto } from "@/types/car/carDto";
+import { fuelTypes } from "@/lib/enums/fuelType";
+import { transmissions } from "@/lib/enums/transmission";
 
 type CarCardProps = {
-    car: FeaturedCarDto;
+    car: CarDto;
     className?: string;
 };
 
@@ -37,24 +39,43 @@ export function CarCard({ car, className }: CarCardProps) {
                 </div>
 
                 <div className="flex flex-1 flex-col gap-3 p-5">
-                    <h3 className="text-xl font-bold text-foreground">
+                    <h3
+                        className="truncate text-xl font-bold text-foreground"
+                        title={`${car.brand} ${car.model}`}
+                    >
                         {car.brand} {car.model}
                     </h3>
 
-                    <div className="flex items-center gap-5 text-sm text-muted-foreground">
-                        <span className="flex items-center gap-1.5">
-                            <Calendar className="h-4 w-4" />
-                            {car.year}
-                        </span>
-                        <span className="flex items-center gap-1.5">
-                            <Gauge className="h-4 w-4" />
-                            {car.mileageKm.toLocaleString()} km
-                        </span>
+                    <div className="flex flex-col gap-2 text-sm text-muted-foreground">
+                        <div className="flex items-center gap-4">
+                            <span className="flex items-center gap-1.5">
+                                <Calendar className="h-4 w-4" />
+                                {car.year}
+                            </span>
+                            <span className="flex items-center gap-1.5">
+                                <Gauge className="h-4 w-4" />
+                                {formatMileage(car.mileageKm)}
+                            </span>
+                            <span className="flex items-center gap-1.5">
+                                <Zap className="h-4 w-4" />
+                                {car.powerHp} cv
+                            </span>
+                        </div>
+                        <div className="flex items-center gap-4">
+                            <span className="flex items-center gap-1.5">
+                                <Fuel className="h-4 w-4" />
+                                {fuelTypes.find((f) => f.value === car.fuelType)?.label ?? car.fuelType}
+                            </span>
+                            <span className="flex items-center gap-1.5">
+                                <Settings className="h-4 w-4" />
+                                {transmissions.find((t) => t.value === car.transmission)?.label ?? car.transmission}
+                            </span>
+                        </div>
                     </div>
 
                     <div className="mt-auto border-t border-border pt-3">
                         <p className="text-2xl font-extrabold tracking-tight text-foreground">
-                            €{car.price.toLocaleString()}
+                            {formatPrice(car.price)}
                         </p>
                     </div>
                 </div>

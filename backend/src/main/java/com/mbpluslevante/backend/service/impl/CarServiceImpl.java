@@ -12,6 +12,7 @@ import com.mbpluslevante.backend.repository.CarRepository;
 import com.mbpluslevante.backend.repository.CarSaleRepository;
 import com.mbpluslevante.backend.service.CarService;
 import com.mbpluslevante.backend.service.ImageService;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.mbpluslevante.backend.util.SlugUtil;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,11 +41,17 @@ public class CarServiceImpl implements CarService {
         this.imageService = imageService;
     }
     @Override
-    public List<CarDto> findAll() {
-        return carRepository.findByStatusOrderByCreatedAtDesc(CarStatus.ACTIVE)
+    public List<CarDto> findAll(String sort, String order) {
+
+        Sort.Direction direction =
+                order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+
+        Sort sorting = Sort.by(direction, sort);
+
+        return carRepository
+                .findByStatus(CarStatus.ACTIVE, sorting)
                 .stream()
                 .map(car -> new CarDto(
-                        car.getId(),
                         car.getBrand(),
                         car.getModel(),
                         car.getYear(),
@@ -52,9 +59,11 @@ public class CarServiceImpl implements CarService {
                         car.getMileageKm(),
                         car.getSlug(),
                         car.getMainImage(),
-                        car.isFeatured(),
-                        car.getDescription()
-                )).toList();
+                        car.getFuelType(),
+                        car.getTransmission(),
+                        car.getPowerHp()
+                ))
+                .toList();
     }
     @Override
     public CarDetailsDto findBySlug(String slug) {
@@ -159,8 +168,22 @@ public class CarServiceImpl implements CarService {
         car.setFeatured(false);
     }
     @Override
-    public List<FeaturedCarsDto> getFeaturedCars() {
-        return carSaleRepository.findByFeaturedTrue();
+    public List<CarDto> getFeaturedCars() {
+        return carRepository.findByFeaturedTrueAndStatusOrderByCreatedAtDesc(CarStatus.ACTIVE)
+                .stream()
+                .map(car -> new CarDto(
+                        car.getBrand(),
+                        car.getModel(),
+                        car.getYear(),
+                        car.getSalePrice(),
+                        car.getMileageKm(),
+                        car.getSlug(),
+                        car.getMainImage(),
+                        car.getFuelType(),
+                        car.getTransmission(),
+                        car.getPowerHp()
+                ))
+                .toList();
     }
 
     @Override

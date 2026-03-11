@@ -21,6 +21,7 @@ import {
 } from "../ui/tooltip";
 import SoldCarDialog from "./modals/SoldCarDialog";
 import useMarkCarAsSold from "@/controller/useMarkCarAsSold";
+import { formatPrice, formatMileage } from "@/lib/utils";
 
 export default function Dashboard() {
   const { data: carsData, loading, error, refetch } = useGetAllCars();
@@ -134,11 +135,11 @@ export default function Dashboard() {
           <div className="grid grid-cols-2 gap-3 text-sm text-gray-600">
             <div>
               <p className="text-xs uppercase text-gray-500">Kilometraje</p>
-              <p className="font-medium text-gray-900">{car.mileageKm} km</p>
+              <p className="font-medium text-gray-900">{formatMileage(car.mileageKm)}</p>
             </div>
             <div>
               <p className="text-xs uppercase text-gray-500">Precio</p>
-              <p className="font-semibold text-[#880808]">{car.price} €</p>
+              <p className="font-semibold text-[#880808]">{formatPrice(car.price)}</p>
             </div>
           </div>
         </div>
@@ -246,10 +247,10 @@ export default function Dashboard() {
 
                             <td className="px-4 py-3 text-gray-900">{car.year}</td>
                             <td className="px-4 py-3 text-gray-900">
-                              {car.mileageKm} km
+                              {formatMileage(car.mileageKm)}
                             </td>
                             <td className="px-4 py-3 text-gray-900">
-                              {car.price} €
+                              {formatPrice(car.price)}
                             </td>
                             <td className="px-4 py-3">
                               <ActionButtons car={car} />
