@@ -9,7 +9,12 @@ interface IProps {
   refetch: () => void;
 }
 
-export default function useGetAllCars(): IProps {
+interface UseGetAllCarsParams {
+  sort?: string;
+  order?: "asc" | "desc";
+}
+
+export default function useGetAllCars({ sort = "createdAt", order = "desc" }: UseGetAllCarsParams = {}): IProps {
   const [data, setData] = useState<CarDto[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -18,14 +23,14 @@ export default function useGetAllCars(): IProps {
     try {
       setLoading(true);
       setError(null);
-      const response = await CarsApi.getAllCars();
+      const response = await CarsApi.getAllCars(sort, order);
       setData(response);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [sort, order]);
 
   useEffect(() => {
     fetchCars();

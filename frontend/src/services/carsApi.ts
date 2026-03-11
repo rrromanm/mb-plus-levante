@@ -5,14 +5,19 @@ import { CarDetailsDto } from "@/types/car/carDetailsDto";
 const BASE_API_URL = process.env.NEXT_PUBLIC_API_URL + "/cars";
 
 const CarsApi = {
-  getAllCars: async (): Promise<CarDto[]> => {
-    const response = await fetch(`${BASE_API_URL}/getAll`);
+  getAllCars: async (
+    sort: string = "createdAt",
+    order: "asc" | "desc" = "desc",
+  ): Promise<CarDto[]> => {
+    const response = await fetch(
+      `${BASE_API_URL}/getAll?sort=${sort}&order=${order}`,
+    );
 
     if (!response.ok) {
       throw new Error("Failed to fetch cars");
     }
 
-    return response.json() as Promise<CarDto[]>;
+    return response.json();
   },
   getCarBySlug: async (slug: string): Promise<CarDetailsDto> => {
     const response = await fetch(`${BASE_API_URL}/getCarBySlug/${slug}`);
@@ -22,15 +27,15 @@ const CarsApi = {
     }
 
     return response.json() as Promise<CarDetailsDto>;
-  },  
-  getFeaturedCars: async (): Promise<FeaturedCarDto[]> => {
+  },
+  getFeaturedCars: async (): Promise<CarDto[]> => {
     const response = await fetch(`${BASE_API_URL}/getFeaturedCars`);
 
     if (!response.ok) {
       throw new Error("Failed to fetch featured cars");
     }
 
-    return response.json() as Promise<FeaturedCarDto[]>;
+    return response.json() as Promise<CarDto[]>;
   },
 };
 

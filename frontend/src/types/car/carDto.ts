@@ -1,5 +1,7 @@
+import { FuelType } from "@/lib/enums/fuelType";
+import { Transmission } from "@/lib/enums/transmission";
+
 export interface CarDto {
-    id: number;
     brand: string;
     model: string;
     year: number;
@@ -7,6 +9,7 @@ export interface CarDto {
     mileageKm: number;
     slug: string;
     mainImageUrl: string;
-    featured: boolean;
-    derscription?: string;
+    fuelType: FuelType;
+    transmission: Transmission;
+    powerHp: number;
 }
