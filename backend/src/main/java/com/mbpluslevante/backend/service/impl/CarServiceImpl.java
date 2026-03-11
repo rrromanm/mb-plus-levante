@@ -52,6 +52,7 @@ public class CarServiceImpl implements CarService {
                 .findByStatus(CarStatus.ACTIVE, sorting)
                 .stream()
                 .map(car -> new CarDto(
+                        car.getId(),
                         car.getBrand(),
                         car.getModel(),
                         car.getYear(),
@@ -61,7 +62,8 @@ public class CarServiceImpl implements CarService {
                         car.getMainImage(),
                         car.getFuelType(),
                         car.getTransmission(),
-                        car.getPowerHp()
+                        car.getPowerHp(),
+                        car.isFeatured()
                 ))
                 .toList();
     }
@@ -172,6 +174,7 @@ public class CarServiceImpl implements CarService {
         return carRepository.findByFeaturedTrueAndStatusOrderByCreatedAtDesc(CarStatus.ACTIVE)
                 .stream()
                 .map(car -> new CarDto(
+                        car.getId(),
                         car.getBrand(),
                         car.getModel(),
                         car.getYear(),
@@ -181,7 +184,8 @@ public class CarServiceImpl implements CarService {
                         car.getMainImage(),
                         car.getFuelType(),
                         car.getTransmission(),
-                        car.getPowerHp()
+                        car.getPowerHp(),
+                        car.isFeatured()
                 ))
                 .toList();
     }
