@@ -2,6 +2,7 @@
 
     import com.mbpluslevante.backend.model.Car;
     import com.mbpluslevante.backend.model.enums.CarStatus;
+    import org.springframework.data.domain.Sort;
     import org.springframework.data.jpa.repository.JpaRepository;
 
     import java.util.List;
@@ -9,7 +10,8 @@
 
     public interface CarRepository extends JpaRepository<Car, Long>
     {
-        List<Car> findByStatusOrderByCreatedAtDesc(CarStatus status);
+        List<Car> findByStatus(CarStatus status, Sort sort);
+        List<Car> findByFeaturedTrueAndStatusOrderByCreatedAtDesc(CarStatus status);
         boolean existsBySlug(String slug);
         Optional<Car> findBySlugAndDeletedAtIsNull(String slug);
     }
