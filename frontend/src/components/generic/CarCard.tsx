@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getCloudinaryUrl } from "@/services/cloudinary";
-import { cn } from "@/lib/utils";
+import { cn, formatPrice, formatMileage } from "@/lib/utils";
 import { Calendar, Fuel, Gauge, Settings, Zap } from "lucide-react";
 import { CarDto } from "@/types/car/carDto";
 import { fuelTypes } from "@/lib/enums/fuelType";
@@ -54,7 +54,7 @@ export function CarCard({ car, className }: CarCardProps) {
                             </span>
                             <span className="flex items-center gap-1.5">
                                 <Gauge className="h-4 w-4" />
-                                {car.mileageKm} km
+                                {formatMileage(car.mileageKm)}
                             </span>
                             <span className="flex items-center gap-1.5">
                                 <Zap className="h-4 w-4" />
@@ -75,7 +75,7 @@ export function CarCard({ car, className }: CarCardProps) {
 
                     <div className="mt-auto border-t border-border pt-3">
                         <p className="text-2xl font-extrabold tracking-tight text-foreground">
-                            {car.price} €
+                            {formatPrice(car.price)}
                         </p>
                     </div>
                 </div>

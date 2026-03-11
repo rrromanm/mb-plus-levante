@@ -11,6 +11,7 @@ import { transmissions } from "@/lib/enums/transmission";
 import { bodyTypes } from "@/lib/enums/bodyType";
 import { SimilarCars } from "@/components/cars/SimilarCars";
 import { CONTACT } from "@/lib/contactInfo";
+import { formatPrice, formatMileage } from "@/lib/utils";
 import { CompanyInfo } from "@/components/CompanyInfo";
 
 function getLabel(
@@ -34,13 +35,8 @@ export default function CarDetailPage() {
   const sortedImages =
     data.images?.sort((a, b) => a.orderIndex - b.orderIndex) || [];
 
-  const formattedPrice = new Intl.NumberFormat("es-ES", {
-    style: "currency",
-    currency: "EUR",
-    maximumFractionDigits: 0,
-  }).format(data.price);
-
-  const formattedMileage = `${new Intl.NumberFormat("es-ES").format(data.mileageKm)} km`;
+  const formattedPrice = formatPrice(data.price);
+  const formattedMileage = formatMileage(data.mileageKm);
 
   return (
     <>
