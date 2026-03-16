@@ -6,6 +6,7 @@ import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "@/context/AuthContext";
 import { Providers } from "@/app/providers";
 import Header from "@/components/generic/Header";
+import Footer from "@/components/generic/Footer";
 import { usePathname } from "next/navigation";
 
 const geistSans = Geist({
@@ -29,12 +30,19 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}
       >
         <Providers>
           <AuthProvider>
-            {!isAdminRoute && <Header />}
-            {children}
+            {!isAdminRoute ? (
+              <>
+                <Header />
+                <main className="flex-1">{children}</main>
+                <Footer />
+              </>
+            ) : (
+              children
+            )}
             <Toaster position="top-right" />
           </AuthProvider>
         </Providers>
