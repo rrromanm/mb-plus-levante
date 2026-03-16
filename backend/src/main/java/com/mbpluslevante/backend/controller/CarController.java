@@ -2,8 +2,6 @@ package com.mbpluslevante.backend.controller;
 
 import com.mbpluslevante.backend.dto.CarDetailsDto;
 import com.mbpluslevante.backend.dto.CarDto;
-import com.mbpluslevante.backend.dto.FeaturedCarsDto;
-import com.mbpluslevante.backend.model.Car;
 import com.mbpluslevante.backend.service.CarService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;

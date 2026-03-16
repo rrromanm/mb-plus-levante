@@ -22,6 +22,7 @@ public class CarDto
 
     public CarDto(Long id, String brand, String model, Integer year, Integer price, Integer mileageKm,
                   String slug, String mainImage, FuelType fuelType, Transmission transmission, Integer powerHp, boolean featured) {
+        this.id = id;
         this.brand = brand;
         this.model = model;
         this.year = year;
