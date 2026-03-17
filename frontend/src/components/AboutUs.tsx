@@ -19,8 +19,8 @@ const PILLARS = [
   },
   {
     icon: Clock,
-    title: "Más de 10 años de experiencia",
-    desc: "Una década ayudando a nuestros clientes a encontrar el coche que necesitan, al precio que buscan.",
+    title: "Más de 15 años de experiencia",
+    desc: "Más de una década ayudando a nuestros clientes a encontrar el coche que necesitan, al precio que buscan.",
   },
 ];
 
@@ -32,13 +32,13 @@ export function AboutUs() {
         <div className="bg-zinc-900 dark:bg-zinc-800 text-white flex flex-col justify-between gap-10 px-8 sm:px-12 lg:px-16 py-16 lg:py-24">
           <div className="space-y-3">
             <p className="text-xs uppercase tracking-widest opacity-50">
-              Coches de segunda mano en Alicante · MB Plus Levante
+              Coches de segunda mano en Alicante · MB Plus Benidorm
             </p>
             <h2 className="text-3xl sm:text-4xl font-semibold leading-snug">
-              Respaldo profesional desde L'Albir
+              Respaldo profesional desde Benidorm
             </h2>
-            <p className="text-sm opacity-60 leading-relaxed max-w-md">
-              En MB Plus Levante somos un concesionario especializado en la venta de coches de ocasión. Más de 10 años de experiencia avalan nuestro compromiso con la calidad y la transparencia.
+            <p className="text-sm opacity-60 leading-relaxed max-w-lg">
+              MB Plus Benidorm es un concesionario especializado en la venta de coches de ocasión. Más de 15 años de experiencia avalan nuestro compromiso con la calidad y la transparencia.
             </p>
           </div>
 
@@ -56,7 +56,7 @@ export function AboutUs() {
 
           <div className="flex flex-wrap gap-8 border-t border-white/15 pt-8 justify-center">
             <div>
-              <p className="text-3xl font-bold tabular-nums">+200</p>
+              <p className="text-3xl font-bold tabular-nums">+3000</p>
               <p className="text-xs opacity-50 uppercase tracking-wider mt-0.5">Coches vendidos</p>
             </div>
             <div>
@@ -64,13 +64,7 @@ export function AboutUs() {
               <p className="text-xs opacity-50 uppercase tracking-wider mt-0.5">Revisión técnica pasada</p>
             </div>
             <div>
-              <p className="text-3xl font-bold flex items-center gap-1">
-                3.9 <span className="text-yellow-400 text-2xl">★</span>
-              </p>
-              <p className="text-xs opacity-50 uppercase tracking-wider mt-0.5">Opiniones en Google</p>
-            </div>
-            <div>
-              <p className="text-3xl font-bold tabular-nums">+10</p>
+              <p className="text-3xl font-bold tabular-nums">+15</p>
               <p className="text-xs opacity-50 uppercase tracking-wider mt-0.5">Años de experiencia</p>
             </div>
           </div>
@@ -78,12 +72,13 @@ export function AboutUs() {
         
         <div className="relative min-h-80 lg:min-h-0">
           <Image
-            src="/wheel.avif"
+            src="/mb-emblema.avif"
             alt="Detalle de rueda — MB Plus Levante concesionario Alicante"
             fill
             className="object-cover"
             sizes="(min-width: 1024px) 50vw, 100vw"
           />
+          <div className="absolute inset-0 bg-black/30"></div>
         </div>
       </div>
     </section>

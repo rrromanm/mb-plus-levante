@@ -29,14 +29,11 @@ export default function FeaturedCars() {
       <div className="mx-auto max-w-7xl px-6 lg:px-12 flex flex-col gap-10">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">
-              Disponibles ahora
-            </p>
             <h2 className="text-3xl sm:text-4xl font-semibold leading-tight">
-              Vehículos en nuestro concesionario
+              Coches disponibles en nuestro concesionario
             </h2>
             <p className="text-sm text-muted-foreground mt-1">
-              Mercedes-Benz y otras marcas premium — L'Albir, Alicante
+              Descubre nuestra selección de vehículos disponibles en Benidorm, Alicante.
             </p>
           </div>
           <Link

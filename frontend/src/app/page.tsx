@@ -6,9 +6,9 @@ import TrustStrip from "@/components/homepage/TrustStrip";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "MB Plus Levante — Coches de Segunda Mano en Alicante",
+  title: "MB Plus Benidorm — Coches de Segunda Mano en Alicante",
   description:
-    "Concesionario especializado en Mercedes-Benz y coches de ocasión en L'Albir, Alicante. ITV pasada, garantía hasta 12 meses, taller propio.",
+    "Concesionario especializado en Mercedes-Benz y coches de ocasión en Benidorm, Alicante. ITV pasada, garantía hasta 12 meses, taller propio.",
 };
 
 export default function Home() {
