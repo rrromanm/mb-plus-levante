@@ -9,7 +9,7 @@ export function CompanyInfo() {
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-10">
         <div>
           <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">
-            L'Albir, Alicante
+            Benidorm, Alicante
           </p>
           <h2 className="text-3xl sm:text-4xl font-semibold leading-tight">
             Visítanos o contáctanos
@@ -102,7 +102,23 @@ export function CompanyInfo() {
                 <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
                   Horario
                 </p>
-                <p className="text-sm font-medium mt-0.5">{CONTACT.hours}</p>
+
+                <div className="mt-2 space-y-1 text-sm text-muted-foreground">
+                  <p>
+                    <span className="font-medium text-foreground">
+                      Lunes – Viernes
+                    </span>{" "}
+                    · 09:00 – 17:00
+                  </p>
+                  <p>
+                    <span className="font-medium text-foreground">Sábado</span>{" "}
+                    · 09:00 – 13:00
+                  </p>
+                  <p>
+                    <span className="font-medium text-foreground">Domingo</span>{" "}
+                    · Cerrado
+                  </p>
+                </div>
               </div>
             </div>
           </div>

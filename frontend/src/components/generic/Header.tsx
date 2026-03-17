@@ -45,7 +45,7 @@ export default function Header() {
             Inicio
           </Link>
           <Link href="/coches" className="transition-colors hover:text-primary">
-            Catalogo
+            Catálogo
           </Link>
           <Link href="/#sobre-nosotros" className="transition-colors hover:text-primary">
             Sobre nosotros

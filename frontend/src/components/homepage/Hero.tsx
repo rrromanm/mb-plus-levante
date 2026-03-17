@@ -16,16 +16,15 @@ export default function Hero() {
       <div className="relative z-10 grid min-h-screen w-full items-center gap-10 px-5 py-16 sm:gap-12 sm:px-8 md:px-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-14 lg:px-16">
         <div className="space-y-8">
           <div className="inline-flex flex-wrap items-center gap-2 border border-white/15 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-white/80 sm:text-xs">
-            Alicante · Mercedes-Benz · Segunda Mano
+            ALICANTE · BENIDORM · COCHES DE OCASIÓN Y SEGUNDA MANO
           </div>
 
           <div className="space-y-5">
             <h1 className="text-3xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">
-              Coches de ocasion en Alicante
+              Coches de ocasión en Benidorm
             </h1>
             <p className="max-w-2xl text-sm text-white/85 sm:text-lg">
-              Seleccion exclusiva de Mercedes-Benz de ocasion por menos de 20.000€,
-              revisados en taller propio y con garantia oficial de hasta 12 meses.
+              Descubre nuestra selección de coches de ocasión en Benidorm. Vehículos revisados, garantía incluida y precios justos.
             </p>
           </div>
 
@@ -34,7 +33,7 @@ export default function Hero() {
               href="/coches"
               className="inline-flex w-full items-center justify-center bg-white px-6 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-neutral-950 transition hover:bg-white/90 sm:w-auto sm:text-sm"
             >
-              Ver catalogo
+              Ver catálogo
             </a>
             <a
               href="tel:+34623622557"
