@@ -21,6 +21,12 @@ spring:
     init:
       mode: never
 
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 130MB
+
+
 jwt:
   secret: ${JWT_SECRET}
   expiration-ms: 1800000
@@ -36,3 +42,4 @@ app:
 
 cloudinary:
   folder: mbplus/prod
+
