@@ -2,7 +2,7 @@ export const bodyTypes = [
   { value: "SEDAN", label: "Berlina (Sedan)" },
   { value: "COUPE", label: "Coupé" },
   { value: "CONVERTIBLE", label: "Cabrio" },
-  { value: "SUV", label: "SUV" },
+  { value: "SUV", label: "Todoterreno (SUV)" },
   { value: "HATCHBACK", label: "Compacto (Hatchback)" },
   { value: "WAGON", label: "Familiar (Wagon)" },
   { value: "PICKUP", label: "Pickup" },
