@@ -9,8 +9,7 @@ import Header from "@/components/generic/Header";
 import Footer from "@/components/generic/Footer";
 import { usePathname } from "next/navigation";
 import { GoogleTagManager } from "@next/third-parties/google";
-import { useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import GTMTracker from "@/lib/GMTTracker";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,24 +20,6 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
-function GTMTracker() {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    const query = searchParams?.toString() || "";
-    const url = query ? `${pathname}?${query}` : pathname;
-
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: "pageview",
-      page: url,
-    });
-  }, [pathname, searchParams]);
-
-  return null;
-}
 
 export default function ClientLayout({
   children,
