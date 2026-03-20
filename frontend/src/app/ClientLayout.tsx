@@ -8,6 +8,9 @@ import { Providers } from "@/app/providers";
 import Header from "@/components/generic/Header";
 import Footer from "@/components/generic/Footer";
 import { usePathname } from "next/navigation";
+import { GoogleTagManager } from "@next/third-parties/google";
+import { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,6 +22,24 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+function GTMTracker() {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const query = searchParams?.toString() || "";
+    const url = query ? `${pathname}?${query}` : pathname;
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "pageview",
+      page: url,
+    });
+  }, [pathname, searchParams]);
+
+  return null;
+}
+
 export default function ClientLayout({
   children,
 }: {
@@ -28,26 +49,27 @@ export default function ClientLayout({
   const isAdminRoute = pathname?.startsWith("/admin");
 
   return (
-    <html lang="es" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}
-      >
-        <Providers>
-          <AuthProvider>
-            {!isAdminRoute ? (
-              <>
-                <Header />
-                <main className="flex-1">{children}</main>
-                <Footer />
-              </>
-            ) : (
-              children
-            )}
+    <div
+      className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}
+    >
+      <GoogleTagManager gtmId="GTM-NVM22NQR" />
+      <GTMTracker />
 
-            <Toaster position="top-right" />
-          </AuthProvider>
-        </Providers>
-      </body>
-    </html>
+      <Providers>
+        <AuthProvider>
+          {!isAdminRoute ? (
+            <>
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </>
+          ) : (
+            children
+          )}
+
+          <Toaster position="top-right" />
+        </AuthProvider>
+      </Providers>
+    </div>
   );
 }
