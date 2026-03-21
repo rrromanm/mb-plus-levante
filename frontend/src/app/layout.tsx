@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { GoogleAnalytics } from "@next/third-parties/google";
 import ClientLayout from "./ClientLayout";
+import GoogleAnalyticsClient from "@/components/GoogleAnalyticsClient";
+import { ConsentProvider } from "@/context/ConsentContext";
 
 const gaId = process.env.NEXT_PUBLIC_GA_ID;
 
@@ -57,8 +58,10 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <body>
-        <ClientLayout>{children}</ClientLayout>
-        {gaId ? <GoogleAnalytics gaId={gaId} /> : null}
+        <ConsentProvider>
+          <ClientLayout>{children}</ClientLayout>
+          <GoogleAnalyticsClient gaId={gaId} />
+        </ConsentProvider>
       </body>
     </html>
   );

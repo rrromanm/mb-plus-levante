@@ -7,6 +7,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import { Providers } from "@/app/providers";
 import Header from "@/components/generic/Header";
 import Footer from "@/components/generic/Footer";
+import ConsentBanner from "@/components/generic/ConsentBanner";
 import { usePathname } from "next/navigation";
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,6 +44,7 @@ export default function ClientLayout({
           )}
 
           <Toaster position="top-right" />
+          <ConsentBanner />
         </AuthProvider>
       </Providers>
     </div>
