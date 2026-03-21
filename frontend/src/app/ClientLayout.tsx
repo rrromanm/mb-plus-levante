@@ -8,9 +8,6 @@ import { Providers } from "@/app/providers";
 import Header from "@/components/generic/Header";
 import Footer from "@/components/generic/Footer";
 import { usePathname } from "next/navigation";
-import { GoogleTagManager } from "@next/third-parties/google";
-import GTMTracker from "@/lib/GMTTracker";
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -33,9 +30,6 @@ export default function ClientLayout({
     <div
       className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}
     >
-      <GoogleTagManager gtmId="GTM-NVM22NQR" />
-      <GTMTracker />
-
       <Providers>
         <AuthProvider>
           {!isAdminRoute ? (
