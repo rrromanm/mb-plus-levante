@@ -7,7 +7,7 @@ const gaId = process.env.NEXT_PUBLIC_GA_ID;
 
 export const metadata: Metadata = {
   title: {
-    default: "Coches de segunda mano en Benidorm | MB Plus",
+    default: "Coches de segunda mano en Benidorm | MB Plus Benidorm",
     template: "%s | MB Plus Benidorm",
   },
   description:
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://mbplusbenidorm.es"),
 
   openGraph: {
-    title: "Coches de segunda mano en Benidorm | MB Plus",
+    title: "Coches de segunda mano en Benidorm | MB Plus Benidorm",
     description:
       "Encuentra coches de ocasión en Benidorm. Vehículos revisados y garantizados.",
     url: "https://mbplusbenidorm.es",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "Coches de segunda mano en Benidorm",
+    title: "Coches de segunda mano en Benidorm | MB Plus Benidorm",
     description: "Vehículos de ocasión en Benidorm al mejor precio",
     images: ["/wheel.avif"],
   },
