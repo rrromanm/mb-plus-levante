@@ -8,9 +8,10 @@ export default function ConsentBanner() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Show banner only if no consent given
-    setIsVisible(!consent);
-  }, [consent]);
+    // Show banner if user hasn't made a choice yet (first visit or after localStorage clear)
+    const hasConsented = localStorage.getItem("ga-consent");
+    setIsVisible(!hasConsented);
+  }, []);
 
   if (!isVisible) return null;
 

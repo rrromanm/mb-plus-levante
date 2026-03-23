@@ -17,13 +17,14 @@ export const ConsentProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     const stored = localStorage.getItem("ga-consent");
-    setConsent(stored === "true");
+    // Load GA only if user has explicitly accepted
+    setConsent(stored === "accepted");
     setIsLoaded(true);
   }, []);
 
   const handleSetConsent = (value: boolean) => {
     setConsent(value);
-    localStorage.setItem("ga-consent", value.toString());
+    localStorage.setItem("ga-consent", value ? "accepted" : "rejected");
   };
 
   return (
