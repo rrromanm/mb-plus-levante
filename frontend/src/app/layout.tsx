@@ -7,24 +7,25 @@ const gaId = process.env.NEXT_PUBLIC_GA_ID;
 
 export const metadata: Metadata = {
   title: {
-    default: "Coches de ocasión en Benidorm | MB Plus Benidorm",
+    default: "Coches de segunda mano en Benidorm | MB Plus",
     template: "%s | MB Plus Benidorm",
   },
   description:
-    "Venta de coches de ocasión y vehículos usados en Benidorm. Encuentra coches revisados y garantizados al mejor precio en MB Plus Levante.",
+    "Venta de coches de segunda mano en Benidorm (Alicante). Vehículos revisados, garantizados y listos para entrega inmediata en MB Plus.",
   keywords: [
-    "coches de ocasión Benidorm",
-    "coches usados Benidorm",
-    "concesionario Benidorm",
-    "vehículos segunda mano Benidorm",
-    "comprar coche Benidorm",
+    "coches segunda mano Benidorm",
+    "coches en venta Alicante",
+    "vehículos ocasión Benidorm",
+    "concesionario coches Benidorm",
+    "comprar coche usado Alicante",
   ],
   metadataBase: new URL("https://mbplusbenidorm.es"),
+
   openGraph: {
-    title: "Coches de ocasión en Benidorm | MB Plus Benidorm",
+    title: "Coches de segunda mano en Benidorm | MB Plus",
     description:
-      "Concesionario de vehículos usados en Benidorm. Coches revisados, garantizados y al mejor precio.",
-    url: "mbplusbenidorm.es",
+      "Encuentra coches de ocasión en Benidorm. Vehículos revisados y garantizados.",
+    url: "https://mbplusbenidorm.es",
     siteName: "MB Plus Benidorm",
     locale: "es_ES",
     type: "website",
@@ -39,8 +40,8 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "Coches de ocasión en Benidorm",
-    description: "Vehículos usados y de ocasión en Benidorm",
+    title: "Coches de segunda mano en Benidorm",
+    description: "Vehículos de ocasión en Benidorm al mejor precio",
     images: ["/wheel.avif"],
   },
 

@@ -1,3 +1,5 @@
+"use client";
+
 import { useGetFeaturedCars } from "@/controller/useGetFeaturedCars";
 import { CarCard } from "../generic/CarCard";
 

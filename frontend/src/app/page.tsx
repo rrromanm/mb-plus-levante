@@ -6,9 +6,9 @@ import TrustStrip from "@/components/homepage/TrustStrip";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "MB Plus Benidorm — Coches de Segunda Mano en Alicante",
+  title: "Coches de segunda mano en Benidorm (Alicante)",
   description:
-    "Concesionario especializado en Mercedes-Benz y coches de ocasión en Benidorm, Alicante. ITV pasada, garantía hasta 12 meses, taller propio.",
+    "Compra coches de segunda mano en Benidorm (Alicante). Especialistas en Mercedes-Benz y vehículos de ocasión con garantía, revisados y listos para entrega.",
 };
 
 export default function Home() {

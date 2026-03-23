@@ -1,5 +1,26 @@
 import CatalogCars from "@/components/catalog/CatalogCars";
 import FilterCars from "@/components/catalog/FilterCars";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Coches de Segunda Mano en Benidorm | Catálogo",
+  description:
+    "Descubre nuestro catálogo de coches de segunda mano en Benidorm. Vehículos revisados, listos para entrega inmediata en MB Plus Alicante.",
+  keywords: [
+    "coches segunda mano Benidorm",
+    "coches en venta Alicante",
+    "vehículos ocasión Benidorm",
+    "Mercedes segunda mano Alicante",
+    "comprar coche usado Benidorm",
+  ],
+  openGraph: {
+    title: "Coches de Segunda Mano en Benidorm | MB Plus",
+    description:
+      "Explora coches de ocasión en Benidorm. Encuentra tu próximo vehículo al mejor precio.",
+    url: "https://mbplusbenidorm.es/coches",
+    type: "website",
+  },
+};
 
 export default function CochesPage() {
   return (
