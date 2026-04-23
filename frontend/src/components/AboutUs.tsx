@@ -56,7 +56,7 @@ export function AboutUs() {
 
           <div className="flex flex-wrap gap-8 border-t border-white/15 pt-8 justify-center">
             <div>
-              <p className="text-3xl font-bold tabular-nums">+3000</p>
+              <p className="text-3xl font-bold tabular-nums">+2000</p>
               <p className="text-xs opacity-50 uppercase tracking-wider mt-0.5">Coches vendidos</p>
             </div>
             <div>

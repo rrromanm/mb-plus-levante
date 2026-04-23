@@ -8,6 +8,8 @@ import { transmissions } from "@/lib/enums/transmission";
 import { bodyTypes } from "@/lib/enums/bodyType";
 import { useGetAllBrands } from "@/controller/useGetAllBrands";
 import { useGetCarById } from "@/controller/useGetCarById";
+import useEditCar from "@/controller/useEditCar";
+import toast from "react-hot-toast";
 
 type EditVehicleModalProps = {
   carId: number | null;
@@ -21,9 +23,10 @@ export const EditVehicleModal = ({
   carId,
 }: EditVehicleModalProps) => {
   if (!open || !carId) return null;
-  
+
   const { data: carDetails, loading: loadingCar } = useGetCarById(carId);
   const { data: brands, loading: loadingBrands } = useGetAllBrands();
+  const { editCar, loading: saving } = useEditCar();
 
   const [form, setForm] = useState({
     brandId: "",
@@ -80,6 +83,31 @@ export const EditVehicleModal = ({
       });
     }
   }, [open]);
+
+  const handleSubmit = async () => {
+    if (!carId) return;
+
+    try {
+      await editCar(carId, {
+        brandId: Number(form.brandId),
+        model: form.model,
+        year: Number(form.year),
+        mileageKm: Number(form.mileageKm),
+        price: Number(form.price),
+        fuelType: form.fuelType,
+        transmission: form.transmission,
+        bodyType: form.bodyType || null,
+        engine: form.engine || null,
+        powerHp: form.powerHp ? Number(form.powerHp) : null,
+        description: form.description || null,
+      });
+
+      toast.success("Vehículo actualizado correctamente");
+      onOpenChange(false);
+    } catch (err) {
+      toast.error("Error al actualizar el vehículo");
+    }
+  };
 
   const brandOptions = useMemo(
     () =>
@@ -209,8 +237,12 @@ export const EditVehicleModal = ({
 
             <div className="flex justify-end gap-3">
               <button onClick={() => onOpenChange(false)}>Cancelar</button>
-              <button className="bg-red-700 text-white px-4 py-2">
-                Guardar
+              <button
+                onClick={handleSubmit}
+                disabled={saving}
+                className="bg-red-700 text-white px-4 py-2 disabled:opacity-50"
+              >
+                {saving ? "Guardando..." : "Guardar"}
               </button>
             </div>
           </div>

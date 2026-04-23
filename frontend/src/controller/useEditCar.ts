@@ -5,11 +5,11 @@ export default function useEditCar() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const updateCar = async (id: number, formData: FormData) => {
+  const editCar = async (id: number, data: any) => {
     try {
       setLoading(true);
       setError(null);
-      await AdminApi.editCar(id, formData);
+      await AdminApi.editCar(id, data);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
       throw err;
@@ -18,5 +18,5 @@ export default function useEditCar() {
     }
   };
 
-  return { updateCar, loading, error };
+  return { editCar, loading, error };
 }
