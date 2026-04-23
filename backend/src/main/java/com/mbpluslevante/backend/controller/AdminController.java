@@ -2,6 +2,7 @@ package com.mbpluslevante.backend.controller;
 
 import com.mbpluslevante.backend.dto.AddCarDto;
 import com.mbpluslevante.backend.dto.CarDetailsDto;
+import com.mbpluslevante.backend.dto.EditCarDto;
 import com.mbpluslevante.backend.model.Car;
 import com.mbpluslevante.backend.service.CarService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,9 +31,13 @@ public class AdminController
         carService.addCar(dto, images);
     }
 
-    @GetMapping("/getCarById/{id}")
-    public CarDetailsDto getCarById(@PathVariable("id") Long id) {
-        return carService.findById(id);
+    @PatchMapping("/editCar/{id}")
+    public ResponseEntity<Void> editCar(
+            @PathVariable Long id,
+            @RequestBody EditCarDto dto) {
+
+        carService.editCar(id, dto);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/toggleFeatured/{id}")

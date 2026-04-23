@@ -1,15 +1,15 @@
 import AdminApi from "@/services/adminApi";
 import { useState } from "react";
 
-export function useAddCar() {
+export default function useEditCar() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const addCar = async (formData: FormData) => {
+  const updateCar = async (id: number, formData: FormData) => {
     try {
       setLoading(true);
       setError(null);
-      await AdminApi.addCar(formData);
+      await AdminApi.editCar(id, formData);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
       throw err;
@@ -18,5 +18,5 @@ export function useAddCar() {
     }
   };
 
-  return { addCar, loading, error };
+  return { updateCar, loading, error };
 }

@@ -5,7 +5,7 @@ import Sidebar from "./Sidebar";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import DashboardCard from "./DashboardCard";
-import { Plus, Star } from "lucide-react";
+import { Car, Key, Pencil, Plus, Star, User } from "lucide-react";
 import AddVehicleModal from "./modals/AddVehicleModal";
 import useDeleteCar from "@/controller/useDeleteCar";
 import { CarDto } from "@/types/car/carDto";
@@ -22,12 +22,14 @@ import {
 import SoldCarDialog from "./modals/SoldCarDialog";
 import useMarkCarAsSold from "@/controller/useMarkCarAsSold";
 import { formatPrice, formatMileage } from "@/lib/utils";
+import { EditVehicleModal } from "@/components/admin/modals/EditVehicleModal";
 
 export default function Dashboard() {
   const { data: carsData, loading, error, refetch } = useGetAllCars();
   const [cars, setCars] = useState<CarDto[]>([]);
   const { toggleFeatured } = useToggleFeatured();
   const [open, setOpen] = useState(false);
+  const [selectedCarId, setSelectedCarId] = useState<number | null>(null);
   const { deleteCar } = useDeleteCar();
   const { markCarAsSold } = useMarkCarAsSold();
 
@@ -58,14 +60,17 @@ export default function Dashboard() {
     }
   };
 
-  const onToggleFeatured = async (id: number) => {
+  const onEdit = (car: CarDto) => {
+    setSelectedCarId(car.id);
+  };
 
+  const onToggleFeatured = async (id: number) => {
     try {
       await toggleFeatured(id);
       setCars((prevCars) =>
-      prevCars.map((car) =>
-        car.id === id ? { ...car, featured: !car.featured } : car,
-      ),
+        prevCars.map((car) =>
+          car.id === id ? { ...car, featured: !car.featured } : car,
+        ),
       );
       toast.success("Vehículo actualizado correctamente");
     } catch (err) {
@@ -82,6 +87,16 @@ export default function Dashboard() {
   const ActionButtons = ({ car }: { car: CarDto }) => (
     <TooltipProvider>
       <div className="flex flex-wrap gap-3">
+        <Tooltip>
+          <TooltipTrigger>
+            <Pencil
+              onClick={() => onEdit(car)}
+              stroke="black"
+              className="w-4 h-4 cursor-pointer"
+            />
+          </TooltipTrigger>
+          <TooltipContent>Editar vehículo</TooltipContent>
+        </Tooltip>
         <Tooltip>
           <TooltipTrigger>
             <Star
@@ -135,11 +150,15 @@ export default function Dashboard() {
           <div className="grid grid-cols-2 gap-3 text-sm text-gray-600">
             <div>
               <p className="text-xs uppercase text-gray-500">Kilometraje</p>
-              <p className="font-medium text-gray-900">{formatMileage(car.mileageKm)}</p>
+              <p className="font-medium text-gray-900">
+                {formatMileage(car.mileageKm)}
+              </p>
             </div>
             <div>
               <p className="text-xs uppercase text-gray-500">Precio</p>
-              <p className="font-semibold text-[#880808]">{formatPrice(car.price)}</p>
+              <p className="font-semibold text-[#880808]">
+                {formatPrice(car.price)}
+              </p>
             </div>
           </div>
         </div>
@@ -155,7 +174,9 @@ export default function Dashboard() {
       <Sidebar />
       <div className="flex-1 w-full p-4 sm:p-6 lg:p-8">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
-          <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">Dashboard</h1>
+          <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
+            Dashboard
+          </h1>
 
           {/* <div className="grid grid-cols-4 gap-4 mb-8">
             <DashboardCard
@@ -191,7 +212,18 @@ export default function Dashboard() {
                 Añadir Vehículo
               </button>
             </div>
-            <AddVehicleModal open={open} onOpenChange={setOpen} onSuccess={refetch} />
+            <AddVehicleModal
+              open={open}
+              onOpenChange={setOpen}
+              onSuccess={refetch}
+            />
+            <EditVehicleModal
+              open={selectedCarId !== null}
+              onOpenChange={(open) => {
+                if (!open) setSelectedCarId(null);
+              }}
+              carId={selectedCarId}
+            />
 
             <div className="p-4 sm:p-6">
               {loading ? (
@@ -199,7 +231,9 @@ export default function Dashboard() {
                   Cargando vehículos...
                 </div>
               ) : error ? (
-                <div className="p-8 text-center text-red-500">Error: {error}</div>
+                <div className="p-8 text-center text-red-500">
+                  Error: {error}
+                </div>
               ) : cars.length === 0 ? (
                 <div className="p-8 text-center text-gray-500">
                   No hay vehículos disponibles
@@ -211,7 +245,9 @@ export default function Dashboard() {
                       <thead className="border-b bg-gray-50">
                         <tr className="text-left text-gray-900">
                           <th className="px-4 py-3 font-medium">Imagen</th>
-                          <th className="px-4 py-3 font-medium">Marca y modelo</th>
+                          <th className="px-4 py-3 font-medium">
+                            Marca y modelo
+                          </th>
                           <th className="px-4 py-3 font-medium">Año</th>
                           <th className="px-4 py-3 font-medium">Kilometraje</th>
                           <th className="px-4 py-3 font-medium">Precio</th>
@@ -245,7 +281,9 @@ export default function Dashboard() {
                               {car.brand} {car.model}
                             </td>
 
-                            <td className="px-4 py-3 text-gray-900">{car.year}</td>
+                            <td className="px-4 py-3 text-gray-900">
+                              {car.year}
+                            </td>
                             <td className="px-4 py-3 text-gray-900">
                               {formatMileage(car.mileageKm)}
                             </td>

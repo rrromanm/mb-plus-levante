@@ -10,6 +10,13 @@ const AdminApi = {
             body: formData,
         });
     },
+    editCar: async (id: number, formData: FormData) => {
+        await apiRequest(`${BASE_API_URL}/editCar/${id}`, {
+            credentials: "include",
+            method: "PATCH",
+            body: formData,
+        });
+    },
     markCarAsSold: async (id: number) => {
         await apiRequest(`${BASE_API_URL}/markCarAsSold/${id}`, {
             credentials: "include",

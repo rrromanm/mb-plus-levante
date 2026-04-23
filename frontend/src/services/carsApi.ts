@@ -19,6 +19,14 @@ const CarsApi = {
 
     return response.json();
   },
+  getCarById: async (id: number): Promise<CarDetailsDto> => {
+    const response = await fetch(`${BASE_API_URL}/getCarById/${id}`);
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch car with id: ${id}`);
+    }
+    return response.json() as Promise<CarDetailsDto>;
+  },
   getCarBySlug: async (slug: string): Promise<CarDetailsDto> => {
     const response = await fetch(`${BASE_API_URL}/getCarBySlug/${slug}`);
 

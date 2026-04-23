@@ -27,8 +27,10 @@ export function FilterSelect({
   showLogo = false,
   showIcon = false,
 }: FilterSelectProps) {
+  const normalizedValue = value && value.length > 0 ? value : undefined
+
   return (
-    <Select value={value} onValueChange={onChange} >
+    <Select value={normalizedValue} onValueChange={onChange}>
       <SelectTrigger className="w-full cursor-pointer">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
@@ -38,27 +40,24 @@ export function FilterSelect({
           <SelectItem
             key={option.value}
             value={option.value}
+            textValue={option.label}
             disabled={option.disabled}
           >
-            <div className="flex items-center justify-between w-full">
-              <div className="flex items-center gap-2">
-                {showLogo && option.logo && (
-                  <img
-                    src={option.logo}
-                    alt={option.label}
-                    className="w-5 h-5 object-contain"
-                  />
-                )}
-                {showIcon && option.icon && (
-                  <option.icon
-                    className={`w-4 h-4 ${option.iconColor || ""}`}
-                  />
-                )}
-                {option.label}
-              </div>
+            <div className="flex w-full items-center gap-2">
+              {showLogo && option.logo && (
+                <img
+                  src={option.logo}
+                  alt={option.label}
+                  className="h-5 w-5 object-contain"
+                />
+              )}
+              {showIcon && option.icon && (
+                <option.icon className={`h-4 w-4 ${option.iconColor || ""}`} />
+              )}
+              <span>{option.label}</span>
 
               {showCount && (
-                <span className="text-muted-foreground text-sm">
+                <span className="text-muted-foreground ml-auto text-sm">
                   {option.count ?? 0}
                 </span>
               )}

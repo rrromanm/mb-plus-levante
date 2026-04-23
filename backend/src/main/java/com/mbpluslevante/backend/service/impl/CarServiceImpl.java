@@ -153,6 +153,63 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    public void editCar(Long id, EditCarDto dto) {
+
+        Car car = carRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Car not found"));
+
+        // Brand
+        if (dto.getBrandId() != null) {
+            Brand brand = brandRepository.findById(dto.getBrandId())
+                    .orElseThrow(() -> new RuntimeException("Brand not found"));
+            car.setBrand(brand);
+        }
+
+        if (dto.getModel() != null) {
+            car.setModel(dto.getModel());
+        }
+
+        if (dto.getYear() != null) {
+            car.setYear(dto.getYear());
+        }
+
+        if (dto.getMileageKm() != null) {
+            car.setMileageKm(dto.getMileageKm());
+        }
+
+        if (dto.getFuelType() != null) {
+            car.setFuelType(dto.getFuelType());
+        }
+
+        if (dto.getTransmission() != null) {
+            car.setTransmission(dto.getTransmission());
+        }
+
+        if (dto.getEngine() != null) {
+            car.setEngine(dto.getEngine());
+        }
+
+        if (dto.getPowerHp() != null) {
+            car.setPowerHp(dto.getPowerHp());
+        }
+
+        if (dto.getBodyType() != null) {
+            car.setBodyType(dto.getBodyType());
+        }
+
+        if (dto.getDescription() != null) {
+            car.setDescription(dto.getDescription());
+        }
+
+        // Price (CarSale!)
+//        if (dto.getPrice() != null) {
+//            CarSale sale = carSaleRepository.(car)
+//                    .orElseThrow(() -> new RuntimeException("Sale not found"));
+//            sale.setPrice(dto.getPrice());
+//        }
+    }
+
+    @Override
     public void markCarAsSold(Long id) {
         Car car = carRepository.findById(id).orElseThrow(() -> new RuntimeException("Car not found"));
 

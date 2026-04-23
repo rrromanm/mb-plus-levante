@@ -8,7 +8,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { CircleCheck, Trash2 } from "lucide-react";
+import { CircleCheck } from "lucide-react";
 
 interface IProps {
     onSold: (id: number) => Promise<void>;

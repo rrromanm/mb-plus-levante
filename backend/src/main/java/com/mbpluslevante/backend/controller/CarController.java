@@ -25,6 +25,11 @@ public class CarController
     ) {
         return carService.findAll(sort, order);
     }
+
+    @GetMapping("/getCarById/{id}")
+    public CarDetailsDto getCarById(@PathVariable("id") Long id) {
+        return carService.findById(id);
+    }
     @GetMapping("/getFeaturedCars")
     public List<CarDto> featuredCar(){
         return carService.getFeaturedCars();
