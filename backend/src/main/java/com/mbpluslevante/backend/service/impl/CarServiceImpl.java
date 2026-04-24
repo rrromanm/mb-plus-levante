@@ -70,6 +70,27 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    public List<CarDto> findByCreatedAt() {
+        return carRepository.findByCreatedAtAfterAndStatusAndDeletedAtIsNullOrderByCreatedAtDesc(LocalDateTime.now().minusDays(30), CarStatus.ACTIVE)
+                .stream()
+                .map(car -> new CarDto(
+                        car.getId(),
+                        car.getBrand(),
+                        car.getModel(),
+                        car.getYear(),
+                        car.getSalePrice(),
+                        car.getMileageKm(),
+                        car.getSlug(),
+                        car.getMainImage(),
+                        car.getFuelType(),
+                        car.getTransmission(),
+                        car.getPowerHp(),
+                        car.isFeatured()
+                ))
+                .toList();
+    }
+
+    @Override
     public CarDetailsDto findBySlug(String slug) {
         Car car = carRepository.findBySlugAndDeletedAtIsNull(slug)
                 .orElseThrow(() -> new RuntimeException("Car not found"));

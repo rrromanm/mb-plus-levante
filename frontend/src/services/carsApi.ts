@@ -19,6 +19,15 @@ const CarsApi = {
 
     return response.json();
   },
+  getRecentCars: async (): Promise<CarDto[]> => {
+    const response = await fetch(`${BASE_API_URL}/getRecentCars`);
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch recent cars");
+    }
+
+    return response.json() as Promise<CarDto[]>;
+  },
   getCarById: async (id: number): Promise<CarDetailsDto> => {
     const response = await fetch(`${BASE_API_URL}/getCarById/${id}`);
 

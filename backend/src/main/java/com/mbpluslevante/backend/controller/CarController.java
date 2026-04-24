@@ -6,6 +6,7 @@ import com.mbpluslevante.backend.service.CarService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -30,6 +31,12 @@ public class CarController
     public CarDetailsDto getCarById(@PathVariable("id") Long id) {
         return carService.findById(id);
     }
+
+    @GetMapping("/getRecentCars")
+    public List<CarDto> getRecentCars(){
+        return carService.findByCreatedAt();
+    }
+
     @GetMapping("/getFeaturedCars")
     public List<CarDto> featuredCar(){
         return carService.getFeaturedCars();

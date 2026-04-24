@@ -6,6 +6,7 @@ import { CarCard } from "@/components/generic/CarCard";
 import { SortSelect } from "@/components/generic/SortSelect";
 import { SortKey, SORT_OPTIONS, SORT_MAP } from "@/lib/catalogSortConfig";
 import { Car } from "lucide-react";
+import { useGetRecentCars } from "@/controller/useGetRecentCars";
 
 function SkeletonCard() {
   return (
@@ -28,10 +29,27 @@ function SkeletonCard() {
 export default function CatalogCars() {
   const [sortKey, setSortKey] = useState<SortKey>("year-desc");
   const { sort, order } = SORT_MAP[sortKey];
+  const {
+    data: recentCarsData,
+    loading: recentCarsLoading,
+    error: recentCarsError,
+  } = useGetRecentCars();
   const { data, loading, error } = useGetAllCars({ sort, order });
 
   return (
     <section className="mx-auto w-full max-w-screen-2xl px-6 lg:px-12 py-6 pb-16">
+      <div>
+        <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">
+          Novedades
+        </p>
+        {!recentCarsLoading && !recentCarsError && recentCarsData.length > 0 && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {recentCarsData.map((car) => (
+            <CarCard key={car.slug} car={car} />
+          ))}
+        </div>
+      )}
+      </div>
       <div className="mb-5 flex items-end justify-between">
         <div>
           <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">

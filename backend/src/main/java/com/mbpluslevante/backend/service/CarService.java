@@ -11,6 +11,7 @@ import java.util.List;
 public interface CarService
 {
     List<CarDto> findAll(String sort, String order);
+    List<CarDto> findByCreatedAt();
     CarDetailsDto findBySlug(String slug);
     CarDetailsDto findById(Long id);
     void addCar(AddCarDto dto, List<MultipartFile> images);
