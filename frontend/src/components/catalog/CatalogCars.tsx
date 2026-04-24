@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useGetAllCars from "@/controller/useGetAllCars";
 import { CarCard } from "@/components/generic/CarCard";
 import { SortSelect } from "@/components/generic/SortSelect";
@@ -8,36 +8,16 @@ import { SortKey, SORT_OPTIONS, SORT_MAP } from "@/lib/catalogSortConfig";
 import { Car, Sparkle } from "lucide-react";
 import { useGetRecentCars } from "@/controller/useGetRecentCars";
 import {
-  CarouselApi,
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-
-function SkeletonCard() {
-  return (
-    <div className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-md animate-pulse">
-      <div className="aspect-video w-full bg-muted" />
-      <div className="flex flex-col gap-3 p-5">
-        <div className="h-5 w-2/3 rounded bg-muted" />
-        <div className="flex gap-4">
-          <div className="h-4 w-16 rounded bg-muted" />
-          <div className="h-4 w-20 rounded bg-muted" />
-        </div>
-        <div className="mt-auto border-t border-border pt-3">
-          <div className="h-7 w-24 rounded bg-muted" />
-        </div>
-      </div>
-    </div>
-  );
-}
+import { SkeletonCard } from "../generic/SkeletonCard";
 
 export default function CatalogCars() {
   const [sortKey, setSortKey] = useState<SortKey>("year-desc");
-  const [recentCarouselApi, setRecentCarouselApi] = useState<CarouselApi>();
-  const [showRecentArrows, setShowRecentArrows] = useState(false);
   const { sort, order } = SORT_MAP[sortKey];
   const {
     data: recentCarsData,
@@ -47,25 +27,7 @@ export default function CatalogCars() {
   const { data, loading, error } = useGetAllCars({ sort, order });
   const shouldShowRecentSection =
     recentCarsLoading || !!recentCarsError || recentCarsData.length > 0;
-
-  useEffect(() => {
-    if (!recentCarouselApi) return;
-
-    const updateArrowVisibility = () => {
-      setShowRecentArrows(
-        recentCarouselApi.canScrollPrev() || recentCarouselApi.canScrollNext(),
-      );
-    };
-
-    updateArrowVisibility();
-    recentCarouselApi.on("reInit", updateArrowVisibility);
-    recentCarouselApi.on("select", updateArrowVisibility);
-
-    return () => {
-      recentCarouselApi.off("reInit", updateArrowVisibility);
-      recentCarouselApi.off("select", updateArrowVisibility);
-    };
-  }, [recentCarouselApi, recentCarsData.length]);
+  const showRecentArrows = recentCarsData.length > 4;
 
   return (
     <section className="mx-auto w-full max-w-screen-2xl px-6 lg:px-12 py-6 pb-16">
@@ -105,12 +67,7 @@ export default function CatalogCars() {
         )}
 
         {!recentCarsLoading && !recentCarsError && recentCarsData.length > 0 && (
-          <div className="relative">
-            <Carousel
-              opts={{ align: "start", containScroll: "trimSnaps" }}
-              setApi={setRecentCarouselApi}
-              className="w-full"
-            >
+          <Carousel className="w-full">
               <CarouselContent>
               {recentCarsData.map((car) => (
                 <CarouselItem
@@ -123,12 +80,11 @@ export default function CatalogCars() {
               </CarouselContent>
               {showRecentArrows && (
                 <>
-                  <CarouselPrevious className="left-2 top-[40%] border-border bg-background/90 backdrop-blur-sm" />
-                  <CarouselNext className="right-2 top-[40%] border-border bg-background/90 backdrop-blur-sm" />
+                  <CarouselPrevious />
+                  <CarouselNext />
                 </>
               )}
-            </Carousel>
-          </div>
+          </Carousel>
         )}
         </div>
       )}
