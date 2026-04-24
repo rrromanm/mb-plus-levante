@@ -21,12 +21,12 @@ public class CarDetailsDto
     private FuelType fuelType;
     private Transmission transmission;
     private String engine;
-    private int powerHp;
+    private Integer powerHp;
     private BodyType bodyType;
 
     public CarDetailsDto(String brand, String model, Integer year, Integer price, Integer mileageKm,
                   String slug, List<CarImageDto> images, String description, FuelType fuelType, Transmission transmission,
-                         String engine, int powerHp, BodyType bodyType) {
+                         String engine, Integer powerHp, BodyType bodyType) {
         this.brand = brand;
         this.model = model;
         this.year = year;

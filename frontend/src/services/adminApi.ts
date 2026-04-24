@@ -13,7 +13,7 @@ const AdminApi = {
   editCar: async (id: number, data: any) => {
     await apiRequest(`${BASE_API_URL}/editCar/${id}`, {
       credentials: "include",
-      method: "PATCH",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },

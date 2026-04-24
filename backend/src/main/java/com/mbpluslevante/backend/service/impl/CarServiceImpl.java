@@ -40,6 +40,7 @@ public class CarServiceImpl implements CarService {
         this.carImageRepository = carImageRepository;
         this.imageService = imageService;
     }
+
     @Override
     public List<CarDto> findAll(String sort, String order) {
 
@@ -67,33 +68,34 @@ public class CarServiceImpl implements CarService {
                 ))
                 .toList();
     }
+
     @Override
     public CarDetailsDto findBySlug(String slug) {
         Car car = carRepository.findBySlugAndDeletedAtIsNull(slug)
                 .orElseThrow(() -> new RuntimeException("Car not found"));
 
         return new CarDetailsDto(
-                        car.getBrand(),
-                        car.getModel(),
-                        car.getYear(),
-                        car.getSalePrice(),
-                        car.getMileageKm(),
-                        car.getSlug(),
-                        car.getImages()
-                                .stream()
-                                .map(image -> new CarImageDto(
-                                        image.getImageUrl(),
-                                        image.isPrimary(),
-                                        image.getOrderIndex()
-                                ))
-                                .toList(),
-                        car.getDescription(),
-                        car.getFuelType(),
-                        car.getTransmission(),
-                        car.getEngine(),
-                        car.getPowerHp(),
-                        car.getBodyType()
-                );
+                car.getBrand(),
+                car.getModel(),
+                car.getYear(),
+                car.getSalePrice(),
+                car.getMileageKm(),
+                car.getSlug(),
+                car.getImages()
+                        .stream()
+                        .map(image -> new CarImageDto(
+                                image.getImageUrl(),
+                                image.isPrimary(),
+                                image.getOrderIndex()
+                        ))
+                        .toList(),
+                car.getDescription(),
+                car.getFuelType(),
+                car.getTransmission(),
+                car.getEngine(),
+                car.getPowerHp(),
+                car.getBodyType()
+        );
     }
 
     @Override
@@ -158,55 +160,28 @@ public class CarServiceImpl implements CarService {
         Car car = carRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Car not found"));
 
-        // Brand
-        if (dto.getBrandId() != null) {
-            Brand brand = brandRepository.findById(dto.getBrandId())
-                    .orElseThrow(() -> new RuntimeException("Brand not found"));
-            car.setBrand(brand);
-        }
+        Brand brand = brandRepository.findById(dto.getBrandId())
+                .orElseThrow(() -> new RuntimeException("Brand not found"));
+        car.setBrand(brand);
 
-        if (dto.getModel() != null) {
-            car.setModel(dto.getModel());
-        }
+        car.setModel(dto.getModel());
 
-        if (dto.getYear() != null) {
-            car.setYear(dto.getYear());
-        }
+        car.setYear(dto.getYear());
 
-        if (dto.getMileageKm() != null) {
-            car.setMileageKm(dto.getMileageKm());
-        }
+        car.setMileageKm(dto.getMileageKm());
 
-        if (dto.getFuelType() != null) {
-            car.setFuelType(dto.getFuelType());
-        }
+        car.setFuelType(dto.getFuelType());
 
-        if (dto.getTransmission() != null) {
-            car.setTransmission(dto.getTransmission());
-        }
+        car.setTransmission(dto.getTransmission());
 
-        if (dto.getEngine() != null) {
-            car.setEngine(dto.getEngine());
-        }
+        car.setEngine(dto.getEngine());
 
-        if (dto.getPowerHp() != null) {
-            car.setPowerHp(dto.getPowerHp());
-        }
+        car.setPowerHp(dto.getPowerHp());
 
-        if (dto.getBodyType() != null) {
-            car.setBodyType(dto.getBodyType());
-        }
+        car.setBodyType(dto.getBodyType());
 
-        if (dto.getDescription() != null) {
-            car.setDescription(dto.getDescription());
-        }
-
-        // Price (CarSale!)
-//        if (dto.getPrice() != null) {
-//            CarSale sale = carSaleRepository.(car)
-//                    .orElseThrow(() -> new RuntimeException("Sale not found"));
-//            sale.setPrice(dto.getPrice());
-//        }
+        car.setDescription(dto.getDescription());
+        car.getCarSale().setPrice(dto.getPrice());
     }
 
     @Override
@@ -226,6 +201,7 @@ public class CarServiceImpl implements CarService {
         car.setStatus(CarStatus.DELETED);
         car.setFeatured(false);
     }
+
     @Override
     public List<CarDto> getFeaturedCars() {
         return carRepository.findByFeaturedTrueAndStatusOrderByCreatedAtDesc(CarStatus.ACTIVE)

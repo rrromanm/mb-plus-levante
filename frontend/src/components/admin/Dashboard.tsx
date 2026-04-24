@@ -223,6 +223,7 @@ export default function Dashboard() {
                 if (!open) setSelectedCarId(null);
               }}
               carId={selectedCarId}
+              onSuccess={refetch}
             />
 
             <div className="p-4 sm:p-6">

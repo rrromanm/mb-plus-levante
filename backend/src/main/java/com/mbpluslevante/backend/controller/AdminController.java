@@ -31,10 +31,10 @@ public class AdminController
         carService.addCar(dto, images);
     }
 
-    @PatchMapping("/editCar/{id}")
+    @PutMapping("/editCar/{id}")
     public ResponseEntity<Void> editCar(
             @PathVariable Long id,
-            @RequestBody EditCarDto dto) {
+            @Valid @RequestBody EditCarDto dto) {
 
         carService.editCar(id, dto);
         return ResponseEntity.noContent().build();

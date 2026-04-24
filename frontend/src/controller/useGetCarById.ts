@@ -2,11 +2,19 @@ import CarsApi from "@/services/carsApi";
 import { CarDetailsDto } from "@/types/car/carDetailsDto";
 import { useEffect, useState } from "react";
 
-export function useGetCarById(id: number) {
+export function useGetCarById(id: number | null) {
   const [data, setData] = useState<CarDetailsDto | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
+    if (id === null) {
+      setData(null);
+      setError(null);
+      setLoading(false);
+      return;
+    }
+
     const fetchCar = async () => {
       try {
         setLoading(true);

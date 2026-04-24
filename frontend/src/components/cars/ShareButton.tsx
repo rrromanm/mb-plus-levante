@@ -25,7 +25,7 @@ export default function ShareButton({ carBrand, carModel, carYear }: ShareButton
   return (
     <button
       onClick={handleShare}
-      className="inline-flex items-center justify-center gap-2 border border-border px-8 py-3 rounded-full font-medium hover:bg-muted transition"
+      className="inline-flex items-center justify-center gap-2 border border-border px-8 py-3 rounded-full font-medium hover:bg-muted transition cursor-pointer"
     >
       <Share2 className="w-4 h-4" />
       Compartir
