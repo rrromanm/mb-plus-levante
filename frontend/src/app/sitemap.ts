@@ -1,6 +1,8 @@
 import { MetadataRoute } from "next";
 import CarsApi from "@/services/carsApi";
 
+export const revalidate = 3600
+
 function safeDate(date?: string | Date) {
   const d = date ? new Date(date) : new Date();
   return isNaN(d.getTime()) ? new Date() : d;
