@@ -84,8 +84,32 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
     const formattedPrice = formatPrice(data.price);
     const formattedMileage = formatMileage(data.mileageKm);
 
+    const isUnavailable = data.status === "SOLD" || data.status === "DELETED";
+
     return (
       <>
+        {isUnavailable && (
+          <div className="relative w-full overflow-hidden bg-red-50 dark:bg-black border-b border-red-200 dark:border-red-600/20">
+            <div className="py-12 sm:py-16 px-4 sm:px-6 text-center">
+              <div className="flex flex-col items-center gap-4 max-w-2xl mx-auto">
+                <div className="flex items-center gap-3">
+                  <div className="h-px w-12 bg-red-400/60 dark:bg-red-600/60" />
+                  <span className="text-red-600 dark:text-red-500 text-xs uppercase tracking-widest font-semibold">No disponible</span>
+                  <div className="h-px w-12 bg-red-400/60 dark:bg-red-600/60" />
+                </div>
+                <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-gray-900 dark:text-white">
+                  Este vehículo ya no
+                  <br />
+                  <span className="text-red-600 dark:text-red-500">está en venta</span>
+                </h2>
+                <p className="text-gray-500 dark:text-white/50 text-base sm:text-lg max-w-md">
+                  Puede que haya sido vendido o eliminado del catálogo.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="min-h-screen bg-linear-to-b from-background to-muted/30 px-4 py-8 sm:px-6 sm:py-12">
           <div className="max-w-7xl mx-auto space-y-8 sm:space-y-12">
             <a
@@ -95,13 +119,6 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
               <ArrowLeft className="w-4 h-4" />
               Volver al catálogo
             </a>
-
-            {(data.status === "SOLD" || data.status === "DELETED") && (
-              <div className="w-full rounded-2xl bg-muted border border-border px-8 py-6 text-center">
-                <p className="font-bold text-foreground text-xl">Vehículo no disponible</p>
-                <p className="text-sm text-muted-foreground mt-1">Este coche ya no está en venta.</p>
-              </div>
-            )}
 
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-14 items-start">
               <CarCarousel images={sortedImages} slug={data.slug} />
