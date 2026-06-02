@@ -18,5 +18,5 @@
         );
         List<Car> findByFeaturedTrueAndStatusOrderByCreatedAtDesc(CarStatus status);
         boolean existsBySlug(String slug);
-        Optional<Car> findBySlugAndDeletedAtIsNull(String slug);
+        Optional<Car> findBySlug(String slug);
     }

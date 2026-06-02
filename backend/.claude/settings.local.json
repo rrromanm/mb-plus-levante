@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /Users/rrromanm/Documents/GitHub/mb-plus-levante -name \"page.tsx\" | grep coches | head -20)",
+      "Bash(xargs ls)"
+    ]
+  }
+}

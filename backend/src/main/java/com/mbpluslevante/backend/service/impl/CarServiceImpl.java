@@ -92,7 +92,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public CarDetailsDto findBySlug(String slug) {
-        Car car = carRepository.findBySlugAndDeletedAtIsNull(slug)
+        Car car = carRepository.findBySlug(slug)
                 .orElseThrow(() -> new RuntimeException("Car not found"));
 
         return new CarDetailsDto(
@@ -115,7 +115,8 @@ public class CarServiceImpl implements CarService {
                 car.getTransmission(),
                 car.getEngine(),
                 car.getPowerHp(),
-                car.getBodyType()
+                car.getBodyType(),
+                car.getStatus()
         );
     }
 
@@ -144,7 +145,8 @@ public class CarServiceImpl implements CarService {
                 car.getTransmission(),
                 car.getEngine(),
                 car.getPowerHp(),
-                car.getBodyType()
+                car.getBodyType(),
+                car.getStatus()
         );
     }
 

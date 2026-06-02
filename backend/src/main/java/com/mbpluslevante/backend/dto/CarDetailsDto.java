@@ -1,6 +1,7 @@
 package com.mbpluslevante.backend.dto;
 
 import com.mbpluslevante.backend.model.enums.BodyType;
+import com.mbpluslevante.backend.model.enums.CarStatus;
 import com.mbpluslevante.backend.model.enums.FuelType;
 import com.mbpluslevante.backend.model.enums.Transmission;
 import lombok.Data;
@@ -23,10 +24,11 @@ public class CarDetailsDto
     private String engine;
     private Integer powerHp;
     private BodyType bodyType;
+    private CarStatus status;
 
     public CarDetailsDto(String brand, String model, Integer year, Integer price, Integer mileageKm,
                   String slug, List<CarImageDto> images, String description, FuelType fuelType, Transmission transmission,
-                         String engine, Integer powerHp, BodyType bodyType) {
+                         String engine, Integer powerHp, BodyType bodyType, CarStatus status) {
         this.brand = brand;
         this.model = model;
         this.year = year;
@@ -40,5 +42,6 @@ public class CarDetailsDto
         this.engine = engine;
         this.powerHp = powerHp;
         this.bodyType = bodyType;
+        this.status = status;
     }
 }

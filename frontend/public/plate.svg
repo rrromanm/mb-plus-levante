@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="160" viewBox="0 0 640 160" font-family="&#39;Oswald&#39;,&#39;Arial Narrow&#39;,Arial,sans-serif">
+
+  <rect x="1.5" y="1.5" width="637" height="157" rx="13" fill="#f5f6f4" stroke="#d2d4cf" stroke-width="3"></rect>
+
+  <path d="M14 1.5 H70 V158.5 H14 a12 12 0 0 1 -12 -12 V13.5 a12 12 0 0 1 12 -12 Z" fill="#0b3aa8"></path>
+
+  <g fill="#ffd000" font-size="7" text-anchor="middle">
+    <text x="36" y="50">★</text><text x="43.5" y="52">★</text><text x="49" y="57.5">★</text>
+    <text x="51" y="65">★</text><text x="49" y="72.5">★</text><text x="43.5" y="78">★</text>
+    <text x="36" y="80">★</text><text x="28.5" y="78">★</text><text x="23" y="72.5">★</text>
+    <text x="21" y="65">★</text><text x="23" y="57.5">★</text><text x="28.5" y="52">★</text>
+  </g>
+
+  <text x="36" y="130" fill="#ffffff" font-size="30" font-weight="700" text-anchor="middle">E</text>
+
+  <text x="355" y="106" fill="#15151a" font-size="50" font-weight="700" text-anchor="middle" letter-spacing="4">NO ENCONTRADO</text>
+
+  <g fill="#c2c4bf"><circle cx="92" cy="20" r="4"></circle><circle cx="622" cy="20" r="4"></circle><circle cx="92" cy="140" r="4"></circle><circle cx="622" cy="140" r="4"></circle></g>
+</svg>

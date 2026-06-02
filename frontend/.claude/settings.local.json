@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /Users/rrromanm/Documents/GitHub/mb-plus-levante diff -- backend/src/main/java/com/mbpluslevante/backend/service/impl/CarServiceImpl.java backend/src/main/java/com/mbpluslevante/backend/dto/CarDetailsDto.java frontend/src/services/carsApi.ts)",
+      "Bash(git *)"
+    ]
+  }
+}

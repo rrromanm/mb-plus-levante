@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import CarCarousel from "@/components/cars/CarCarousel";
@@ -95,6 +96,13 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
               Volver al catálogo
             </a>
 
+            {(data.status === "SOLD" || data.status === "DELETED") && (
+              <div className="w-full rounded-2xl bg-muted border border-border px-8 py-6 text-center">
+                <p className="font-bold text-foreground text-xl">Vehículo no disponible</p>
+                <p className="text-sm text-muted-foreground mt-1">Este coche ya no está en venta.</p>
+              </div>
+            )}
+
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-14 items-start">
               <CarCarousel images={sortedImages} slug={data.slug} />
 
@@ -165,22 +173,7 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
       </>
     );
   } catch {
-    return (
-      <div className="min-h-screen bg-linear-to-b from-background to-muted/30 px-4 py-8 sm:px-6 sm:py-12">
-        <div className="max-w-7xl mx-auto">
-          <a
-            href="/coches"
-            className="inline-flex items-center gap-2 cursor-pointer text-sm text-muted-foreground hover:text-foreground transition mb-8"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Volver al catálogo
-          </a>
-          <p className="text-lg">
-            Lo sentimos, el coche que buscas no está disponible.
-          </p>
-        </div>
-      </div>
-    );
+    notFound();
   }
 }
 
