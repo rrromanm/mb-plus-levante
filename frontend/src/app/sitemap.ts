@@ -27,11 +27,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   try {
-    const cars = await CarsApi.getAllCars();
+    const cars = await CarsApi.getSitemapCars();
 
-    const carPages: MetadataRoute.Sitemap = cars.map((car: any) => ({
+    const carPages: MetadataRoute.Sitemap = cars.map((car) => ({
       url: `${baseUrl}/coches/${car.slug}`,
-      lastModified: safeDate(car.updatedAt || car.createdAt),
+      lastModified: safeDate(car.lastModified),
       changeFrequency: "weekly",
       priority: 0.8,
     }));

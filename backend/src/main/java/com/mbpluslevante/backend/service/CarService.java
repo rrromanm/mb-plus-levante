@@ -3,6 +3,7 @@ package com.mbpluslevante.backend.service;
 import com.mbpluslevante.backend.dto.AddCarDto;
 import com.mbpluslevante.backend.dto.CarDetailsDto;
 import com.mbpluslevante.backend.dto.CarDto;
+import com.mbpluslevante.backend.dto.CarSitemapDto;
 import com.mbpluslevante.backend.dto.EditCarDto;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,4 +21,5 @@ public interface CarService
     void deleteCar(Long id);
     List<CarDto> getFeaturedCars();
     void toggleFeatured(Long id);
+    List<CarSitemapDto> getSitemapData();
 }

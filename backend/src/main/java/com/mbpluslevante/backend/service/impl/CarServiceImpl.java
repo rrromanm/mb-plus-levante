@@ -247,6 +247,13 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    public List<CarSitemapDto> getSitemapData() {
+        return carRepository.findAll().stream()
+                .map(car -> new CarSitemapDto(car.getSlug(), car.getCreatedAt()))
+                .toList();
+    }
+
+    @Override
     public void toggleFeatured(Long id) {
         Car car = carRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Car not found"));

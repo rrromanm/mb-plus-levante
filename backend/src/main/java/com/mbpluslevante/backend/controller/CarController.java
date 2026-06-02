@@ -2,6 +2,7 @@ package com.mbpluslevante.backend.controller;
 
 import com.mbpluslevante.backend.dto.CarDetailsDto;
 import com.mbpluslevante.backend.dto.CarDto;
+import com.mbpluslevante.backend.dto.CarSitemapDto;
 import com.mbpluslevante.backend.service.CarService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
@@ -44,5 +45,10 @@ public class CarController
     @GetMapping("/getCarBySlug/{slug}")
     public CarDetailsDto getCarBySlug(@PathVariable String slug) {
         return carService.findBySlug(slug);
+    }
+
+    @GetMapping("/sitemap")
+    public List<CarSitemapDto> getSitemapData() {
+        return carService.getSitemapData();
     }
 }

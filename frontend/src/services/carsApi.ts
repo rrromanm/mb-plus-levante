@@ -54,6 +54,15 @@ const CarsApi = {
 
     return response.json() as Promise<CarDto[]>;
   },
+  getSitemapCars: async (): Promise<{ slug: string; lastModified: string }[]> => {
+    const response = await fetch(`${BASE_API_URL}/sitemap`);
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch sitemap cars");
+    }
+
+    return response.json();
+  },
 };
 
 export default CarsApi;
