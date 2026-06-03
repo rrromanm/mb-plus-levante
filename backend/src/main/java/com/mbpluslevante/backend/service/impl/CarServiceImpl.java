@@ -12,6 +12,7 @@ import com.mbpluslevante.backend.repository.CarRepository;
 import com.mbpluslevante.backend.repository.CarSaleRepository;
 import com.mbpluslevante.backend.service.CarService;
 import com.mbpluslevante.backend.service.ImageService;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.mbpluslevante.backend.util.SlugUtil;
@@ -252,6 +253,34 @@ public class CarServiceImpl implements CarService {
                 .map(car -> new CarSitemapDto(car.getSlug(), car.getCreatedAt()))
                 .toList();
     }
+
+    @Override
+    public List<CarDto> getRecommendedCars(String slug) {
+        Car car = carRepository.findBySlug(slug)
+                .orElseThrow(() -> new RuntimeException("Car not found"));
+
+        return carRepository.findRecommendedCars(
+                car.getId(),
+                car.getBrandId(),
+                car.getBodyType(),
+                car.getFuelType(),
+                PageRequest.of(0, 6)
+        ).stream().map(c -> new CarDto(
+                c.getId(),
+                c.getBrand(),
+                c.getModel(),
+                c.getYear(),
+                c.getSalePrice(),
+                c.getMileageKm(),
+                c.getSlug(),
+                c.getMainImage(),
+                c.getFuelType(),
+                c.getTransmission(),
+                c.getPowerHp(),
+                c.isFeatured()
+        )).toList();
+    }
+
 
     @Override
     public void toggleFeatured(Long id) {

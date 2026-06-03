@@ -42,11 +42,15 @@ public class CarController
     public List<CarDto> featuredCar(){
         return carService.getFeaturedCars();
     }
+
     @GetMapping("/getCarBySlug/{slug}")
     public CarDetailsDto getCarBySlug(@PathVariable String slug) {
         return carService.findBySlug(slug);
     }
-
+    @GetMapping("/slug/{slug}/recommended")
+    public List<CarDto> getRecommendedCars(@PathVariable String slug) {
+        return carService.getRecommendedCars(slug);
+    }
     @GetMapping("/sitemap")
     public List<CarSitemapDto> getSitemapData() {
         return carService.getSitemapData();

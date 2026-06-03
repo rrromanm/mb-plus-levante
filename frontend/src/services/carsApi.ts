@@ -54,6 +54,15 @@ const CarsApi = {
 
     return response.json() as Promise<CarDto[]>;
   },
+  getRecommendedCars: async (slug: string): Promise<CarDto[]> => {
+    const response = await fetch(`${BASE_API_URL}/slug/${slug}/recommended`);
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch recommended cars");
+    }
+
+    return response.json() as Promise<CarDto[]>;
+  },
   getSitemapCars: async (): Promise<{ slug: string; lastModified: string }[]> => {
     const response = await fetch(`${BASE_API_URL}/sitemap`);
 
