@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { CONTACT } from "@/lib/contactInfo";
 
@@ -17,7 +19,7 @@ export default function Footer() {
           </div>
 
           <div className="grid grid-cols-1 gap-2 text-sm sm:grid-cols-2 sm:gap-x-8">
-            <Link href="/" className="text-muted-foreground transition-colors hover:text-foreground">
+            <Link href="/" className="text-muted-foreground transition-colors hover:text-foreground" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
               Inicio
             </Link>
             <Link href="/coches" className="text-muted-foreground transition-colors hover:text-foreground">

@@ -19,4 +19,6 @@
         List<Car> findByFeaturedTrueAndStatusOrderByCreatedAtDesc(CarStatus status);
         boolean existsBySlug(String slug);
         Optional<Car> findBySlug(String slug);
+
+        List<Car> findByStatusAndIdNot(CarStatus status, Long id);
     }

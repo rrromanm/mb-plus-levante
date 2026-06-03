@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -252,6 +253,31 @@ public class CarServiceImpl implements CarService {
                 .map(car -> new CarSitemapDto(car.getSlug(), car.getCreatedAt()))
                 .toList();
     }
+
+    @Override
+    public List<CarDto> getRecommendedCars(String slug) {
+        Car car = carRepository.findBySlug(slug)
+                .orElseThrow(() -> new RuntimeException("Car not found"));
+
+        List<Car> cars = new ArrayList<>(carRepository.findByStatusAndIdNot(CarStatus.ACTIVE, car.getId()));
+        Collections.shuffle(cars);
+
+        return cars.stream().limit(6).map(c -> new CarDto(
+                c.getId(),
+                c.getBrand(),
+                c.getModel(),
+                c.getYear(),
+                c.getSalePrice(),
+                c.getMileageKm(),
+                c.getSlug(),
+                c.getMainImage(),
+                c.getFuelType(),
+                c.getTransmission(),
+                c.getPowerHp(),
+                c.isFeatured()
+        )).toList();
+    }
+
 
     @Override
     public void toggleFeatured(Long id) {

@@ -22,4 +22,5 @@ public interface CarService
     List<CarDto> getFeaturedCars();
     void toggleFeatured(Long id);
     List<CarSitemapDto> getSitemapData();
+    List<CarDto> getRecommendedCars(String slug);
 }

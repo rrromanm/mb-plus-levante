@@ -3,6 +3,7 @@ import FeaturedCars from "@/components/homepage/FeaturedCars";
 import { AboutUs } from "@/components/AboutUs";
 import { CompanyInfo } from "@/components/CompanyInfo";
 import TrustStrip from "@/components/homepage/TrustStrip";
+import CarsApi from "@/services/carsApi";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,12 +12,14 @@ export const metadata: Metadata = {
     "Compra coches de segunda mano en Benidorm (Alicante). Especialistas en Mercedes-Benz y vehículos de ocasión con garantía, revisados y listos para entrega.",
 };
 
-export default function Home() {
+export default async function Home() {
+  const featuredCars = await CarsApi.getFeaturedCars().catch(() => []);
+
   return (
     <>
       <Hero />
       <TrustStrip />
-      <FeaturedCars />
+      <FeaturedCars cars={featuredCars} />
       <AboutUs />
       <CompanyInfo />
     </>

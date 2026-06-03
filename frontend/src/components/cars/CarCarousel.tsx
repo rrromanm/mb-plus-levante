@@ -20,6 +20,8 @@ export default function CarCarousel({ images, slug, autoPlayInterval = 5000 }: P
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [lbLoaded, setLbLoaded] = useState(false);
+  const [inView, setInView] = useState(false);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const thumbRefs = useRef<(HTMLDivElement | null)[]>([]);
   const touchStartX = useRef<number | null>(null);
 
@@ -55,10 +57,21 @@ export default function CarCarousel({ images, slug, autoPlayInterval = 5000 }: P
   }, []);
 
   useEffect(() => {
-    if (paused || sorted.length <= 1) return;
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (paused || !inView || sorted.length <= 1) return;
     const id = setInterval(next, autoPlayInterval);
     return () => clearInterval(id);
-  }, [paused, next, sorted.length, autoPlayInterval]);
+  }, [paused, inView, next, sorted.length, autoPlayInterval]);
 
   useEffect(() => {
     thumbRefs.current[current]?.scrollIntoView({
@@ -88,6 +101,7 @@ export default function CarCarousel({ images, slug, autoPlayInterval = 5000 }: P
   return (
     <>
       <div
+        ref={containerRef}
         className="hidden sm:block space-y-4"
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
