@@ -77,6 +77,7 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
 
   try {
     const data = await CarsApi.getCarBySlug(slug);
+    const similarCars = await CarsApi.getRecommendedCars(data.slug).catch(() => []);
 
     const sortedImages =
       data.images?.sort((a, b) => a.orderIndex - b.orderIndex) || [];
@@ -184,7 +185,7 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
               </div>
             )}
 
-            <SimilarCars currentSlug={data.slug} />
+            <SimilarCars cars={similarCars} />
           </div>
         </div>
       </>

@@ -1,5 +1,6 @@
 import CatalogCars from "@/components/catalog/CatalogCars";
-import FilterCars from "@/components/catalog/FilterCars";
+import CarsApi from "@/services/carsApi";
+import { SORT_MAP, SortKey } from "@/lib/catalogSortConfig";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -22,7 +23,25 @@ export const metadata: Metadata = {
   },
 };
 
-export default function CochesPage() {
+interface CochesPageProps {
+  searchParams: Promise<{ sort?: string }>;
+}
+
+function parseSortKey(value: string | undefined): SortKey {
+  if (value && value in SORT_MAP) return value as SortKey;
+  return "year-desc";
+}
+
+export default async function CochesPage({ searchParams }: CochesPageProps) {
+  const { sort: sortParam } = await searchParams;
+  const sortKey = parseSortKey(sortParam);
+  const { sort, order } = SORT_MAP[sortKey];
+
+  const [cars, recentCars] = await Promise.all([
+    CarsApi.getAllCars(sort, order).catch(() => []),
+    CarsApi.getRecentCars().catch(() => []),
+  ]);
+
   return (
     <>
       <div className="mx-auto max-w-screen-2xl px-6 lg:px-12 pt-14 pb-2 ">
@@ -34,9 +53,7 @@ export default function CochesPage() {
         </h1>
       </div>
 
-      {/* <FilterCars /> */}
-      <CatalogCars />
+      <CatalogCars cars={cars} recentCars={recentCars} currentSort={sortKey} />
     </>
   );
 }
-
