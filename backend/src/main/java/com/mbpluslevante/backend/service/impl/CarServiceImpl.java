@@ -12,7 +12,6 @@ import com.mbpluslevante.backend.repository.CarRepository;
 import com.mbpluslevante.backend.repository.CarSaleRepository;
 import com.mbpluslevante.backend.service.CarService;
 import com.mbpluslevante.backend.service.ImageService;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.mbpluslevante.backend.util.SlugUtil;
@@ -21,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -259,13 +259,10 @@ public class CarServiceImpl implements CarService {
         Car car = carRepository.findBySlug(slug)
                 .orElseThrow(() -> new RuntimeException("Car not found"));
 
-        return carRepository.findRecommendedCars(
-                car.getId(),
-                car.getBrandId(),
-                car.getBodyType(),
-                car.getFuelType(),
-                PageRequest.of(0, 6)
-        ).stream().map(c -> new CarDto(
+        List<Car> cars = new ArrayList<>(carRepository.findByStatusAndIdNot(CarStatus.ACTIVE, car.getId()));
+        Collections.shuffle(cars);
+
+        return cars.stream().limit(6).map(c -> new CarDto(
                 c.getId(),
                 c.getBrand(),
                 c.getModel(),

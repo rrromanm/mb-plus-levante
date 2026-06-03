@@ -10,11 +10,19 @@ export function SimilarCars({ cars }: SimilarCarsProps) {
 
   return (
     <section>
-      <h2 className="text-2xl font-semibold mb-6">Vehículos similares</h2>
+      <h2 className="text-2xl font-semibold mb-6">Más vehículos disponibles</h2>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {cars.map((car) => (
           <CarCard key={car.slug} car={car} />
         ))}
+      </div>
+      <div className="mt-8 text-center">
+        <a
+          href="/coches"
+          className="inline-flex items-center justify-center px-8 py-3 rounded-full border border-border text-sm font-medium hover:bg-muted transition"
+        >
+          Ver todos los vehículos
+        </a>
       </div>
     </section>
   );

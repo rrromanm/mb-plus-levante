@@ -74,9 +74,6 @@ public class Car {
     public String getBrand(){
         return brand.getName();
     }
-    public Long getBrandId() {
-        return brand != null ? brand.getId() : null;
-    }
     public Integer getSalePrice() {
         return carSale != null ? carSale.getPrice() : null;
     }
