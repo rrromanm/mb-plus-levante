@@ -29,7 +29,7 @@ export default function Header() {
     <header className="sticky top-0 z-50 border-b border-border bg-card/90 text-foreground shadow-sm backdrop-blur supports-backdrop-filter:bg-card/70">
       <div className="mx-auto flex h-20 items-center justify-between px-6 md:px-12">
         <div className="flex items-center gap-2">
-          <Link href="/" className="flex items-center">
+          <Link href="/" className="flex items-center" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
             <Image
               src={logoSrc}
               alt={logoAlt}
@@ -41,7 +41,7 @@ export default function Header() {
         </div>
 
         <nav className="hidden md:flex items-center gap-6 text-lg font-medium text-foreground">
-          <Link href="/" className="transition-colors hover:text-primary">
+          <Link href="/" className="transition-colors hover:text-primary" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
             Inicio
           </Link>
           <Link href="/coches" className="transition-colors hover:text-primary">

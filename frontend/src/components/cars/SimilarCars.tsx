@@ -1,11 +1,18 @@
+"use client";
+
+import { useEffect } from "react";
 import { CarDto } from "@/types/car/carDto";
 import { CarCard } from "../generic/CarCard";
 
 interface SimilarCarsProps {
   cars: CarDto[];
+  slug: string;
 }
 
-export function SimilarCars({ cars }: SimilarCarsProps) {
+export function SimilarCars({ cars, slug }: SimilarCarsProps) {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [slug]);
   if (cars.length === 0) return null;
 
   return (

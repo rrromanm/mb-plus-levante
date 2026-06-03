@@ -185,7 +185,7 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
               </div>
             )}
 
-            <SimilarCars cars={similarCars} />
+            <SimilarCars cars={similarCars} slug={data.slug} />
           </div>
         </div>
       </>
