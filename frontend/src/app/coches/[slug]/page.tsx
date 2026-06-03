@@ -76,8 +76,10 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
   const { slug } = await params;
 
   try {
-    const data = await CarsApi.getCarBySlug(slug);
-    const similarCars = await CarsApi.getRecommendedCars(data.slug).catch(() => []);
+    const [data, similarCars] = await Promise.all([
+      CarsApi.getCarBySlug(slug),
+      CarsApi.getRecommendedCars(slug).catch(() => []),
+    ]);
 
     const sortedImages =
       data.images?.sort((a, b) => a.orderIndex - b.orderIndex) || [];
