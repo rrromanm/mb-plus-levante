@@ -22,7 +22,11 @@ interface CatalogCarsProps {
   currentSort: SortKey;
 }
 
-export default function CatalogCars({ cars, recentCars, currentSort }: CatalogCarsProps) {
+export default function CatalogCars({
+  cars,
+  recentCars,
+  currentSort,
+}: CatalogCarsProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
@@ -54,7 +58,12 @@ export default function CatalogCars({ cars, recentCars, currentSort }: CatalogCa
             </span>
           </div>
 
-          <Carousel className="w-full">
+          <Carousel
+            className="w-full"
+            opts={{
+              align: "start",
+            }}
+          >
             <CarouselContent>
               {recentCars.map((car) => (
                 <CarouselItem
