@@ -28,7 +28,7 @@ export function CompanyInfo() {
             allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            title="MB Plus Levante ubicación en L'Albir, Alicante"
+            title="MB Plus Benidorm ubicación en L'Albir, Alicante"
           />
         </div>
 
