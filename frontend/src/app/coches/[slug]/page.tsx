@@ -1,16 +1,125 @@
 import { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import CarCarousel from "@/components/cars/CarCarousel";
 import ShareButton from "@/components/cars/ShareButton";
-import { fuelTypes } from "@/lib/enums/fuelType";
-import { transmissions } from "@/lib/enums/transmission";
-import { bodyTypes } from "@/lib/enums/bodyType";
+import { fuelTypes, FuelType } from "@/lib/enums/fuelType";
+import { transmissions, Transmission } from "@/lib/enums/transmission";
+import { bodyTypes, BodyType } from "@/lib/enums/bodyType";
 import { SimilarCars } from "@/components/cars/SimilarCars";
 import { CONTACT } from "@/lib/contactInfo";
 import { formatPrice, formatMileage } from "@/lib/utils";
 import CarsApi from "@/services/carsApi";
+import type { CarDetailsDto, CarStatus } from "@/types/car/carDetailsDto";
+
+const SITE_URL = "https://mbplusbenidorm.es";
+
+const FUEL_SCHEMA: Record<FuelType, string> = {
+  PETROL: "Gasoline",
+  DIESEL: "Diesel",
+  HYBRID: "Hybrid",
+  ELECTRIC: "Electric",
+};
+
+const TRANSMISSION_SCHEMA: Record<Transmission, string> = {
+  MANUAL: "Manual",
+  AUTOMATIC: "Automatic",
+};
+
+const BODY_SCHEMA: Partial<Record<BodyType, string>> = {
+  SEDAN: "Sedan",
+  COUPE: "Coupe",
+  CONVERTIBLE: "Convertible",
+  SUV: "SUV",
+  HATCHBACK: "Hatchback",
+  WAGON: "StationWagon",
+  PICKUP: "Pickup",
+  VAN: "Van",
+};
+
+const AVAILABILITY_SCHEMA: Record<CarStatus, string | undefined> = {
+  ACTIVE: "https://schema.org/InStock",
+  SOLD: "https://schema.org/SoldOut",
+  DELETED: undefined,
+};
+
+function buildBreadcrumbJsonLd(car: CarDetailsDto) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Inicio",
+        item: SITE_URL,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Catálogo",
+        item: `${SITE_URL}/coches`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: `${car.brand} ${car.model} ${car.year}`,
+      },
+    ],
+  };
+}
+
+function buildVehicleJsonLd(car: CarDetailsDto) {
+  const url = `${SITE_URL}/coches/${car.slug}`;
+  const images = (car.images ?? [])
+    .slice()
+    .sort((a, b) => a.orderIndex - b.orderIndex)
+    .map((img) => img.imageUrl);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Vehicle",
+    "@id": `${url}#vehicle`,
+    name: `${car.brand} ${car.model} ${car.year}`,
+    url,
+    description: car.description,
+    image: images.length ? images : undefined,
+    brand: { "@type": "Brand", name: car.brand },
+    model: car.model,
+    vehicleModelDate: String(car.year),
+    mileageFromOdometer: {
+      "@type": "QuantitativeValue",
+      value: car.mileageKm,
+      unitCode: "KMT",
+    },
+    fuelType: FUEL_SCHEMA[car.fuelType],
+    vehicleTransmission: TRANSMISSION_SCHEMA[car.transmission],
+    bodyType: BODY_SCHEMA[car.bodyType],
+    vehicleEngine: {
+      "@type": "EngineSpecification",
+      ...(car.engine && { name: car.engine }),
+      ...(car.powerHp && {
+        enginePower: {
+          "@type": "QuantitativeValue",
+          value: car.powerHp,
+          unitCode: "BHP",
+        },
+      }),
+    },
+    itemCondition: "https://schema.org/UsedCondition",
+    offers: {
+      "@type": "Offer",
+      url,
+      price: car.price,
+      priceCurrency: "EUR",
+      availability: AVAILABILITY_SCHEMA[car.status],
+      itemCondition: "https://schema.org/UsedCondition",
+      seller: { "@id": `${SITE_URL}/#dealer` },
+    },
+  };
+}
 
 interface CarDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -31,23 +140,16 @@ export async function generateMetadata({
   try {
     const car = await CarsApi.getCarBySlug(slug);
 
-    const title = `${car.brand} ${car.model} ${car.year} en Venta en Benidorm | Segunda Mano - ${formatPrice(car.price)}`;
+    const title = `${car.brand} ${car.model} ${car.year} – ${formatPrice(car.price)}`;
 
-    const description = `Compra ${car.brand} ${car.model} de ${car.year} 
-    con ${formatMileage(car.mileageKm)}. ${getLabel(transmissions, car.transmission)} ${getLabel(fuelTypes, car.fuelType)} 
-    en MB Plus Benidorm. Coche de segunda mano en excelente estado.`;
+    const description = `${car.brand} ${car.model} ${car.year} con ${formatMileage(car.mileageKm)}. ${getLabel(transmissions, car.transmission)} ${getLabel(fuelTypes, car.fuelType)} en MB Plus Benidorm. Coche de segunda mano revisado y garantizado.`;
 
     return {
       title,
       description,
-      keywords: [
-        `${car.brand} ${car.model} ${car.year} segunda mano`,
-        `${car.brand} ${car.model} en venta Benidorm`,
-        `comprar ${car.brand} ${car.model} usado`,
-        `${car.brand} ocasión Benidorm`,
-        getLabel(fuelTypes, car.fuelType) || "",
-        getLabel(bodyTypes, car.bodyType) || "",
-      ].filter(Boolean),
+      alternates: {
+        canonical: `/coches/${slug}`,
+      },
       openGraph: {
         title,
         description,
@@ -88,9 +190,19 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
     const formattedMileage = formatMileage(data.mileageKm);
 
     const isUnavailable = data.status === "SOLD" || data.status === "DELETED";
+    const vehicleJsonLd = buildVehicleJsonLd(data);
+    const breadcrumbJsonLd = buildBreadcrumbJsonLd(data);
 
     return (
       <>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(vehicleJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        />
         {isUnavailable && (
           <div className="relative w-full overflow-hidden bg-red-50 dark:bg-black border-b border-red-200 dark:border-red-600/20">
             <div className="py-12 sm:py-16 px-4 sm:px-6 text-center">
@@ -115,16 +227,41 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
 
         <div className="min-h-screen bg-linear-to-b from-background to-muted/30 px-4 py-8 sm:px-6 sm:py-12">
           <div className="max-w-7xl mx-auto space-y-8 sm:space-y-12">
-            <a
-              href="/coches"
-              className="inline-flex items-center gap-2 cursor-pointer text-sm text-muted-foreground hover:text-foreground transition"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Volver al catálogo
-            </a>
+            <nav aria-label="Breadcrumb" className="text-sm">
+              <ol className="flex items-center gap-2 text-muted-foreground">
+                <li>
+                  <Link href="/" className="hover:text-foreground transition">
+                    Inicio
+                  </Link>
+                </li>
+                <li aria-hidden="true">
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </li>
+                <li>
+                  <Link
+                    href="/coches"
+                    className="hover:text-foreground transition"
+                  >
+                    Catálogo
+                  </Link>
+                </li>
+                <li aria-hidden="true">
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </li>
+                <li
+                  aria-current="page"
+                  className="text-foreground font-medium truncate max-w-48 sm:max-w-none"
+                >
+                  {data.brand} {data.model} {data.year}
+                </li>
+              </ol>
+            </nav>
 
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-14 items-start">
-              <CarCarousel images={sortedImages} slug={data.slug} />
+              <CarCarousel
+                images={sortedImages}
+                carName={`${data.brand} ${data.model} ${data.year}`}
+              />
 
               <div className="bg-card border border-border/50 rounded-3xl p-6 sm:p-10 shadow-xl flex flex-col gap-6 sm:gap-7">
                 <div className="space-y-2">

@@ -9,11 +9,11 @@ import type { CarImageDto } from "@/types/car/carImageDto";
 
 type Props = {
   images: CarImageDto[];
-  slug: string;
+  carName: string;
   autoPlayInterval?: number;
 };
 
-export default function CarCarousel({ images, slug, autoPlayInterval = 5000 }: Props) {
+export default function CarCarousel({ images, carName, autoPlayInterval = 5000 }: Props) {
   const sorted = [...images].sort((a, b) => a.orderIndex - b.orderIndex);
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -47,14 +47,12 @@ export default function CarCarousel({ images, slug, autoPlayInterval = 5000 }: P
     setLightboxOpen(true);
   };
 
-  // Preload all images into browser cache on mount
   useEffect(() => {
-    sorted.forEach(({ imageUrl }) => {
-      const img = new window.Image();
-      img.src = getCloudinaryUrl(imageUrl, 1200, 900, "best");
-    });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (sorted.length <= 1) return;
+    const nextIndex = (current + 1) % sorted.length;
+    const img = new window.Image();
+    img.src = getCloudinaryUrl(sorted[nextIndex].imageUrl, 1200, 800, "best");
+  }, [current, sorted]);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -117,7 +115,7 @@ export default function CarCarousel({ images, slug, autoPlayInterval = 5000 }: P
             priority
             sizes="(min-width: 1024px) 50vw, 100vw"
             className="object-cover transition-opacity duration-700"
-            alt={`${slug} imagen ${current + 1}`}
+            alt={`${carName} — imagen ${current + 1}`}
             unoptimized
           />
 
@@ -172,7 +170,7 @@ export default function CarCarousel({ images, slug, autoPlayInterval = 5000 }: P
                   fill
                   sizes="112px"
                   className="object-cover"
-                  alt={`${slug} miniatura ${index + 1}`}
+                  alt={`${carName} — miniatura ${index + 1}`}
                   unoptimized
                 />
               </div>
@@ -191,7 +189,7 @@ export default function CarCarousel({ images, slug, autoPlayInterval = 5000 }: P
           priority
           sizes="100vw"
           className="object-cover"
-          alt={`${slug} imagen principal`}
+          alt={`${carName} — imagen principal`}
           unoptimized
         />
         {sorted.length > 1 && (
@@ -242,7 +240,7 @@ export default function CarCarousel({ images, slug, autoPlayInterval = 5000 }: P
               fill
               sizes="100vw"
               className={`object-contain transition-opacity duration-300 ${lbLoaded ? "opacity-100" : "opacity-0"}`}
-              alt={`${slug} imagen ${lightboxIndex + 1}`}
+              alt={`${carName} — imagen ${lightboxIndex + 1}`}
               onLoad={() => setLbLoaded(true)}
               unoptimized
             />
@@ -292,7 +290,7 @@ export default function CarCarousel({ images, slug, autoPlayInterval = 5000 }: P
                     fill
                     sizes="64px"
                     className="object-cover"
-                    alt={`${slug} miniatura ${index + 1}`}
+                    alt={`${carName} — miniatura ${index + 1}`}
                     unoptimized
                   />
                 </div>

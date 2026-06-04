@@ -1,13 +1,17 @@
-
+import Image from "next/image";
 
 export default function Hero() {
   return (
     <section className="relative min-h-screen w-full overflow-hidden bg-neutral-950 text-white">
       <div className="absolute inset-0">
-        <img
+        <Image
           src="/wheel.avif"
-          alt="Mercedes-Benz de ocasion en Alicante"
-          className="h-full w-full object-cover"
+          alt="Mercedes-Benz de ocasión en Benidorm, Alicante"
+          fill
+          priority
+          fetchPriority="high"
+          sizes="100vw"
+          className="object-cover"
         />
         <div className="absolute inset-0 bg-linear-to-r from-black/80 via-black/55 to-transparent" />
         <div className="absolute inset-0 bg-[radial-gradient(80%_60%_at_20%_20%,rgba(255,255,255,0.12),transparent_60%)]" />

@@ -15,17 +15,19 @@ type CarCardProps = {
 };
 
 export function CarCard({ car, className }: CarCardProps) {
+    const carName = `${car.brand} ${car.model} ${car.year}`;
+
     return (
         <Link
             href={`/coches/${car.slug}`}
             className={cn("block", className)}
-            aria-label={`${car.brand} ${car.model}`}
+            aria-label={carName}
         >
             <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
                 <div className="relative aspect-video w-full overflow-hidden">
                     <Image
                         src={getCloudinaryUrl(car.mainImageUrl, 1200, 800, "good")}
-                        alt={`${car.brand} ${car.model}`}
+                        alt={carName}
                         fill
                         unoptimized
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -41,9 +43,9 @@ export function CarCard({ car, className }: CarCardProps) {
                 <div className="flex flex-1 flex-col gap-3 p-5">
                     <h3
                         className="truncate text-xl font-bold text-foreground"
-                        title={`${car.brand} ${car.model}`}
+                        title={carName}
                     >
-                        {car.brand} {car.model}
+                        {carName}
                     </h3>
 
                     <div className="flex flex-col gap-2 text-sm text-muted-foreground">

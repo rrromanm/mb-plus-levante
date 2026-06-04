@@ -38,7 +38,7 @@ export function AboutUs() {
               Respaldo profesional desde Benidorm
             </h2>
             <p className="text-sm opacity-60 leading-relaxed max-w-lg">
-              MB Plus Benidorm es un concesionario especializado en la venta de coches de ocasión. Más de 15 años de experiencia avalan nuestro compromiso con la calidad y la transparencia.
+              MB Plus Benidorm es un concesionario especializado en la venta de coches de ocasión. Más de 10 años de experiencia avalan nuestro compromiso con la calidad y la transparencia.
             </p>
           </div>
 
@@ -73,7 +73,7 @@ export function AboutUs() {
         <div className="relative min-h-80 lg:min-h-0">
           <Image
             src="/mb-emblema.avif"
-            alt="Detalle de rueda — MB Plus Levante concesionario Alicante"
+            alt="Emblema Mercedes-Benz — MB Plus Benidorm concesionario Alicante"
             fill
             className="object-cover"
             sizes="(min-width: 1024px) 50vw, 100vw"

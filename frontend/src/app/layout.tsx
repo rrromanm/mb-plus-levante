@@ -1,9 +1,14 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import ClientLayout from "./ClientLayout";
 import GoogleAnalyticsClient from "@/components/GoogleAnalyticsClient";
 import { ConsentProvider } from "@/context/ConsentContext";
 
 const gaId = process.env.NEXT_PUBLIC_GA_ID;
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
   title: {
@@ -12,13 +17,6 @@ export const metadata: Metadata = {
   },
   description:
     "Venta de coches de segunda mano en Benidorm (Alicante). Vehículos revisados, garantizados y listos para entrega inmediata en MB Plus.",
-  keywords: [
-    "coches segunda mano Benidorm",
-    "coches en venta Alicante",
-    "vehículos ocasión Benidorm",
-    "concesionario coches Benidorm",
-    "comprar coche usado Alicante",
-  ],
   metadataBase: new URL("https://mbplusbenidorm.es"),
 
   openGraph: {
@@ -48,6 +46,13 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+  },
+
+  other: {
+    "geo.region": "ES-A",
+    "geo.placename": "Benidorm",
+    "geo.position": "38.579953;-0.075103",
+    ICBM: "38.579953, -0.075103",
   },
 };
 
