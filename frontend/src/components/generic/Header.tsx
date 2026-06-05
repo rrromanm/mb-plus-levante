@@ -41,16 +41,16 @@ export default function Header() {
         </div>
 
         <nav className="hidden md:flex items-center gap-6 text-lg font-medium text-foreground">
-          <Link href="/" className="transition-colors hover:text-primary" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+          <Link href="/" className="relative transition-colors hover:text-primary after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-[#e23b3b] after:transition-[width] after:duration-300 hover:after:w-full" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
             Inicio
           </Link>
-          <Link href="/coches" className="transition-colors hover:text-primary">
+          <Link href="/coches" className="relative transition-colors hover:text-primary after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-[#e23b3b] after:transition-[width] after:duration-300 hover:after:w-full">
             Catálogo
           </Link>
-          <Link href="/#sobre-nosotros" className="transition-colors hover:text-primary">
+          <Link href="/#sobre-nosotros" className="relative transition-colors hover:text-primary after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-[#e23b3b] after:transition-[width] after:duration-300 hover:after:w-full">
             Sobre nosotros
           </Link>
-          <Link href="/#contacto" className="transition-colors hover:text-primary">
+          <Link href="/#contacto" className="relative transition-colors hover:text-primary after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-[#e23b3b] after:transition-[width] after:duration-300 hover:after:w-full">
             Contacto
           </Link>
         </nav>
