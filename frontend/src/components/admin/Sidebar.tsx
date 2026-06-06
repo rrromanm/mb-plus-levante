@@ -2,27 +2,27 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { House, Car, KeyRound, LogOut, Menu, X } from "lucide-react";
+import { House, LogOut, Menu, X, ArrowLeft } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
 
 const menuItems = [
   {
-    name: "Dashboard",
+    name: "Panel",
     href: "/admin/dashboard",
     icon: <House className="w-5 h-5" />,
   },
-  {
-    name: "Cars",
-    href: "/admin/cars",
-    icon: <Car className="w-5 h-5" />,
-  },
-  {
-    name: "Rentals",
-    href: "/admin/rentals",
-    icon: <KeyRound className="w-5 h-5" />,
-  }
+  // {
+  //   name: "Vehículos",
+  //   href: "/admin/cars",
+  //   icon: <Car className="w-5 h-5" />,
+  // },
+  // {
+  //   name: "Alquileres",
+  //   href: "/admin/rentals",
+  //   icon: <KeyRound className="w-5 h-5" />,
+  // },
 ];
 
 export default function Sidebar() {
@@ -39,12 +39,7 @@ export default function Sidebar() {
   }) => (
     <>
       <div className="p-6 border-b flex items-center justify-between">
-        <Image
-          src="/mb-plus-white.svg"
-          alt="MB Plus Logo"
-          width={240}
-          height={60}
-        />
+        <Image src="/mb-plus-white.svg" alt="MB Plus Logo" width={240} height={60} />
         {showClose ? (
           <button
             aria-label="Cerrar menú"
@@ -77,28 +72,38 @@ export default function Sidebar() {
         })}
       </nav>
 
-      <button
-        onClick={() => {
-          logout();
-          onNavigate?.();
-        }}
-        className="m-4 flex items-center gap-3 px-4 py-3 w-full rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-200"
-      >
-        <LogOut className="w-5 h-5" />
-        <span className="font-medium">Logout</span>
-      </button>
+      <div className="px-4 pb-2 space-y-2">
+        <Link
+          href="/"
+          onClick={onNavigate}
+          className="flex items-center gap-3 px-4 py-3 w-full rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-200"
+        >
+          <ArrowLeft className="w-5 h-5" />
+          <span className="font-medium">Volver a la página</span>
+        </Link>
+        <button
+          onClick={() => {
+            logout();
+            onNavigate?.();
+          }}
+          className="flex items-center gap-3 px-4 py-3 w-full rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-200 cursor-pointer"
+        >
+          <LogOut className="w-5 h-5" />
+          <span className="font-medium">Cerrar sesión</span>
+        </button>
+      </div>
     </>
   );
 
   return (
     <>
-      <div className="hidden md:flex w-72 bg-[#1D1D1D] min-h-screen flex-col text-[#C0C0C0]">
+      <div className="hidden md:flex w-72 bg-[#1D1D1D] h-screen flex-col text-[#C0C0C0]">
         <SidebarContent />
       </div>
 
       <div className="md:hidden w-full bg-[#1D1D1D] text-white border-b border-white/10 sticky top-0 z-20">
         <div className="flex items-center justify-between px-4 py-4">
-          <Image src="/mb-plus-white.svg" alt="MB Plus Logo" width={160} height={40} />
+          <Image src="/mb-plus-white.svg" alt="MB Plus Logo" width={88} height={40} />
           <button
             aria-label={isMobileOpen ? "Close menu" : "Open menu"}
             className="rounded-full border border-white/20 p-2 text-white hover:bg-white/10"
