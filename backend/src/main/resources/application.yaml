@@ -38,7 +38,7 @@ server:
 app:
   cookie:
     secure: true
-    sameSite: "None"
+    sameSite: "Strict"
 
 cloudinary:
   folder: mbplus/prod
