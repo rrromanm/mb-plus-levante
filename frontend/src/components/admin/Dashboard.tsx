@@ -178,7 +178,7 @@ export default function Dashboard() {
             Dashboard
           </h1>
 
-          {/* <div className="grid grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-4 gap-4 mb-8">
             <DashboardCard
               title={"Vehiculos en venta"}
               value={cars.length}
@@ -196,7 +196,7 @@ export default function Dashboard() {
               value={"0"}
               icon={Key}
             />
-          </div> */}
+          </div>
 
           <div className="rounded-lg bg-white shadow">
             <div className="flex flex-col gap-4 border-b border-gray-200 p-6 sm:flex-row sm:items-center sm:justify-between">
