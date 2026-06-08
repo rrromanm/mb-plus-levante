@@ -14,4 +14,5 @@ export interface CarDto {
     transmission: Transmission;
     powerHp: number;
     featured: boolean;
+    createdAt: string;
 }

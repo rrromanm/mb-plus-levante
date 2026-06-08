@@ -4,6 +4,9 @@ import com.mbpluslevante.backend.model.enums.FuelType;
 import com.mbpluslevante.backend.model.enums.Transmission;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 @Data
 public class CarDto
 {
@@ -19,9 +22,10 @@ public class CarDto
     private Transmission transmission;
     private Integer powerHp;
     private boolean featured;
+    private LocalDateTime createdAt;
 
     public CarDto(Long id, String brand, String model, Integer year, Integer price, Integer mileageKm,
-                  String slug, String mainImage, FuelType fuelType, Transmission transmission, Integer powerHp, boolean featured) {
+                  String slug, String mainImage, FuelType fuelType, Transmission transmission, Integer powerHp, boolean featured, LocalDateTime createdAt) {
         this.id = id;
         this.brand = brand;
         this.model = model;
@@ -34,5 +38,6 @@ public class CarDto
         this.transmission = transmission;
         this.powerHp = powerHp;
         this.featured = featured;
+        this.createdAt = createdAt;
     }
 }
