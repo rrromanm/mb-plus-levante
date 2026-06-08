@@ -12,13 +12,8 @@
     public interface CarRepository extends JpaRepository<Car, Long>
     {
         List<Car> findByStatus(CarStatus status, Sort sort);
-        List<Car> findByCreatedAtAfterAndStatusAndDeletedAtIsNullOrderByCreatedAtDesc(
-                LocalDateTime date,
-                CarStatus status
-        );
         List<Car> findByFeaturedTrueAndStatusOrderByCreatedAtDesc(CarStatus status);
         boolean existsBySlug(String slug);
         Optional<Car> findBySlug(String slug);
-
         List<Car> findByStatusAndIdNot(CarStatus status, Long id);
     }

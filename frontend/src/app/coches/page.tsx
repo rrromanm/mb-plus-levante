@@ -103,10 +103,13 @@ export default async function CochesPage({ searchParams }: CochesPageProps) {
   const sortKey = parseSortKey(sortParam);
   const { sort, order } = SORT_MAP[sortKey];
 
-  const [cars, recentCars] = await Promise.all([
-    CarsApi.getAllCars(sort, order).catch(() => []),
-    CarsApi.getRecentCars().catch(() => []),
-  ]);
+  const cars = await CarsApi.getAllCars(sort, order).catch(() => []);
+
+  const month = new Date();
+  month.setDate(month.getDate() - 30);
+  const recentCars = cars.filter(
+    (car) => new Date(car.createdAt) >= month
+  );
 
   const catalogJsonLd = buildCatalogJsonLd(cars);
 

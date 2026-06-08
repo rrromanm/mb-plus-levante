@@ -32,11 +32,6 @@ public class CarController
         return carService.findById(id);
     }
 
-    @GetMapping("/getRecentCars")
-    public List<CarDto> getRecentCars(){
-        return carService.findByCreatedAt();
-    }
-
     @GetMapping("/getFeaturedCars")
     public List<CarDto> featuredCar(){
         return carService.getFeaturedCars();
