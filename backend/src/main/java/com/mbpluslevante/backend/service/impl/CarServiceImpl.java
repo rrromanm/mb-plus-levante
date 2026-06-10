@@ -43,6 +43,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<CarDto> findAll(String sort, String order) {
 
         Sort.Direction direction =
@@ -71,6 +72,7 @@ public class CarServiceImpl implements CarService {
                 .toList();
     }
     @Override
+    @Transactional(readOnly = true)
     public CarDetailsDto findBySlug(String slug) {
         Car car = carRepository.findBySlug(slug)
                 .orElseThrow(() -> new RuntimeException("Car not found"));
@@ -101,6 +103,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public CarDetailsDto findById(Long id) {
         Car car = carRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Car not found"));
@@ -206,6 +209,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<CarDto> getFeaturedCars() {
         return carRepository.findByFeaturedTrueAndStatusOrderByCreatedAtDesc(CarStatus.ACTIVE)
                 .stream()
@@ -228,6 +232,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<CarSitemapDto> getSitemapData() {
         return carRepository.findAll().stream()
                 .map(car -> new CarSitemapDto(car.getSlug(), car.getCreatedAt()))
@@ -235,14 +240,19 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<CarDto> getRecommendedCars(String slug) {
         Car car = carRepository.findBySlug(slug)
                 .orElseThrow(() -> new RuntimeException("Car not found"));
 
-        List<Car> cars = new ArrayList<>(carRepository.findByStatusAndIdNot(CarStatus.ACTIVE, car.getId()));
-        Collections.shuffle(cars);
+        List<Long> carIds = new ArrayList<>(
+                carRepository.findIdsByStatusAndIdNot(CarStatus.ACTIVE, car.getId())
+        );
+        if (carIds.isEmpty()) return List.of();
+        Collections.shuffle(carIds);
+        List<Long> randomIds = carIds.stream().limit(6).toList();
 
-        return cars.stream().limit(6).map(c -> new CarDto(
+        return carRepository.findByIdIn(randomIds).stream().map(c -> new CarDto(
                 c.getId(),
                 c.getBrand(),
                 c.getModel(),
@@ -255,7 +265,7 @@ public class CarServiceImpl implements CarService {
                 c.getTransmission(),
                 c.getPowerHp(),
                 c.isFeatured(),
-                car.getCreatedAt()
+                c.getCreatedAt()
         )).toList();
     }
 

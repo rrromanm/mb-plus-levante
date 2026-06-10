@@ -4,6 +4,7 @@ import com.mbpluslevante.backend.model.Brand;
 import com.mbpluslevante.backend.repository.BrandRepository;
 import com.mbpluslevante.backend.service.BrandService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class BrandServiceImpl implements BrandService
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Brand> findAll() {
         return brandRepository.findAll();
     }
