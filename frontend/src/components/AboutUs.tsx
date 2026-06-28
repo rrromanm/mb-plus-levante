@@ -1,30 +1,16 @@
 import Image from "next/image";
 import { ShieldCheck, Wrench, Star, Clock } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 const PILLARS = [
-  {
-    icon: ShieldCheck,
-    title: "Garantía de hasta 12 meses",
-    desc: "Todos nuestros vehículos se entregan con inspección técnica reciente y garantía de hasta 12 meses o 10.000 km.",
-  },
-  {
-    icon: Wrench,
-    title: "Taller propio",
-    desc: "Revisamos, preparamos y mantenemos cada coche en nuestras propias instalaciones antes de la entrega.",
-  },
-  {
-    icon: Star,
-    title: "Especialistas en Mercedes-Benz",
-    desc: "Nuestro enfoque principal son los vehículos Mercedes-Benz, aunque también trabajamos con otras marcas reconocidas.",
-  },
-  {
-    icon: Clock,
-    title: "Más de 15 años de experiencia",
-    desc: "Más de una década ayudando a nuestros clientes a encontrar el coche que necesitan, al precio que buscan.",
-  },
-];
+  { icon: ShieldCheck, titleKey: "pillarWarrantyTitle", descKey: "pillarWarrantyDesc" },
+  { icon: Wrench, titleKey: "pillarWorkshopTitle", descKey: "pillarWorkshopDesc" },
+  { icon: Star, titleKey: "pillarSpecialistsTitle", descKey: "pillarSpecialistsDesc" },
+  { icon: Clock, titleKey: "pillarExperienceTitle", descKey: "pillarExperienceDesc" },
+] as const;
 
 export function AboutUs() {
+  const t = useTranslations("About");
   return (
     <section id="sobre-nosotros" className="scroll-mt-24">
       <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -32,23 +18,23 @@ export function AboutUs() {
         <div className="bg-zinc-900 dark:bg-zinc-800 text-white flex flex-col justify-between gap-10 px-8 sm:px-12 lg:px-16 py-16 lg:py-24">
           <div className="space-y-3">
             <p className="text-xs uppercase tracking-widest opacity-50">
-              Coches de segunda mano en Alicante · MB Plus Benidorm
+              {t("eyebrow")}
             </p>
             <h2 className="text-3xl sm:text-4xl font-semibold leading-snug">
-              Respaldo profesional desde Benidorm
+              {t("title")}
             </h2>
             <p className="text-sm opacity-60 leading-relaxed max-w-lg">
-              MB Plus Benidorm es un concesionario especializado en la venta de coches de ocasión. Más de 10 años de experiencia avalan nuestro compromiso con la calidad y la transparencia.
+              {t("intro")}
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {PILLARS.map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="flex gap-3">
+            {PILLARS.map(({ icon: Icon, titleKey, descKey }) => (
+              <div key={titleKey} className="flex gap-3">
                 <Icon className="w-5 h-5 shrink-0 mt-0.5 opacity-50" />
                 <div className="space-y-0.5">
-                  <p className="text-sm font-semibold">{title}</p>
-                  <p className="text-xs opacity-50 leading-relaxed">{desc}</p>
+                  <p className="text-sm font-semibold">{t(titleKey)}</p>
+                  <p className="text-xs opacity-50 leading-relaxed">{t(descKey)}</p>
                 </div>
               </div>
             ))}
@@ -57,15 +43,15 @@ export function AboutUs() {
           <div className="flex flex-wrap gap-8 border-t border-white/15 pt-8 justify-center">
             <div>
               <p className="text-3xl font-bold tabular-nums">+2000</p>
-              <p className="text-xs opacity-50 uppercase tracking-wider mt-0.5">Coches vendidos</p>
+              <p className="text-xs opacity-50 uppercase tracking-wider mt-0.5">{t("statSoldLabel")}</p>
             </div>
             <div>
-              <p className="text-3xl font-bold">ITV ✓</p>
-              <p className="text-xs opacity-50 uppercase tracking-wider mt-0.5">Revisión técnica pasada</p>
+              <p className="text-3xl font-bold">{t("statItvValue")}</p>
+              <p className="text-xs opacity-50 uppercase tracking-wider mt-0.5">{t("statItvLabel")}</p>
             </div>
             <div>
               <p className="text-3xl font-bold tabular-nums">+15</p>
-              <p className="text-xs opacity-50 uppercase tracking-wider mt-0.5">Años de experiencia</p>
+              <p className="text-xs opacity-50 uppercase tracking-wider mt-0.5">{t("statYearsLabel")}</p>
             </div>
           </div>
         </div>

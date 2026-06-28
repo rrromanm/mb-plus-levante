@@ -1,9 +1,11 @@
 "use client";
 
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { CONTACT } from "@/lib/contactInfo";
 
 export default function Footer() {
+  const t = useTranslations("Footer");
   const year = new Date().getFullYear();
 
   return (
@@ -13,17 +15,17 @@ export default function Footer() {
           <div className="space-y-2">
             <p className="text-sm font-semibold">MB Plus Benidorm</p>
             <p className="text-sm text-muted-foreground">
-              Coches de ocasión en L&apos;Albir, Alicante
+              {t("tagline")}
             </p>
             <p className="text-sm text-muted-foreground">{CONTACT.address}</p>
           </div>
 
           <div className="grid grid-cols-1 gap-2 text-sm sm:grid-cols-2 sm:gap-x-8">
             <Link href="/" className="text-muted-foreground transition-colors hover:text-foreground" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-              Inicio
+              {t("home")}
             </Link>
             <Link href="/coches" className="text-muted-foreground transition-colors hover:text-foreground">
-              Catálogo
+              {t("catalog")}
             </Link>
             <a
               href={`tel:${CONTACT.phone.replace(/\s/g, "")}`}
@@ -41,7 +43,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-border pt-4 text-xs text-muted-foreground">
-          © {year} MB Plus Benidorm. Todos los derechos reservados.
+          © {year} MB Plus Benidorm. {t("rights")}
         </div>
       </div>
     </footer>

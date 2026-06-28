@@ -1,14 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { Phone } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { ThemeSwitch } from "./ThemeSwitch";
+import LanguageSwitcher from "./LanguageSwitcher";
 import { CONTACT } from "@/lib/contactInfo";
 
 export default function Header() {
+  const t = useTranslations("Header");
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -42,16 +45,16 @@ export default function Header() {
 
         <nav className="hidden md:flex items-center gap-6 text-lg font-medium text-foreground">
           <Link href="/" className="relative transition-colors hover:text-primary after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-[#e23b3b] after:transition-[width] after:duration-300 hover:after:w-full" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-            Inicio
+            {t("home")}
           </Link>
           <Link href="/coches" className="relative transition-colors hover:text-primary after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-[#e23b3b] after:transition-[width] after:duration-300 hover:after:w-full">
-            Catálogo
+            {t("catalog")}
           </Link>
           <Link href="/#sobre-nosotros" className="relative transition-colors hover:text-primary after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-[#e23b3b] after:transition-[width] after:duration-300 hover:after:w-full">
-            Sobre nosotros
+            {t("about")}
           </Link>
           <Link href="/#contacto" className="relative transition-colors hover:text-primary after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-[#e23b3b] after:transition-[width] after:duration-300 hover:after:w-full">
-            Contacto
+            {t("contact")}
           </Link>
         </nav>
 
@@ -65,6 +68,8 @@ export default function Header() {
             </span>
             <span className="hidden sm:inline tracking-wide">{CONTACT.phone}</span>
           </a>
+          <div className="w-px h-5 bg-border" />
+          <LanguageSwitcher />
           <div className="w-px h-5 bg-border" />
           <ThemeSwitch />
         </div>

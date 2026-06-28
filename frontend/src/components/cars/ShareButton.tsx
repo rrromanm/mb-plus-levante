@@ -1,6 +1,7 @@
 "use client";
 
 import { Share2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface ShareButtonProps {
   carBrand: string;
@@ -9,6 +10,8 @@ interface ShareButtonProps {
 }
 
 export default function ShareButton({ carBrand, carModel, carYear }: ShareButtonProps) {
+  const t = useTranslations("Share");
+
   const handleShare = async () => {
     const url = window.location.href;
     if (navigator.share) {
@@ -18,7 +21,7 @@ export default function ShareButton({ carBrand, carModel, carYear }: ShareButton
       });
     } else {
       await navigator.clipboard.writeText(url);
-      alert("Enlace copiado al portapapeles");
+      alert(t("copied"));
     }
   };
 
@@ -28,7 +31,7 @@ export default function ShareButton({ carBrand, carModel, carYear }: ShareButton
       className="inline-flex items-center justify-center gap-2 border border-border px-8 py-3 rounded-full font-medium hover:bg-muted transition cursor-pointer"
     >
       <Share2 className="w-4 h-4" />
-      Compartir
+      {t("share")}
     </button>
   );
 }

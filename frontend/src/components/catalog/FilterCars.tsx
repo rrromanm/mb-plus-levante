@@ -1,6 +1,7 @@
 "use client";
 
 import { Search, SlidersHorizontal } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { fuelTypes } from "@/lib/enums/fuelType";
 import { transmissions } from "@/lib/enums/transmission";
 
@@ -11,26 +12,29 @@ const selectCls =
   "w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring transition appearance-none cursor-pointer";
 
 export default function FilterCars() {
+  const t = useTranslations("Filters");
+  const tFuel = useTranslations("Enums.fuel");
+  const tTransmission = useTranslations("Enums.transmission");
   return (
     <section className="mx-auto w-full max-w-screen-2xl px-6 lg:px-12 pt-10 pb-4">
       <div className="rounded-2xl border border-border bg-card shadow-md p-6">
         <div className="flex items-center gap-2 mb-5">
           <SlidersHorizontal className="w-4 h-4 text-muted-foreground" />
           <span className="text-xs uppercase tracking-widest text-muted-foreground font-medium">
-            Filtrar vehículos
+            {t("title")}
           </span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="lg:col-span-2 flex flex-col gap-1.5">
             <label className="text-xs font-medium text-muted-foreground">
-              Marca / Modelo
+              {t("brandModel")}
             </label>
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
               <input
                 type="text"
-                placeholder="Ej. Mercedes, BMW, C220..."
+                placeholder={t("brandPlaceholder")}
                 className={`${inputCls} pl-9`}
               />
             </div>
@@ -38,15 +42,15 @@ export default function FilterCars() {
 
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-medium text-muted-foreground">
-              Combustible
+              {t("fuel")}
             </label>
             <select className={selectCls} defaultValue="">
               <option value="" disabled>
-                Todos
+                {t("allFuel")}
               </option>
               {fuelTypes.map((f) => (
                 <option key={f.value} value={f.value}>
-                  {f.label}
+                  {tFuel(f.value)}
                 </option>
               ))}
             </select>
@@ -54,15 +58,15 @@ export default function FilterCars() {
 
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-medium text-muted-foreground">
-              Transmisión
+              {t("transmission")}
             </label>
             <select className={selectCls} defaultValue="">
               <option value="" disabled>
-                Todas
+                {t("allTransmission")}
               </option>
-              {transmissions.map((t) => (
-                <option key={t.value} value={t.value}>
-                  {t.label}
+              {transmissions.map((tr) => (
+                <option key={tr.value} value={tr.value}>
+                  {tTransmission(tr.value)}
                 </option>
               ))}
             </select>
@@ -70,7 +74,7 @@ export default function FilterCars() {
 
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-medium text-muted-foreground">
-              Precio mínimo (€)
+              {t("priceMin")}
             </label>
             <input
               type="number"
@@ -82,11 +86,11 @@ export default function FilterCars() {
 
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-medium text-muted-foreground">
-              Precio máximo (€)
+              {t("priceMax")}
             </label>
             <input
               type="number"
-              placeholder="Sin límite"
+              placeholder={t("noLimit")}
               min={0}
               className={inputCls}
             />
@@ -94,7 +98,7 @@ export default function FilterCars() {
 
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-medium text-muted-foreground">
-              Año desde
+              {t("yearFrom")}
             </label>
             <input
               type="number"
@@ -107,7 +111,7 @@ export default function FilterCars() {
 
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-medium text-muted-foreground">
-              Año hasta
+              {t("yearTo")}
             </label>
             <input
               type="number"
@@ -124,13 +128,13 @@ export default function FilterCars() {
             type="button"
             className="px-4 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground transition"
           >
-            Limpiar filtros
+            {t("clear")}
           </button>
           <button
             type="button"
             className="px-5 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition"
           >
-            Buscar
+            {t("search")}
           </button>
         </div>
       </div>

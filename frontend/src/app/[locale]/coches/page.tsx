@@ -5,6 +5,9 @@ import { FuelType } from "@/lib/enums/fuelType";
 import { Transmission } from "@/lib/enums/transmission";
 import { CarDto } from "@/types/car/carDto";
 import { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { type Locale } from "@/i18n/routing";
+import { getAlternates, OG_LOCALES } from "@/i18n/seo";
 
 const SITE_URL = "https://mbplusbenidorm.es";
 
@@ -73,23 +76,30 @@ function buildCatalogJsonLd(cars: CarDto[]) {
   };
 }
 
-export const metadata: Metadata = {
-  title: "Coches de Segunda Mano en Benidorm | Catálogo",
-  description:
-    "Descubre nuestro catálogo de coches de segunda mano en Benidorm. Vehículos revisados, listos para entrega inmediata en MB Plus Alicante.",
-  openGraph: {
-    title: "Coches de Segunda Mano en Benidorm | MB Plus",
-    description:
-      "Explora coches de ocasión en Benidorm. Encuentra tu próximo vehículo al mejor precio.",
-    url: "https://mbplusbenidorm.es/coches",
-    type: "website",
-  },
-  alternates: {
-    canonical: "/coches",
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+  const alternates = getAlternates(locale as Locale, "/coches");
+  return {
+    title: t("catalogTitle"),
+    description: t("catalogDescription"),
+    alternates,
+    openGraph: {
+      title: t("catalogOgTitle"),
+      description: t("catalogOgDescription"),
+      url: alternates.canonical as string,
+      locale: OG_LOCALES[locale as Locale],
+      type: "website",
+    },
+  };
+}
 
 interface CochesPageProps {
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{ sort?: string }>;
 }
 
@@ -98,7 +108,11 @@ function parseSortKey(value: string | undefined): SortKey {
   return "year-desc";
 }
 
-export default async function CochesPage({ searchParams }: CochesPageProps) {
+export default async function CochesPage({ params, searchParams }: CochesPageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("Catalog");
+
   const { sort: sortParam } = await searchParams;
   const sortKey = parseSortKey(sortParam);
   const { sort, order } = SORT_MAP[sortKey];
@@ -121,10 +135,10 @@ export default async function CochesPage({ searchParams }: CochesPageProps) {
       />
       <div className="mx-auto max-w-screen-2xl px-6 lg:px-12 pt-14 pb-2 ">
         <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">
-          Alicante · Benidorm · Segunda mano
+          {t("pageEyebrow")}
         </p>
         <h1 className="text-4xl sm:text-5xl font-semibold leading-tight">
-          Catálogo de vehículos
+          {t("pageTitle")}
         </h1>
       </div>
 

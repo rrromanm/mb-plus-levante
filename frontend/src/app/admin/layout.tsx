@@ -1,42 +1,42 @@
-"use client";
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import "../globals.css";
+import { Toaster } from "react-hot-toast";
+import { AuthProvider } from "@/context/AuthContext";
+import { Providers } from "@/app/providers";
+import AdminGuard from "./AdminGuard";
 
-import { useEffect } from "react";
-import { useRouter, usePathname } from "next/navigation";
-import { useAuth } from "@/context/AuthContext";
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
 
-export default function AdminLayout({
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
+
+export default function AdminRootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const { user, isLoading, isAdmin, checkAuth } = useAuth();
-
-  useEffect(() => {
-    if (pathname === "/admin/login") {
-      return;
-    }
-
-    checkAuth();
-  }, [pathname]);
-
-  useEffect(() => {
-    if (pathname === "/admin/login") {
-      return;
-    }
-    if (!isLoading && (!user || !isAdmin)) {
-      router.push("/admin/login");
-    }
-  }, [user, isLoading, isAdmin, pathname, router]);
-
-  if (pathname !== "/admin/login" && isLoading) {
-    return <div className="p-8">Checking admin access…</div>;
-  }
-
-  if (pathname !== "/admin/login" && !user) {
-    return <div className="p-8">Redirecting to login…</div>;
-  }
-
-  return <>{children}</>;
+  return (
+    <html lang="es" suppressHydrationWarning>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <Providers>
+          <AuthProvider>
+            <AdminGuard>{children}</AdminGuard>
+            <Toaster position="top-right" />
+          </AuthProvider>
+        </Providers>
+      </body>
+    </html>
+  );
 }

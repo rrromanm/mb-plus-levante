@@ -1,18 +1,20 @@
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
+import { useTranslations } from "next-intl";
 import SectionBox from "./generic/SectionBox";
 import { CONTACT } from "@/lib/contactInfo";
 
 export function CompanyInfo() {
+  const t = useTranslations("Contact");
   return (
     <SectionBox id="contacto">
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-10">
         <div>
           <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">
-            Benidorm, Alicante
+            {t("eyebrow")}
           </p>
           <h2 className="text-3xl sm:text-4xl font-semibold leading-tight">
-            Visítanos o contáctanos
+            {t("title")}
           </h2>
         </div>
       </div>
@@ -28,7 +30,7 @@ export function CompanyInfo() {
             allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            title="MB Plus Benidorm ubicación en L'Albir, Alicante"
+            title={t("mapTitle")}
           />
         </div>
 
@@ -36,13 +38,13 @@ export function CompanyInfo() {
           {/* Primary CTAs */}
           <div className="flex flex-col sm:flex-row gap-3">
             <a
-              href={`https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent("Hola, me gustaría obtener información sobre los vehículos disponibles.")}`}
+              href={`https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(t("whatsappPrefill"))}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-green-500 text-white px-5 py-3 rounded-xl font-medium hover:bg-green-600 transition text-sm"
             >
               <FaWhatsapp className="w-4 h-4" />
-              Escribir por WhatsApp
+              {t("whatsapp")}
             </a>
             <a
               href={`tel:${CONTACT.phone.replace(/\s/g, "")}`}
@@ -54,7 +56,7 @@ export function CompanyInfo() {
           </div>
 
           <p className="text-sm text-muted-foreground">
-            Estamos en L'Albir — fácil acceso desde Benidorm, Altea y Calpe.
+            {t("near")}
           </p>
 
           <div className="flex flex-col gap-4 pt-2 border-t border-border">
@@ -67,7 +69,7 @@ export function CompanyInfo() {
               </span>
               <div>
                 <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
-                  Email
+                  {t("emailLabel")}
                 </p>
                 <p className="text-sm font-medium mt-0.5 group-hover:text-primary transition-colors">
                   {CONTACT.email}
@@ -86,7 +88,7 @@ export function CompanyInfo() {
               </span>
               <div>
                 <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
-                  Dirección
+                  {t("addressLabel")}
                 </p>
                 <p className="text-sm font-medium mt-0.5 group-hover:text-primary transition-colors">
                   {CONTACT.address}
@@ -100,23 +102,23 @@ export function CompanyInfo() {
               </span>
               <div>
                 <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
-                  Horario
+                  {t("hoursLabel")}
                 </p>
 
                 <div className="mt-2 space-y-1 text-sm text-muted-foreground">
                   <p>
                     <span className="font-medium text-foreground">
-                      Lunes – Viernes
+                      {t("weekdays")}
                     </span>{" "}
                     · 09:00 – 17:00
                   </p>
                   <p>
-                    <span className="font-medium text-foreground">Sábado</span>{" "}
+                    <span className="font-medium text-foreground">{t("saturday")}</span>{" "}
                     · 09:00 – 13:00
                   </p>
                   <p>
-                    <span className="font-medium text-foreground">Domingo</span>{" "}
-                    · Cerrado
+                    <span className="font-medium text-foreground">{t("sunday")}</span>{" "}
+                    · {t("closed")}
                   </p>
                 </div>
               </div>

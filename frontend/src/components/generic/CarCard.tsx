@@ -1,13 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { getCloudinaryUrl } from "@/services/cloudinary";
 import { cn, formatPrice, formatMileage } from "@/lib/utils";
 import { Calendar, Fuel, Gauge, Settings, Zap } from "lucide-react";
 import { CarDto } from "@/types/car/carDto";
-import { fuelTypes } from "@/lib/enums/fuelType";
-import { transmissions } from "@/lib/enums/transmission";
 
 type CarCardProps = {
     car: CarDto;
@@ -15,6 +14,9 @@ type CarCardProps = {
 };
 
 export function CarCard({ car, className }: CarCardProps) {
+    const t = useTranslations("CarCard");
+    const tFuel = useTranslations("Enums.fuel");
+    const tTransmission = useTranslations("Enums.transmission");
     const carName = `${car.brand} ${car.model} ${car.year}`;
 
     return (
@@ -35,7 +37,7 @@ export function CarCard({ car, className }: CarCardProps) {
                     />
                     <div className="absolute inset-0 flex items-end justify-center bg-black/40 pb-6 opacity-0 backdrop-blur-[1px] transition-opacity duration-300 group-hover:opacity-100">
                         <span className="rounded-full bg-primary px-6 py-2 text-sm font-semibold text-primary-foreground shadow-lg">
-                            Ver detalles →
+                            {t("viewDetails")} →
                         </span>
                     </div>
                 </div>
@@ -60,17 +62,17 @@ export function CarCard({ car, className }: CarCardProps) {
                             </span>
                             <span className="flex items-center gap-1.5">
                                 <Zap className="h-4 w-4" />
-                                {car.powerHp} cv
+                                {car.powerHp} {t("powerUnit")}
                             </span>
                         </div>
                         <div className="flex items-center gap-4">
                             <span className="flex items-center gap-1.5">
                                 <Fuel className="h-4 w-4" />
-                                {fuelTypes.find((f) => f.value === car.fuelType)?.label ?? car.fuelType}
+                                {tFuel(car.fuelType)}
                             </span>
                             <span className="flex items-center gap-1.5">
                                 <Settings className="h-4 w-4" />
-                                {transmissions.find((t) => t.value === car.transmission)?.label ?? car.transmission}
+                                {tTransmission(car.transmission)}
                             </span>
                         </div>
                     </div>

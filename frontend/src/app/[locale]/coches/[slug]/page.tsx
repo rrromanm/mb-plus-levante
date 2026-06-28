@@ -1,13 +1,16 @@
 import { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronRight } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+import { type Locale } from "@/i18n/routing";
+import { getAlternates } from "@/i18n/seo";
 import CarCarousel from "@/components/cars/CarCarousel";
 import ShareButton from "@/components/cars/ShareButton";
-import { fuelTypes, FuelType } from "@/lib/enums/fuelType";
-import { transmissions, Transmission } from "@/lib/enums/transmission";
-import { bodyTypes, BodyType } from "@/lib/enums/bodyType";
+import { FuelType } from "@/lib/enums/fuelType";
+import { Transmission } from "@/lib/enums/transmission";
+import { BodyType } from "@/lib/enums/bodyType";
 import { SimilarCars } from "@/components/cars/SimilarCars";
 import { CONTACT } from "@/lib/contactInfo";
 import { formatPrice, formatMileage } from "@/lib/utils";
@@ -16,6 +19,7 @@ import type { CarDetailsDto, CarStatus } from "@/types/car/carDetailsDto";
 
 const SITE_URL = "https://mbplusbenidorm.es";
 
+// schema.org enum values are always English (structured data is locale-agnostic).
 const FUEL_SCHEMA: Record<FuelType, string> = {
   PETROL: "Gasoline",
   DIESEL: "Diesel",
@@ -45,7 +49,10 @@ const AVAILABILITY_SCHEMA: Record<CarStatus, string | undefined> = {
   DELETED: undefined,
 };
 
-function buildBreadcrumbJsonLd(car: CarDetailsDto) {
+function buildBreadcrumbJsonLd(
+  car: CarDetailsDto,
+  labels: { home: string; catalog: string },
+) {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -53,13 +60,13 @@ function buildBreadcrumbJsonLd(car: CarDetailsDto) {
       {
         "@type": "ListItem",
         position: 1,
-        name: "Inicio",
+        name: labels.home,
         item: SITE_URL,
       },
       {
         "@type": "ListItem",
         position: 2,
-        name: "Catálogo",
+        name: labels.catalog,
         item: `${SITE_URL}/coches`,
       },
       {
@@ -122,39 +129,43 @@ function buildVehicleJsonLd(car: CarDetailsDto) {
 }
 
 interface CarDetailPageProps {
-  params: Promise<{ slug: string }>;
-}
-
-function getLabel(
-  list: readonly { value: string; label: string }[],
-  value?: string,
-): string | undefined {
-  return list.find((item) => item.value === value)?.label;
+  params: Promise<{ locale: string; slug: string }>;
 }
 
 export async function generateMetadata({
   params,
 }: CarDetailPageProps): Promise<Metadata> {
-  const { slug } = await params;
+  const { locale, slug } = await params;
+  const tMeta = await getTranslations({ locale, namespace: "Metadata" });
 
   try {
     const car = await CarsApi.getCarBySlug(slug);
+    const tFuel = await getTranslations({ locale, namespace: "Enums.fuel" });
+    const tTransmission = await getTranslations({
+      locale,
+      namespace: "Enums.transmission",
+    });
 
     const title = `${car.brand} ${car.model} ${car.year} – ${formatPrice(car.price)}`;
 
-    const description = `${car.brand} ${car.model} ${car.year} con ${formatMileage(car.mileageKm)}. ${getLabel(transmissions, car.transmission)} ${getLabel(fuelTypes, car.fuelType)} en MB Plus Benidorm. Coche de segunda mano revisado y garantizado.`;
+    const description = tMeta("carDescription", {
+      brand: car.brand,
+      model: car.model,
+      year: car.year,
+      mileage: formatMileage(car.mileageKm),
+      transmission: tTransmission(car.transmission),
+      fuel: tFuel(car.fuelType),
+    });
 
     return {
       title,
       description,
-      alternates: {
-        canonical: `/coches/${slug}`,
-      },
+      alternates: getAlternates(locale as Locale, `/coches/${slug}`),
       openGraph: {
         title,
         description,
         type: "website",
-        url: `https://mbplusbenidorm.es/coches/${slug}`,
+        url: `${SITE_URL}/coches/${slug}`,
         images: car.images?.[0]?.imageUrl
           ? [{ url: car.images[0].imageUrl, width: 1200, height: 630 }]
           : [],
@@ -168,14 +179,20 @@ export async function generateMetadata({
     };
   } catch {
     return {
-      title: "Coche no encontrado",
-      description: "El coche que buscas no está disponible.",
+      title: tMeta("carNotFoundTitle"),
+      description: tMeta("carNotFoundDescription"),
     };
   }
 }
 
 export default async function CarDetailPage({ params }: CarDetailPageProps) {
-  const { slug } = await params;
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
+
+  const t = await getTranslations("CarDetail");
+  const tFuel = await getTranslations("Enums.fuel");
+  const tTransmission = await getTranslations("Enums.transmission");
+  const tBody = await getTranslations("Enums.body");
 
   try {
     const [data, similarCars] = await Promise.all([
@@ -191,7 +208,15 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
 
     const isUnavailable = data.status === "SOLD" || data.status === "DELETED";
     const vehicleJsonLd = buildVehicleJsonLd(data);
-    const breadcrumbJsonLd = buildBreadcrumbJsonLd(data);
+    const breadcrumbJsonLd = buildBreadcrumbJsonLd(data, {
+      home: t("breadcrumbHome"),
+      catalog: t("breadcrumbCatalog"),
+    });
+
+    const whatsappText = `${t("whatsappPrefill", {
+      car: `${data.brand} ${data.model} (${data.year})`,
+      price: formattedPrice,
+    })}\n${SITE_URL}/coches/${data.slug}`;
 
     return (
       <>
@@ -209,16 +234,16 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
               <div className="flex flex-col items-center gap-4 max-w-2xl mx-auto">
                 <div className="flex items-center gap-3">
                   <div className="h-px w-12 bg-red-400/60 dark:bg-red-600/60" />
-                  <span className="text-red-600 dark:text-red-500 text-xs uppercase tracking-widest font-semibold">No disponible</span>
+                  <span className="text-red-600 dark:text-red-500 text-xs uppercase tracking-widest font-semibold">{t("unavailableBadge")}</span>
                   <div className="h-px w-12 bg-red-400/60 dark:bg-red-600/60" />
                 </div>
                 <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-gray-900 dark:text-white">
-                  Este vehículo ya no
+                  {t("notForSaleLine1")}
                   <br />
-                  <span className="text-red-600 dark:text-red-500">está en venta</span>
+                  <span className="text-red-600 dark:text-red-500">{t("notForSaleLine2")}</span>
                 </h2>
                 <p className="text-gray-500 dark:text-white/50 text-base sm:text-lg max-w-md">
-                  Puede que haya sido vendido o eliminado del catálogo.
+                  {t("notForSaleDesc")}
                 </p>
               </div>
             </div>
@@ -231,7 +256,7 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
               <ol className="flex items-center gap-2 text-muted-foreground">
                 <li>
                   <Link href="/" className="hover:text-foreground transition">
-                    Inicio
+                    {t("breadcrumbHome")}
                   </Link>
                 </li>
                 <li aria-hidden="true">
@@ -242,7 +267,7 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
                     href="/coches"
                     className="hover:text-foreground transition"
                   >
-                    Catálogo
+                    {t("breadcrumbCatalog")}
                   </Link>
                 </li>
                 <li aria-hidden="true">
@@ -278,33 +303,40 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
                 </p>
 
                 <dl className="grid grid-cols-2 gap-x-4 sm:gap-x-8 gap-y-4 sm:gap-y-5 border-t border-border/50 pt-6 text-sm">
-                  <Spec label="Año" value={data.year} />
-                  <Spec label="Kilometraje" value={formattedMileage} />
+                  <Spec label={t("specYear")} value={data.year} />
+                  <Spec label={t("specMileage")} value={formattedMileage} />
                   <Spec
-                    label="Combustible"
-                    value={getLabel(fuelTypes, data.fuelType)}
+                    label={t("specFuel")}
+                    value={data.fuelType ? tFuel(data.fuelType) : undefined}
                   />
                   <Spec
-                    label="Transmisión"
-                    value={getLabel(transmissions, data.transmission)}
+                    label={t("specTransmission")}
+                    value={
+                      data.transmission
+                        ? tTransmission(data.transmission)
+                        : undefined
+                    }
                   />
-                  <Spec label="Motor" value={data.engine} />
-                  <Spec label="Potencia" value={`${data.powerHp} HP`} />
+                  <Spec label={t("specEngine")} value={data.engine} />
                   <Spec
-                    label="Carrocería"
-                    value={getLabel(bodyTypes, data.bodyType)}
+                    label={t("specPower")}
+                    value={`${data.powerHp} ${t("powerUnit")}`}
+                  />
+                  <Spec
+                    label={t("specBody")}
+                    value={data.bodyType ? tBody(data.bodyType) : undefined}
                   />
                 </dl>
 
                 <div className="flex flex-col sm:flex-row flex-wrap gap-3 pt-2">
                   <a
-                    href={`https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(`Hola, estoy interesado en el ${data.brand} ${data.model} (${data.year}) por ${formattedPrice} ¿Está disponible?\n${typeof window !== "undefined" ? window.location.href : ""}`)}`}
+                    href={`https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(whatsappText)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-2 bg-green-500 text-white px-8 py-3 rounded-full font-medium shadow-md hover:bg-green-600 transition"
                   >
                     <FaWhatsapp className="w-4 h-4" />
-                    Contactar por WhatsApp
+                    {t("whatsapp")}
                   </a>
                   <ShareButton
                     carBrand={data.brand}
@@ -317,7 +349,7 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
 
             {data.description && (
               <div className="bg-card border border-border/50 rounded-3xl p-6 sm:p-10 shadow-sm">
-                <h2 className="text-xl font-semibold mb-4">Descripción</h2>
+                <h2 className="text-xl font-semibold mb-4">{t("description")}</h2>
                 <p className="leading-relaxed text-muted-foreground max-w-4xl">
                   {data.description}
                 </p>

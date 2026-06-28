@@ -1,10 +1,11 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { CarCard } from "../generic/CarCard";
 import Autoplay from "embla-carousel-autoplay";
 import { useRef } from "react";
 import { MoveUpRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { CarDto } from "@/types/car/carDto";
 import {
   Carousel,
@@ -17,6 +18,7 @@ interface FeaturedCarsProps {
 }
 
 export default function FeaturedCars({ cars }: FeaturedCarsProps) {
+  const t = useTranslations("Featured");
   const hasCars = cars.length > 0;
   const shouldUseCarousel = cars.length > 3;
 
@@ -33,17 +35,17 @@ export default function FeaturedCars({ cars }: FeaturedCarsProps) {
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
           <div>
             <h2 className="text-3xl sm:text-4xl font-semibold leading-tight">
-              Coches disponibles en nuestro concesionario
+              {t("title")}
             </h2>
             <p className="text-sm text-muted-foreground mt-1">
-              Descubre nuestra selección de vehículos disponibles en Benidorm, Alicante.
+              {t("subtitle")}
             </p>
           </div>
           <Link
             href="/coches"
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-foreground hover:opacity-70 transition-opacity shrink-0"
           >
-            Ver todo el catálogo
+            {t("viewAll")}
             <MoveUpRight className="w-4 h-4" />
           </Link>
         </div>
@@ -77,7 +79,7 @@ export default function FeaturedCars({ cars }: FeaturedCarsProps) {
           )
         ) : (
           <p className="py-12 text-center text-muted-foreground">
-            No hay coches destacados por ahora.
+            {t("empty")}
           </p>
         )}
       </div>

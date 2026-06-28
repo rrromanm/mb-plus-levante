@@ -2,8 +2,10 @@
 
 import { useConsent } from "@/context/ConsentContext";
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 
 export default function ConsentBanner() {
+  const t = useTranslations("Consent");
   const { consent, setConsent } = useConsent();
   const [isVisible, setIsVisible] = useState(false);
 
@@ -19,7 +21,7 @@ export default function ConsentBanner() {
     <div className="fixed bottom-0 left-0 right-0 bg-gray-900 text-white p-4 z-50">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
         <p className="text-sm">
-          Usamos Google Analytics para entender cómo usas nuestro sitio y mejorar tu experiencia.
+          {t("message")}
         </p>
         <div className="flex gap-3">
           <button
@@ -29,7 +31,7 @@ export default function ConsentBanner() {
             }}
             className="px-4 py-2 text-sm bg-gray-700 hover:bg-gray-600 rounded"
           >
-            Rechazar
+            {t("reject")}
           </button>
           <button
             onClick={() => {
@@ -38,7 +40,7 @@ export default function ConsentBanner() {
             }}
             className="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-700 rounded"
           >
-            Aceptar
+            {t("accept")}
           </button>
         </div>
       </div>

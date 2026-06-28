@@ -6,17 +6,25 @@ import TrustStrip from "@/components/homepage/TrustStrip";
 import CarsApi from "@/services/carsApi";
 import { CONTACT } from "@/lib/contactInfo";
 import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { type Locale } from "@/i18n/routing";
+import { getAlternates } from "@/i18n/seo";
 
 const SITE_URL = "https://mbplusbenidorm.es";
 
-export const metadata: Metadata = {
-  title: "Coches de segunda mano en Benidorm (Alicante) | MB Plus Benidorm",
-  description:
-    "Compra coches de segunda mano en Benidorm (Alicante). Especialistas en Mercedes-Benz y vehículos de ocasión con garantía, revisados y listos para entrega.",
-  alternates: {
-    canonical: "/",
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+  return {
+    title: t("homeTitle"),
+    description: t("homeDescription"),
+    alternates: getAlternates(locale as Locale, "/"),
+  };
+}
 
 const dealerJsonLd = {
   "@context": "https://schema.org",
@@ -72,7 +80,14 @@ const dealerJsonLd = {
   ].map((name) => ({ "@type": "City", name })),
 };
 
-export default async function Home() {
+export default async function Home({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   const featuredCars = await CarsApi.getFeaturedCars().catch(() => []);
 
   return (

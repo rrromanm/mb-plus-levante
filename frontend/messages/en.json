@@ -1,0 +1,192 @@
+{
+  "Metadata": {
+    "layoutTitleDefault": "Used cars in Benidorm | MB Plus Benidorm",
+    "layoutTitleTemplate": "%s | MB Plus Benidorm",
+    "layoutDescription": "Used car sales in Benidorm (Alicante). Inspected, warrantied vehicles ready for immediate delivery at MB Plus.",
+    "layoutOgTitle": "Used cars in Benidorm | MB Plus Benidorm",
+    "layoutOgDescription": "Find second-hand cars in Benidorm. Inspected and warrantied vehicles.",
+    "layoutTwitterTitle": "Used cars in Benidorm | MB Plus Benidorm",
+    "layoutTwitterDescription": "Pre-owned vehicles in Benidorm at the best price",
+    "siteName": "MB Plus Benidorm",
+    "homeTitle": "Used cars in Benidorm (Alicante) | MB Plus Benidorm",
+    "homeDescription": "Buy used cars in Benidorm (Alicante). Mercedes-Benz specialists and pre-owned vehicles with warranty, inspected and ready for delivery.",
+    "catalogTitle": "Used Cars in Benidorm | Catalogue",
+    "catalogDescription": "Explore our catalogue of used cars in Benidorm. Inspected vehicles, ready for immediate delivery at MB Plus Alicante.",
+    "catalogOgTitle": "Used Cars in Benidorm | MB Plus",
+    "catalogOgDescription": "Browse pre-owned cars in Benidorm. Find your next vehicle at the best price.",
+    "carDescription": "{brand} {model} {year} with {mileage}. {transmission} {fuel} at MB Plus Benidorm. Inspected and warrantied used car.",
+    "carNotFoundTitle": "Car not found",
+    "carNotFoundDescription": "The car you are looking for is not available."
+  },
+  "Header": {
+    "home": "Home",
+    "catalog": "Catalogue",
+    "about": "About us",
+    "contact": "Contact"
+  },
+  "Hero": {
+    "badge": "ALICANTE · BENIDORM · USED & SECOND-HAND CARS",
+    "title": "Used cars in Benidorm",
+    "subtitle": "Discover our selection of used cars in Benidorm. Inspected vehicles, warranty included and fair prices.",
+    "ctaCatalog": "View catalogue",
+    "ctaCall": "Call now"
+  },
+  "TrustStrip": {
+    "warranty": "Up to 12 months warranty",
+    "itv": "Technical inspection & MOT up to date",
+    "workshop": "In-house workshop in L'Albir",
+    "experience": "10+ years of experience"
+  },
+  "Featured": {
+    "title": "Cars available at our dealership",
+    "subtitle": "Discover our selection of vehicles available in Benidorm, Alicante.",
+    "viewAll": "View the full catalogue",
+    "empty": "No featured cars at the moment."
+  },
+  "About": {
+    "eyebrow": "Used cars in Alicante · MB Plus Benidorm",
+    "title": "Professional backing from Benidorm",
+    "intro": "MB Plus Benidorm is a dealership specialised in the sale of pre-owned cars. More than 10 years of experience back our commitment to quality and transparency.",
+    "pillarWarrantyTitle": "Up to 12 months warranty",
+    "pillarWarrantyDesc": "All our vehicles are delivered with a recent technical inspection and a warranty of up to 12 months or 10,000 km.",
+    "pillarWorkshopTitle": "In-house workshop",
+    "pillarWorkshopDesc": "We inspect, prepare and maintain every car at our own facilities before delivery.",
+    "pillarSpecialistsTitle": "Mercedes-Benz specialists",
+    "pillarSpecialistsDesc": "Our main focus is Mercedes-Benz vehicles, although we also work with other well-known brands.",
+    "pillarExperienceTitle": "Over 15 years of experience",
+    "pillarExperienceDesc": "More than a decade helping our customers find the car they need, at the price they are looking for.",
+    "statSoldLabel": "Cars sold",
+    "statItvValue": "MOT ✓",
+    "statItvLabel": "Technical inspection passed",
+    "statYearsLabel": "Years of experience"
+  },
+  "Contact": {
+    "eyebrow": "Benidorm, Alicante",
+    "title": "Visit us or get in touch",
+    "whatsapp": "Message on WhatsApp",
+    "near": "We are in L'Albir — easy access from Benidorm, Altea and Calpe.",
+    "emailLabel": "Email",
+    "addressLabel": "Address",
+    "hoursLabel": "Opening hours",
+    "weekdays": "Monday – Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday",
+    "closed": "Closed",
+    "mapTitle": "MB Plus Benidorm location in L'Albir, Alicante",
+    "whatsappPrefill": "Hello, I would like to get information about the available vehicles."
+  },
+  "Footer": {
+    "tagline": "Used cars in L'Albir, Alicante",
+    "home": "Home",
+    "catalog": "Catalogue",
+    "rights": "All rights reserved."
+  },
+  "Filters": {
+    "title": "Filter vehicles",
+    "brandModel": "Make / Model",
+    "brandPlaceholder": "e.g. Mercedes, BMW, C220...",
+    "fuel": "Fuel",
+    "allFuel": "All",
+    "transmission": "Transmission",
+    "allTransmission": "All",
+    "priceMin": "Minimum price (€)",
+    "priceMax": "Maximum price (€)",
+    "noLimit": "No limit",
+    "yearFrom": "Year from",
+    "yearTo": "Year to",
+    "clear": "Clear filters",
+    "search": "Search"
+  },
+  "Catalog": {
+    "pageEyebrow": "Alicante · Benidorm · Second-hand",
+    "pageTitle": "Vehicle catalogue",
+    "news": "New",
+    "recentlyAdded": "Recently added to the catalogue",
+    "recentCount": "{count} available",
+    "fullCatalog": "Full catalogue",
+    "loading": "Loading vehicles…",
+    "countAvailable": "{count, plural, =0 {No vehicles available} one {# vehicle available} other {# vehicles available}}",
+    "empty": "No vehicles available at the moment."
+  },
+  "CarCard": {
+    "viewDetails": "View details",
+    "powerUnit": "hp"
+  },
+  "CarDetail": {
+    "breadcrumbHome": "Home",
+    "breadcrumbCatalog": "Catalogue",
+    "unavailableBadge": "Unavailable",
+    "notForSaleLine1": "This vehicle is no longer",
+    "notForSaleLine2": "for sale",
+    "notForSaleDesc": "It may have been sold or removed from the catalogue.",
+    "specYear": "Year",
+    "specMileage": "Mileage",
+    "specFuel": "Fuel",
+    "specTransmission": "Transmission",
+    "specEngine": "Engine",
+    "specPower": "Power",
+    "specBody": "Body type",
+    "whatsapp": "Contact on WhatsApp",
+    "whatsappPrefill": "Hello, I'm interested in the {car} for {price}. Is it available?",
+    "description": "Description",
+    "powerUnit": "HP"
+  },
+  "Similar": {
+    "title": "More available vehicles",
+    "viewAll": "View all vehicles"
+  },
+  "Share": {
+    "share": "Share",
+    "copied": "Link copied to clipboard"
+  },
+  "Consent": {
+    "message": "We use Google Analytics to understand how you use our site and improve your experience.",
+    "reject": "Reject",
+    "accept": "Accept"
+  },
+  "NotFound": {
+    "code": "Error 404",
+    "title": "This page has driven off the road",
+    "description": "The address you were looking for doesn't exist or the car is no longer in the catalogue. Let's get you back to familiar ground.",
+    "home": "Back to home",
+    "catalog": "View full catalogue"
+  },
+  "Sort": {
+    "price-asc": "Price: low to high",
+    "price-desc": "Price: high to low",
+    "year-desc": "Year: newest first",
+    "year-asc": "Year: oldest first",
+    "mileage-asc": "Mileage: low to high",
+    "mileage-desc": "Mileage: high to low",
+    "name-asc": "Name: A → Z"
+  },
+  "Enums": {
+    "fuel": {
+      "PETROL": "Petrol",
+      "DIESEL": "Diesel",
+      "HYBRID": "Hybrid",
+      "ELECTRIC": "Electric"
+    },
+    "transmission": {
+      "MANUAL": "Manual",
+      "AUTOMATIC": "Automatic"
+    },
+    "body": {
+      "SEDAN": "Sedan",
+      "COUPE": "Coupé",
+      "CONVERTIBLE": "Convertible",
+      "SUV": "SUV",
+      "HATCHBACK": "Hatchback",
+      "WAGON": "Estate (Wagon)",
+      "PICKUP": "Pickup",
+      "VAN": "Van / MPV",
+      "OTHER": "Other"
+    }
+  },
+  "Language": {
+    "label": "Language",
+    "es": "Español",
+    "en": "English",
+    "ru": "Русский"
+  }
+}

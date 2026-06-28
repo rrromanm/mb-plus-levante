@@ -1,6 +1,9 @@
 import Image from "next/image";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
 export default function NotFound() {
+  const t = useTranslations("NotFound");
   return (
     <div className="min-h-[calc(100vh-5rem)] bg-linear-to-b from-background to-muted/30 flex items-center justify-center px-4">
       <div className="max-w-4xl w-full text-center space-y-8">
@@ -9,7 +12,7 @@ export default function NotFound() {
             <div className="w-120 h-60 rounded-full bg-[#e23b3b]/70 blur-3xl" />
           </div>
           <p className="text-sm font-medium uppercase tracking-widest text-[#e23b3b]">
-            Error 404
+            {t("code")}
           </p>
           <Image
             src="/plate.svg"
@@ -22,26 +25,26 @@ export default function NotFound() {
 
         <div className="space-y-3 mt-12">
           <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight">
-            Esta página se ha salido de la carretera
+            {t("title")}
           </h1>
           <p className="text-muted-foreground text-base leading-relaxed">
-            La dirección que buscabas no existe o el coche ya no está en el catálogo. Te llevamos de vuelta a terreno conocido.
+            {t("description")}
           </p>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
-          <a
+          <Link
             href="/"
             className="inline-flex items-center justify-center gap-2 bg-[#e23b3b] text-white px-6 py-3 rounded-xl font-medium hover:opacity-90 transition"
           >
-            Volver al inicio
-          </a>
-          <a
+            {t("home")}
+          </Link>
+          <Link
             href="/coches"
             className="inline-flex items-center justify-center gap-2 border border-border px-6 py-3 rounded-xl font-medium text-muted-foreground hover:text-foreground hover:border-foreground transition"
           >
-            Ver catálogo completo
-          </a>
+            {t("catalog")}
+          </Link>
         </div>
 
         {/* TODO: Implement in case more pages appear */}

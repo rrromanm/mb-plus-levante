@@ -1,7 +1,8 @@
 "use client";
 
 import { useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 import { CarCard } from "@/components/generic/CarCard";
 import { SortSelect } from "@/components/generic/SortSelect";
 import { SortKey, SORT_OPTIONS } from "@/lib/catalogSortConfig";
@@ -27,6 +28,8 @@ export default function CatalogCars({
   recentCars,
   currentSort,
 }: CatalogCarsProps) {
+  const t = useTranslations("Catalog");
+  const tSort = useTranslations("Sort");
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
@@ -35,6 +38,11 @@ export default function CatalogCars({
       router.push(`/coches?sort=${key}`);
     });
   };
+
+  const sortOptions = SORT_OPTIONS.map((opt) => ({
+    value: opt.value,
+    label: tSort(opt.value),
+  }));
 
   const hasRecent = recentCars.length > 0;
   const showRecentArrows = recentCars.length > 4;
@@ -47,14 +55,14 @@ export default function CatalogCars({
             <div>
               <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
                 <Sparkle className="h-3.5 w-3.5" />
-                Novedades
+                {t("news")}
               </div>
               <p className="text-xs uppercase tracking-widest text-muted-foreground">
-                Recién añadidos al catálogo
+                {t("recentlyAdded")}
               </p>
             </div>
             <span className="rounded-full border border-border bg-background/70 px-2.5 py-1 text-xs text-muted-foreground">
-              {recentCars.length} disponibles
+              {t("recentCount", { count: recentCars.length })}
             </span>
           </div>
 
@@ -87,16 +95,16 @@ export default function CatalogCars({
       <div className="mb-5 flex items-end justify-between">
         <div>
           <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">
-            Catálogo completo
+            {t("fullCatalog")}
           </p>
           <h2 className="text-2xl sm:text-3xl font-semibold leading-tight">
             {isPending
-              ? "Cargando vehículos…"
-              : `${cars.length} vehículo${cars.length !== 1 ? "s" : ""} disponible${cars.length !== 1 ? "s" : ""}`}
+              ? t("loading")
+              : t("countAvailable", { count: cars.length })}
           </h2>
         </div>
         <SortSelect
-          options={SORT_OPTIONS}
+          options={sortOptions}
           value={currentSort}
           onChange={onSortChange}
         />
@@ -112,7 +120,7 @@ export default function CatalogCars({
         <div className="flex flex-col items-center justify-center gap-4 rounded-2xl border border-border bg-card py-20 text-center">
           <Car className="w-12 h-12 text-muted-foreground/40" />
           <p className="text-muted-foreground text-sm">
-            No hay vehículos disponibles en este momento.
+            {t("empty")}
           </p>
         </div>
       ) : (
