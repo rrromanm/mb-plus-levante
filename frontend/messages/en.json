@@ -1,63 +1,63 @@
 {
   "Metadata": {
-    "layoutTitleDefault": "Used cars in Benidorm | MB Plus Benidorm",
+    "layoutTitleDefault": "Used Cars in Benidorm, Alicante | MB Plus Benidorm",
     "layoutTitleTemplate": "%s | MB Plus Benidorm",
-    "layoutDescription": "Used car sales in Benidorm (Alicante). Inspected, warrantied vehicles ready for immediate delivery at MB Plus.",
-    "layoutOgTitle": "Used cars in Benidorm | MB Plus Benidorm",
-    "layoutOgDescription": "Find second-hand cars in Benidorm. Inspected and warrantied vehicles.",
-    "layoutTwitterTitle": "Used cars in Benidorm | MB Plus Benidorm",
-    "layoutTwitterDescription": "Pre-owned vehicles in Benidorm at the best price",
+    "layoutDescription": "Buy quality used cars in Benidorm (Alicante). Every vehicle is inspected, warrantied and ready for immediate delivery — Mercedes-Benz specialists on the Costa Blanca.",
+    "layoutOgTitle": "Used Cars in Benidorm, Alicante | MB Plus Benidorm",
+    "layoutOgDescription": "Inspected, warrantied second-hand cars in Benidorm and across the Costa Blanca. Find your next vehicle at MB Plus.",
+    "layoutTwitterTitle": "Used Cars in Benidorm, Alicante | MB Plus Benidorm",
+    "layoutTwitterDescription": "Inspected, warrantied pre-owned cars in Benidorm at the best price.",
     "siteName": "MB Plus Benidorm",
-    "homeTitle": "Used cars in Benidorm (Alicante) | MB Plus Benidorm",
-    "homeDescription": "Buy used cars in Benidorm (Alicante). Mercedes-Benz specialists and pre-owned vehicles with warranty, inspected and ready for delivery.",
-    "catalogTitle": "Used Cars in Benidorm | Catalogue",
-    "catalogDescription": "Explore our catalogue of used cars in Benidorm. Inspected vehicles, ready for immediate delivery at MB Plus Alicante.",
-    "catalogOgTitle": "Used Cars in Benidorm | MB Plus",
-    "catalogOgDescription": "Browse pre-owned cars in Benidorm. Find your next vehicle at the best price.",
-    "carDescription": "{brand} {model} {year} with {mileage}. {transmission} {fuel} at MB Plus Benidorm. Inspected and warrantied used car.",
+    "homeTitle": "Used Cars for Sale in Benidorm (Alicante) | MB Plus Benidorm",
+    "homeDescription": "Looking to buy a used car in Benidorm? MB Plus offers inspected, warrantied pre-owned vehicles on the Costa Blanca — Mercedes-Benz specialists, ready for immediate delivery.",
+    "catalogTitle": "Used Cars for Sale in Benidorm | Second-Hand Cars",
+    "catalogDescription": "Browse our full range of used cars for sale in Benidorm (Alicante). Inspected, warrantied vehicles on the Costa Blanca, ready for immediate delivery at MB Plus.",
+    "catalogOgTitle": "Used Cars for Sale in Benidorm | MB Plus",
+    "catalogOgDescription": "Explore our range of inspected, warrantied second-hand cars in Benidorm. Find your next vehicle at the best price.",
+    "carDescription": "{brand} {model} {year} with {mileage}. {transmission}, {fuel}. Inspected, warrantied used car for sale in Benidorm (Alicante) at MB Plus.",
     "carNotFoundTitle": "Car not found",
     "carNotFoundDescription": "The car you are looking for is not available."
   },
   "Header": {
     "home": "Home",
-    "catalog": "Catalogue",
+    "catalog": "Browse cars",
     "about": "About us",
     "contact": "Contact"
   },
   "Hero": {
-    "badge": "ALICANTE · BENIDORM · USED & SECOND-HAND CARS",
-    "title": "Used cars in Benidorm",
-    "subtitle": "Discover our selection of used cars in Benidorm. Inspected vehicles, warranty included and fair prices.",
-    "ctaCatalog": "View catalogue",
+    "badge": "BENIDORM · COSTA BLANCA · USED & SECOND-HAND CARS",
+    "title": "Used cars for sale in Benidorm",
+    "subtitle": "Discover our selection of used cars in Benidorm and across the Costa Blanca. Every vehicle is inspected, warranty included and fairly priced.",
+    "ctaCatalog": "Browse all cars",
     "ctaCall": "Call now"
   },
   "TrustStrip": {
     "warranty": "Up to 12 months warranty",
-    "itv": "Technical inspection & MOT up to date",
+    "itv": "ITV inspection up to date",
     "workshop": "In-house workshop in L'Albir",
     "experience": "10+ years of experience"
   },
   "Featured": {
     "title": "Cars available at our dealership",
-    "subtitle": "Discover our selection of vehicles available in Benidorm, Alicante.",
-    "viewAll": "View the full catalogue",
+    "subtitle": "Discover our selection of used cars available in Benidorm, Alicante.",
+    "viewAll": "View all cars",
     "empty": "No featured cars at the moment."
   },
   "About": {
-    "eyebrow": "Used cars in Alicante · MB Plus Benidorm",
-    "title": "Professional backing from Benidorm",
-    "intro": "MB Plus Benidorm is a dealership specialised in the sale of pre-owned cars. More than 10 years of experience back our commitment to quality and transparency.",
+    "eyebrow": "Used cars in Benidorm · Costa Blanca",
+    "title": "Used car dealership in Benidorm",
+    "intro": "MB Plus Benidorm is a used car dealership in Benidorm specialising in quality pre-owned vehicles across the Costa Blanca, with a focus on Mercedes-Benz. With over 10 years of experience and our own workshop, every car is inspected, prepared and backed by warranty before delivery.",
     "pillarWarrantyTitle": "Up to 12 months warranty",
     "pillarWarrantyDesc": "All our vehicles are delivered with a recent technical inspection and a warranty of up to 12 months or 10,000 km.",
     "pillarWorkshopTitle": "In-house workshop",
-    "pillarWorkshopDesc": "We inspect, prepare and maintain every car at our own facilities before delivery.",
+    "pillarWorkshopDesc": "We inspect, prepare and maintain every car at our own workshop in L'Albir before delivery.",
     "pillarSpecialistsTitle": "Mercedes-Benz specialists",
     "pillarSpecialistsDesc": "Our main focus is Mercedes-Benz vehicles, although we also work with other well-known brands.",
-    "pillarExperienceTitle": "Over 15 years of experience",
+    "pillarExperienceTitle": "Over 10 years of experience",
     "pillarExperienceDesc": "More than a decade helping our customers find the car they need, at the price they are looking for.",
     "statSoldLabel": "Cars sold",
-    "statItvValue": "MOT ✓",
-    "statItvLabel": "Technical inspection passed",
+    "statItvValue": "ITV ✓",
+    "statItvLabel": "inspection passed",
     "statYearsLabel": "Years of experience"
   },
   "Contact": {
@@ -78,7 +78,7 @@
   "Footer": {
     "tagline": "Used cars in L'Albir, Alicante",
     "home": "Home",
-    "catalog": "Catalogue",
+    "catalog": "Browse cars",
     "rights": "All rights reserved."
   },
   "Filters": {
@@ -99,26 +99,26 @@
   },
   "Catalog": {
     "pageEyebrow": "Alicante · Benidorm · Second-hand",
-    "pageTitle": "Vehicle catalogue",
+    "pageTitle": "Used cars for sale",
     "news": "New",
-    "recentlyAdded": "Recently added to the catalogue",
+    "recentlyAdded": "Recently added",
     "recentCount": "{count} available",
-    "fullCatalog": "Full catalogue",
+    "fullCatalog": "All cars",
     "loading": "Loading vehicles…",
     "countAvailable": "{count, plural, =0 {No vehicles available} one {# vehicle available} other {# vehicles available}}",
     "empty": "No vehicles available at the moment."
   },
   "CarCard": {
     "viewDetails": "View details",
-    "powerUnit": "hp"
+    "powerUnit": "HP"
   },
   "CarDetail": {
     "breadcrumbHome": "Home",
-    "breadcrumbCatalog": "Catalogue",
+    "breadcrumbCatalog": "Browse cars",
     "unavailableBadge": "Unavailable",
     "notForSaleLine1": "This vehicle is no longer",
     "notForSaleLine2": "for sale",
-    "notForSaleDesc": "It may have been sold or removed from the catalogue.",
+    "notForSaleDesc": "It may have been sold or removed from our listings.",
     "specYear": "Year",
     "specMileage": "Mileage",
     "specFuel": "Fuel",
@@ -147,9 +147,9 @@
   "NotFound": {
     "code": "Error 404",
     "title": "This page has driven off the road",
-    "description": "The address you were looking for doesn't exist or the car is no longer in the catalogue. Let's get you back to familiar ground.",
+    "description": "The address you were looking for doesn't exist or the car is no longer in our listings. Let's get you back to familiar ground.",
     "home": "Back to home",
-    "catalog": "View full catalogue"
+    "catalog": "Browse all cars"
   },
   "Sort": {
     "price-asc": "Price: low to high",

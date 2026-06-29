@@ -50,7 +50,7 @@ export function AboutUs() {
               <p className="text-xs opacity-50 uppercase tracking-wider mt-0.5">{t("statItvLabel")}</p>
             </div>
             <div>
-              <p className="text-3xl font-bold tabular-nums">+15</p>
+              <p className="text-3xl font-bold tabular-nums">+10</p>
               <p className="text-xs opacity-50 uppercase tracking-wider mt-0.5">{t("statYearsLabel")}</p>
             </div>
           </div>
