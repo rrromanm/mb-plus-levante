@@ -2,18 +2,18 @@
   "Metadata": {
     "layoutTitleDefault": "Used Cars in Benidorm, Alicante | MB Plus Benidorm",
     "layoutTitleTemplate": "%s | MB Plus Benidorm",
-    "layoutDescription": "Buy quality used cars in Benidorm (Alicante). Every vehicle is inspected, warrantied and ready for immediate delivery — Mercedes-Benz specialists on the Costa Blanca.",
+    "layoutDescription": "Quality used cars in Benidorm (Alicante). Every car inspected, warrantied and ready for delivery — Mercedes-Benz specialists on the Costa Blanca.",
     "layoutOgTitle": "Used Cars in Benidorm, Alicante | MB Plus Benidorm",
-    "layoutOgDescription": "Inspected, warrantied second-hand cars in Benidorm and across the Costa Blanca. Find your next vehicle at MB Plus.",
+    "layoutOgDescription": "Inspected, warrantied second-hand cars in Benidorm and across the Costa Blanca. Find your next car at MB Plus.",
     "layoutTwitterTitle": "Used Cars in Benidorm, Alicante | MB Plus Benidorm",
     "layoutTwitterDescription": "Inspected, warrantied pre-owned cars in Benidorm at the best price.",
     "siteName": "MB Plus Benidorm",
-    "homeTitle": "Used Cars for Sale in Benidorm (Alicante) | MB Plus Benidorm",
-    "homeDescription": "Looking to buy a used car in Benidorm? MB Plus offers inspected, warrantied pre-owned vehicles on the Costa Blanca — Mercedes-Benz specialists, ready for immediate delivery.",
+    "homeTitle": "Used Cars for Sale in Benidorm (Alicante)",
+    "homeDescription": "Buy a used car in Benidorm with MB Plus: inspected, warrantied pre-owned cars on the Costa Blanca. Mercedes-Benz specialists, ready for delivery.",
     "catalogTitle": "Used Cars for Sale in Benidorm | Second-Hand Cars",
-    "catalogDescription": "Browse our full range of used cars for sale in Benidorm (Alicante). Inspected, warrantied vehicles on the Costa Blanca, ready for immediate delivery at MB Plus.",
+    "catalogDescription": "Browse our full range of used cars for sale in Benidorm (Alicante). Inspected, warrantied cars on the Costa Blanca, ready for delivery at MB Plus.",
     "catalogOgTitle": "Used Cars for Sale in Benidorm | MB Plus",
-    "catalogOgDescription": "Explore our range of inspected, warrantied second-hand cars in Benidorm. Find your next vehicle at the best price.",
+    "catalogOgDescription": "Explore our range of inspected, warrantied second-hand cars in Benidorm. Find your next car at the best price.",
     "carDescription": "{brand} {model} {year} with {mileage}. {transmission}, {fuel}. Inspected, warrantied used car for sale in Benidorm (Alicante) at MB Plus.",
     "carNotFoundTitle": "Car not found",
     "carNotFoundDescription": "The car you are looking for is not available."
@@ -27,7 +27,8 @@
   "Hero": {
     "badge": "BENIDORM · COSTA BLANCA · USED & SECOND-HAND CARS",
     "title": "Used cars for sale in Benidorm",
-    "subtitle": "Discover our selection of used cars in Benidorm and across the Costa Blanca. Every vehicle is inspected, warranty included and fairly priced.",
+    "subtitle": "Discover our selection of used cars in Benidorm and across the Costa Blanca. Every car is inspected, warranty included and fairly priced.",
+    "imageAlt": "Used Mercedes-Benz cars in Benidorm, Costa Blanca",
     "ctaCatalog": "Browse all cars",
     "ctaCall": "Call now"
   },
@@ -45,14 +46,15 @@
   },
   "About": {
     "eyebrow": "Used cars in Benidorm · Costa Blanca",
+    "imageAlt": "Mercedes-Benz emblem — MB Plus Benidorm used car dealership, Alicante",
     "title": "Used car dealership in Benidorm",
-    "intro": "MB Plus Benidorm is a used car dealership in Benidorm specialising in quality pre-owned vehicles across the Costa Blanca, with a focus on Mercedes-Benz. With over 10 years of experience and our own workshop, every car is inspected, prepared and backed by warranty before delivery.",
+    "intro": "MB Plus Benidorm is a used car dealership in Benidorm specialising in quality pre-owned cars across the Costa Blanca, with a focus on Mercedes-Benz. With over 10 years of experience and our own workshop, every car is inspected, prepared and backed by warranty before delivery.",
     "pillarWarrantyTitle": "Up to 12 months warranty",
-    "pillarWarrantyDesc": "All our vehicles are delivered with a recent technical inspection and a warranty of up to 12 months or 10,000 km.",
+    "pillarWarrantyDesc": "All our cars are delivered with a recent technical inspection and a warranty of up to 12 months or 10,000 km.",
     "pillarWorkshopTitle": "In-house workshop",
     "pillarWorkshopDesc": "We inspect, prepare and maintain every car at our own workshop in L'Albir before delivery.",
     "pillarSpecialistsTitle": "Mercedes-Benz specialists",
-    "pillarSpecialistsDesc": "Our main focus is Mercedes-Benz vehicles, although we also work with other well-known brands.",
+    "pillarSpecialistsDesc": "Our main focus is Mercedes-Benz cars, although we also work with other well-known brands.",
     "pillarExperienceTitle": "Over 10 years of experience",
     "pillarExperienceDesc": "More than a decade helping our customers find the car they need, at the price they are looking for.",
     "statSoldLabel": "Cars sold",
@@ -73,7 +75,7 @@
     "sunday": "Sunday",
     "closed": "Closed",
     "mapTitle": "MB Plus Benidorm location in L'Albir, Alicante",
-    "whatsappPrefill": "Hello, I would like to get information about the available vehicles."
+    "whatsappPrefill": "Hello, I would like to get information about the available cars."
   },
   "Footer": {
     "tagline": "Used cars in L'Albir, Alicante",
@@ -82,7 +84,7 @@
     "rights": "All rights reserved."
   },
   "Filters": {
-    "title": "Filter vehicles",
+    "title": "Filter cars",
     "brandModel": "Make / Model",
     "brandPlaceholder": "e.g. Mercedes, BMW, C220...",
     "fuel": "Fuel",
@@ -99,14 +101,14 @@
   },
   "Catalog": {
     "pageEyebrow": "Alicante · Benidorm · Second-hand",
-    "pageTitle": "Used cars for sale",
+    "pageTitle": "Used cars for sale in Benidorm",
     "news": "New",
     "recentlyAdded": "Recently added",
     "recentCount": "{count} available",
     "fullCatalog": "All cars",
-    "loading": "Loading vehicles…",
-    "countAvailable": "{count, plural, =0 {No vehicles available} one {# vehicle available} other {# vehicles available}}",
-    "empty": "No vehicles available at the moment."
+    "loading": "Loading cars…",
+    "countAvailable": "{count, plural, =0 {No cars available} one {# car available} other {# cars available}}",
+    "empty": "No cars available at the moment."
   },
   "CarCard": {
     "viewDetails": "View details",
@@ -116,7 +118,7 @@
     "breadcrumbHome": "Home",
     "breadcrumbCatalog": "Browse cars",
     "unavailableBadge": "Unavailable",
-    "notForSaleLine1": "This vehicle is no longer",
+    "notForSaleLine1": "This car is no longer",
     "notForSaleLine2": "for sale",
     "notForSaleDesc": "It may have been sold or removed from our listings.",
     "specYear": "Year",
@@ -129,11 +131,18 @@
     "whatsapp": "Contact on WhatsApp",
     "whatsappPrefill": "Hello, I'm interested in the {car} for {price}. Is it available?",
     "description": "Description",
-    "powerUnit": "HP"
+    "powerUnit": "HP",
+    "imageAlt": "{name} — image {index}",
+    "mainImageAlt": "{name} — main image",
+    "thumbnailAlt": "{name} — thumbnail {index}",
+    "prevImage": "Previous image",
+    "nextImage": "Next image",
+    "goToImage": "Go to image {index}",
+    "closeGallery": "Close"
   },
   "Similar": {
-    "title": "More available vehicles",
-    "viewAll": "View all vehicles"
+    "title": "More available cars",
+    "viewAll": "View all cars"
   },
   "Share": {
     "share": "Share",

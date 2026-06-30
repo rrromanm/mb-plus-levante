@@ -3,6 +3,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import { useTransition } from "react";
 import { Globe } from "lucide-react";
+import { useParams } from "next/navigation";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 
@@ -10,15 +11,18 @@ export default function LanguageSwitcher() {
   const t = useTranslations("Language");
   const locale = useLocale();
   const pathname = usePathname();
+  const params = useParams();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const onSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const nextLocale = event.target.value as Locale;
     startTransition(() => {
-      // `pathname` from next-intl is locale-agnostic, so switching locale keeps
-      // the user on the same page.
-      router.replace(pathname, { locale: nextLocale });
+      router.replace(
+        // @ts-expect-error
+        { pathname, params },
+        { locale: nextLocale },
+      );
     });
   };
 

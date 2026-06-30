@@ -21,7 +21,7 @@ export function CarCard({ car, className }: CarCardProps) {
 
     return (
         <Link
-            href={`/coches/${car.slug}`}
+            href={{ pathname: "/coches/[slug]", params: { slug: car.slug } }}
             className={cn("block", className)}
             aria-label={carName}
         >

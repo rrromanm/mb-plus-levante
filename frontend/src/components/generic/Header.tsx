@@ -50,10 +50,10 @@ export default function Header() {
           <Link href="/coches" className="relative transition-colors hover:text-primary after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-[#e23b3b] after:transition-[width] after:duration-300 hover:after:w-full">
             {t("catalog")}
           </Link>
-          <Link href="/#sobre-nosotros" className="relative transition-colors hover:text-primary after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-[#e23b3b] after:transition-[width] after:duration-300 hover:after:w-full">
+          <Link href={{ pathname: "/", hash: "sobre-nosotros" }} className="relative transition-colors hover:text-primary after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-[#e23b3b] after:transition-[width] after:duration-300 hover:after:w-full">
             {t("about")}
           </Link>
-          <Link href="/#contacto" className="relative transition-colors hover:text-primary after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-[#e23b3b] after:transition-[width] after:duration-300 hover:after:w-full">
+          <Link href={{ pathname: "/", hash: "contacto" }} className="relative transition-colors hover:text-primary after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-[#e23b3b] after:transition-[width] after:duration-300 hover:after:w-full">
             {t("contact")}
           </Link>
         </nav>

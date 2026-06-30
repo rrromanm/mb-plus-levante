@@ -52,10 +52,12 @@ const AVAILABILITY_SCHEMA: Record<CarStatus, string | undefined> = {
 function buildBreadcrumbJsonLd(
   car: CarDetailsDto,
   labels: { home: string; catalog: string },
+  locale: string,
 ) {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
+    inLanguage: locale,
     itemListElement: [
       {
         "@type": "ListItem",
@@ -78,7 +80,7 @@ function buildBreadcrumbJsonLd(
   };
 }
 
-function buildVehicleJsonLd(car: CarDetailsDto) {
+function buildVehicleJsonLd(car: CarDetailsDto, locale: string) {
   const url = `${SITE_URL}/coches/${car.slug}`;
   const images = (car.images ?? [])
     .slice()
@@ -89,6 +91,7 @@ function buildVehicleJsonLd(car: CarDetailsDto) {
     "@context": "https://schema.org",
     "@type": "Vehicle",
     "@id": `${url}#vehicle`,
+    inLanguage: locale,
     name: `${car.brand} ${car.model} ${car.year}`,
     url,
     description: car.description,
@@ -160,7 +163,10 @@ export async function generateMetadata({
     return {
       title,
       description,
-      alternates: getAlternates(locale as Locale, `/coches/${slug}`),
+      alternates: getAlternates(locale as Locale, {
+        pathname: "/coches/[slug]",
+        params: { slug },
+      }),
       openGraph: {
         title,
         description,
@@ -207,11 +213,11 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
     const formattedMileage = formatMileage(data.mileageKm);
 
     const isUnavailable = data.status === "SOLD" || data.status === "DELETED";
-    const vehicleJsonLd = buildVehicleJsonLd(data);
+    const vehicleJsonLd = buildVehicleJsonLd(data, locale);
     const breadcrumbJsonLd = buildBreadcrumbJsonLd(data, {
       home: t("breadcrumbHome"),
       catalog: t("breadcrumbCatalog"),
-    });
+    }, locale);
 
     const whatsappText = `${t("whatsappPrefill", {
       car: `${data.brand} ${data.model} (${data.year})`,

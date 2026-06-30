@@ -35,7 +35,7 @@ export default function CatalogCars({
 
   const onSortChange = (key: SortKey) => {
     startTransition(() => {
-      router.push(`/coches?sort=${key}`);
+      router.push({ pathname: "/coches", query: { sort: key } });
     });
   };
 

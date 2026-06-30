@@ -9,7 +9,7 @@ export default function Hero() {
       <div className="absolute inset-0">
         <Image
           src="/wheel.avif"
-          alt="Mercedes-Benz de ocasión en Benidorm, Alicante"
+          alt={t("imageAlt")}
           fill
           priority
           fetchPriority="high"

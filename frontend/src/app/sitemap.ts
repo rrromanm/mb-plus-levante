@@ -1,6 +1,9 @@
 import { MetadataRoute } from "next";
 import CarsApi from "@/services/carsApi";
-import { routing } from "@/i18n/routing";
+import { routing, type Locale } from "@/i18n/routing";
+import { getPathname } from "@/i18n/navigation";
+
+type Href = Parameters<typeof getPathname>[0]["href"];
 
 export const revalidate = 3600;
 
@@ -11,53 +14,48 @@ function safeDate(date?: string | Date) {
   return isNaN(d.getTime()) ? new Date() : d;
 }
 
-// Builds the per-locale URL for a path honoring the `as-needed` prefix strategy
-// (Spanish has no prefix, others are prefixed).
-function localizedUrl(locale: string, path: string) {
-  const suffix = path === "/" ? "" : path;
-  return locale === routing.defaultLocale
-    ? `${baseUrl}${suffix || "/"}`
-    : `${baseUrl}/${locale}${suffix}`;
+function localizedUrl(locale: Locale, href: Href) {
+  return `${baseUrl}${getPathname({ locale, href })}`;
 }
 
-// Returns the `alternates.languages` map (hreflang) for a given path.
-function languagesFor(path: string) {
+function languagesFor(href: Href) {
   const languages: Record<string, string> = {};
   for (const locale of routing.locales) {
-    languages[locale] = localizedUrl(locale, path);
+    languages[locale] = localizedUrl(locale, href);
   }
   return languages;
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const staticPaths: { path: string; changeFrequency: "daily"; priority: number }[] = [
-    { path: "/", changeFrequency: "daily", priority: 1 },
-    { path: "/coches", changeFrequency: "daily", priority: 0.9 },
+  const staticPaths: { href: Href; changeFrequency: "daily"; priority: number }[] = [
+    { href: "/", changeFrequency: "daily", priority: 1 },
+    { href: "/coches", changeFrequency: "daily", priority: 0.9 },
   ];
 
-  const staticPages: MetadataRoute.Sitemap = staticPaths.map(
-    ({ path, changeFrequency, priority }) => ({
-      url: localizedUrl(routing.defaultLocale, path),
-      lastModified: new Date(),
-      changeFrequency,
-      priority,
-      alternates: { languages: languagesFor(path) },
-    }),
+  const entriesFor = (
+    href: Href,
+    rest: Omit<MetadataRoute.Sitemap[number], "url" | "alternates">,
+  ): MetadataRoute.Sitemap =>
+    routing.locales.map((locale) => ({
+      url: localizedUrl(locale, href),
+      alternates: { languages: languagesFor(href) },
+      ...rest,
+    }));
+
+  const staticPages: MetadataRoute.Sitemap = staticPaths.flatMap(
+    ({ href, changeFrequency, priority }) =>
+      entriesFor(href, { lastModified: new Date(), changeFrequency, priority }),
   );
 
   try {
     const cars = await CarsApi.getSitemapCars();
 
-    const carPages: MetadataRoute.Sitemap = cars.map((car) => {
-      const path = `/coches/${car.slug}`;
-      return {
-        url: localizedUrl(routing.defaultLocale, path),
-        lastModified: safeDate(car.lastModified),
-        changeFrequency: "weekly",
-        priority: 0.8,
-        alternates: { languages: languagesFor(path) },
-      };
-    });
+    const carPages: MetadataRoute.Sitemap = cars.flatMap((car) =>
+      entriesFor(
+        { pathname: "/coches/[slug]", params: { slug: car.slug } },
+        { lastModified: safeDate(car.lastModified), changeFrequency: "weekly", priority: 0.8 },
+      ),
+    );
 
     return [...staticPages, ...carPages];
   } catch (error) {

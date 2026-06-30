@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, X, Images } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { getCloudinaryUrl } from "@/services/cloudinary";
 import type { CarImageDto } from "@/types/car/carImageDto";
 
@@ -14,6 +15,7 @@ type Props = {
 };
 
 export default function CarCarousel({ images, carName, autoPlayInterval = 5000 }: Props) {
+  const t = useTranslations("CarDetail");
   const sorted = [...images].sort((a, b) => a.orderIndex - b.orderIndex);
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -115,7 +117,7 @@ export default function CarCarousel({ images, carName, autoPlayInterval = 5000 }
             priority
             sizes="(min-width: 1024px) 50vw, 100vw"
             className="object-cover transition-opacity duration-700"
-            alt={`${carName} — imagen ${current + 1}`}
+            alt={t("imageAlt", { name: carName, index: current + 1 })}
             unoptimized
           />
 
@@ -124,7 +126,7 @@ export default function CarCarousel({ images, carName, autoPlayInterval = 5000 }
               <button
                 type="button"
                 onClick={(e) => { e.stopPropagation(); prev(); }}
-                aria-label="Imagen anterior"
+                aria-label={t("prevImage")}
                 className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-9 h-9 rounded-full bg-background/70 backdrop-blur-sm border border-border text-foreground opacity-0 group-hover:opacity-100 transition hover:bg-background"
               >
                 <ChevronLeft className="w-5 h-5" />
@@ -132,7 +134,7 @@ export default function CarCarousel({ images, carName, autoPlayInterval = 5000 }
               <button
                 type="button"
                 onClick={(e) => { e.stopPropagation(); next(); }}
-                aria-label="Imagen siguiente"
+                aria-label={t("nextImage")}
                 className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-9 h-9 rounded-full bg-background/70 backdrop-blur-sm border border-border text-foreground opacity-0 group-hover:opacity-100 transition hover:bg-background"
               >
                 <ChevronRight className="w-5 h-5" />
@@ -143,7 +145,7 @@ export default function CarCarousel({ images, carName, autoPlayInterval = 5000 }
                     key={index}
                     type="button"
                     onClick={(e) => { e.stopPropagation(); setCurrent(index); }}
-                    aria-label={`Ir a imagen ${index + 1}`}
+                    aria-label={t("goToImage", { index: index + 1 })}
                     className={`h-1.5 rounded-full transition-all duration-300 ${
                       index === current ? "w-5 bg-white" : "w-1.5 bg-white/50 hover:bg-white/80"
                     }`}
@@ -170,7 +172,7 @@ export default function CarCarousel({ images, carName, autoPlayInterval = 5000 }
                   fill
                   sizes="112px"
                   className="object-cover"
-                  alt={`${carName} — miniatura ${index + 1}`}
+                  alt={t("thumbnailAlt", { name: carName, index: index + 1 })}
                   unoptimized
                 />
               </div>
@@ -189,7 +191,7 @@ export default function CarCarousel({ images, carName, autoPlayInterval = 5000 }
           priority
           sizes="100vw"
           className="object-cover"
-          alt={`${carName} — imagen principal`}
+          alt={t("mainImageAlt", { name: carName })}
           unoptimized
         />
         {sorted.length > 1 && (
@@ -216,7 +218,7 @@ export default function CarCarousel({ images, carName, autoPlayInterval = 5000 }
               type="button"
               onClick={() => setLightboxOpen(false)}
               className="text-white/80 hover:text-white transition"
-              aria-label="Cerrar"
+              aria-label={t("closeGallery")}
             >
               <X className="w-6 h-6" />
             </button>
@@ -240,7 +242,7 @@ export default function CarCarousel({ images, carName, autoPlayInterval = 5000 }
               fill
               sizes="100vw"
               className={`object-contain transition-opacity duration-300 ${lbLoaded ? "opacity-100" : "opacity-0"}`}
-              alt={`${carName} — imagen ${lightboxIndex + 1}`}
+              alt={t("imageAlt", { name: carName, index: lightboxIndex + 1 })}
               onLoad={() => setLbLoaded(true)}
               unoptimized
             />
@@ -255,7 +257,7 @@ export default function CarCarousel({ images, carName, autoPlayInterval = 5000 }
                 <button
                   type="button"
                   onClick={() => { setLbLoaded(false); lbPrev(); }}
-                  aria-label="Imagen anterior"
+                  aria-label={t("prevImage")}
                   className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white transition"
                 >
                   <ChevronLeft className="w-6 h-6" />
@@ -263,7 +265,7 @@ export default function CarCarousel({ images, carName, autoPlayInterval = 5000 }
                 <button
                   type="button"
                   onClick={() => { setLbLoaded(false); lbNext(); }}
-                  aria-label="Imagen siguiente"
+                  aria-label={t("nextImage")}
                   className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white transition"
                 >
                   <ChevronRight className="w-6 h-6" />
@@ -290,7 +292,7 @@ export default function CarCarousel({ images, carName, autoPlayInterval = 5000 }
                     fill
                     sizes="64px"
                     className="object-cover"
-                    alt={`${carName} — miniatura ${index + 1}`}
+                    alt={t("thumbnailAlt", { name: carName, index: index + 1 })}
                     unoptimized
                   />
                 </div>

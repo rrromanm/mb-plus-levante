@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { routing, type Locale } from "./routing";
+import { getPathname } from "./navigation";
 
 // Open Graph locale codes per supported language.
 export const OG_LOCALES: Record<Locale, string> = {
@@ -8,35 +9,20 @@ export const OG_LOCALES: Record<Locale, string> = {
   ru: "ru_RU",
 };
 
-/**
- * Builds the localized pathname for a given locale, honoring the `as-needed`
- * prefix strategy (Spanish has no prefix, others are prefixed).
- */
-function localizedPath(locale: Locale, pathname: string): string {
-  const normalized = pathname === "/" ? "" : pathname;
-  if (locale === routing.defaultLocale) {
-    return normalized || "/";
-  }
-  return `/${locale}${normalized}`;
-}
+type Href = Parameters<typeof getPathname>[0]["href"];
 
-/**
- * Returns the `alternates` block (canonical + hreflang languages, incl.
- * x-default) for a page, given the current locale and the locale-agnostic
- * pathname (e.g. "/", "/coches", "/coches/some-slug").
- */
 export function getAlternates(
   locale: Locale,
-  pathname: string,
+  href: Href,
 ): NonNullable<Metadata["alternates"]> {
   const languages: Record<string, string> = {};
   for (const l of routing.locales) {
-    languages[l] = localizedPath(l, pathname);
+    languages[l] = getPathname({ locale: l, href });
   }
-  languages["x-default"] = localizedPath(routing.defaultLocale, pathname);
+  languages["x-default"] = getPathname({ locale: routing.defaultLocale, href });
 
   return {
-    canonical: localizedPath(locale, pathname),
+    canonical: getPathname({ locale, href }),
     languages,
   };
 }

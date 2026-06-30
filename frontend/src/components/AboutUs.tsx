@@ -59,7 +59,7 @@ export function AboutUs() {
         <div className="relative min-h-80 lg:min-h-0">
           <Image
             src="/mb-emblema.avif"
-            alt="Emblema Mercedes-Benz — MB Plus Benidorm concesionario Alicante"
+            alt={t("imageAlt")}
             fill
             className="object-cover"
             sizes="(min-width: 1024px) 50vw, 100vw"

@@ -23,11 +23,12 @@ const TRANSMISSION_SCHEMA: Record<Transmission, string> = {
   AUTOMATIC: "Automatic",
 };
 
-function buildCatalogJsonLd(cars: CarDto[]) {
+function buildCatalogJsonLd(cars: CarDto[], name: string, locale: string) {
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Catálogo de coches de segunda mano en Benidorm",
+    name,
+    inLanguage: locale,
     numberOfItems: cars.length,
     itemListElement: cars.map((car, index) => {
       const url = `${SITE_URL}/coches/${car.slug}`;
@@ -125,7 +126,7 @@ export default async function CochesPage({ params, searchParams }: CochesPagePro
     (car) => new Date(car.createdAt) >= month
   );
 
-  const catalogJsonLd = buildCatalogJsonLd(cars);
+  const catalogJsonLd = buildCatalogJsonLd(cars, t("pageTitle"), locale);
 
   return (
     <>

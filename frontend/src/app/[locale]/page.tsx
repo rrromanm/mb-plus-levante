@@ -94,7 +94,9 @@ export default async function Home({
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(dealerJsonLd) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({ ...dealerJsonLd, inLanguage: locale }),
+        }}
       />
       <Hero />
       <TrustStrip />

@@ -8,7 +8,7 @@
     "layoutTwitterTitle": "Coches de segunda mano en Benidorm | MB Plus Benidorm",
     "layoutTwitterDescription": "Vehículos de ocasión en Benidorm al mejor precio",
     "siteName": "MB Plus Benidorm",
-    "homeTitle": "Coches de segunda mano en Benidorm (Alicante) | MB Plus Benidorm",
+    "homeTitle": "Coches de segunda mano en Benidorm (Alicante)",
     "homeDescription": "Compra coches de segunda mano en Benidorm (Alicante). Especialistas en Mercedes-Benz y vehículos de ocasión con garantía, revisados y listos para entrega.",
     "catalogTitle": "Coches de Segunda Mano en Benidorm | Catálogo",
     "catalogDescription": "Descubre nuestro catálogo de coches de segunda mano en Benidorm. Vehículos revisados, listos para entrega inmediata en MB Plus Alicante.",
@@ -28,6 +28,7 @@
     "badge": "ALICANTE · BENIDORM · COCHES DE OCASIÓN Y SEGUNDA MANO",
     "title": "Coches de ocasión en Benidorm",
     "subtitle": "Descubre nuestra selección de coches de ocasión en Benidorm. Vehículos revisados, garantía incluida y precios justos.",
+    "imageAlt": "Coches Mercedes-Benz de ocasión en Benidorm, Costa Blanca",
     "ctaCatalog": "Ver catálogo",
     "ctaCall": "Llamar ahora"
   },
@@ -45,6 +46,7 @@
   },
   "About": {
     "eyebrow": "Coches de segunda mano en Alicante · MB Plus Benidorm",
+    "imageAlt": "Emblema Mercedes-Benz — MB Plus Benidorm, concesionario de coches de ocasión en Alicante",
     "title": "Respaldo profesional desde Benidorm",
     "intro": "MB Plus Benidorm es un concesionario especializado en la venta de coches de ocasión. Más de 10 años de experiencia avalan nuestro compromiso con la calidad y la transparencia.",
     "pillarWarrantyTitle": "Garantía de hasta 12 meses",
@@ -99,7 +101,7 @@
   },
   "Catalog": {
     "pageEyebrow": "Alicante · Benidorm · Segunda mano",
-    "pageTitle": "Catálogo de vehículos",
+    "pageTitle": "Coches de segunda mano en Benidorm",
     "news": "Novedades",
     "recentlyAdded": "Recién añadidos al catálogo",
     "recentCount": "{count} disponibles",
@@ -129,7 +131,14 @@
     "whatsapp": "Contactar por WhatsApp",
     "whatsappPrefill": "Hola, estoy interesado en el {car} por {price} ¿Está disponible?",
     "description": "Descripción",
-    "powerUnit": "HP"
+    "powerUnit": "HP",
+    "imageAlt": "{name} — imagen {index}",
+    "mainImageAlt": "{name} — imagen principal",
+    "thumbnailAlt": "{name} — miniatura {index}",
+    "prevImage": "Imagen anterior",
+    "nextImage": "Imagen siguiente",
+    "goToImage": "Ir a imagen {index}",
+    "closeGallery": "Cerrar"
   },
   "Similar": {
     "title": "Más vehículos disponibles",
