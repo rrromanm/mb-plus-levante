@@ -23,7 +23,7 @@ export function AboutUs() {
             <h2 className="text-3xl sm:text-4xl font-semibold leading-snug">
               {t("title")}
             </h2>
-            <p className="text-sm opacity-60 leading-relaxed max-w-lg">
+            <p className="text-sm opacity-60 leading-relaxed max-w-xl">
               {t("intro")}
             </p>
           </div>
