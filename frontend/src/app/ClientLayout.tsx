@@ -3,7 +3,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "../app/globals.css";
 import { Toaster } from "react-hot-toast";
-import { AuthProvider } from "@/context/AuthContext";
 import { Providers } from "@/app/providers";
 import Header from "@/components/generic/Header";
 import Footer from "@/components/generic/Footer";
@@ -32,20 +31,18 @@ export default function ClientLayout({
       className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}
     >
       <Providers>
-        <AuthProvider>
-          {!isAdminRoute ? (
-            <>
-              <Header />
-              <main className="flex-1">{children}</main>
-              <Footer />
-            </>
-          ) : (
-            children
-          )}
+        {!isAdminRoute ? (
+          <>
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </>
+        ) : (
+          children
+        )}
 
-          <Toaster position="top-right" />
-          <ConsentBanner />
-        </AuthProvider>
+        <Toaster position="top-right" />
+        <ConsentBanner />
       </Providers>
     </div>
   );
