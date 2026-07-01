@@ -112,7 +112,7 @@
   },
   "CarCard": {
     "viewDetails": "Ver detalles",
-    "powerUnit": "cv"
+    "powerUnit": "CV"
   },
   "CarDetail": {
     "breadcrumbHome": "Inicio",
@@ -131,7 +131,7 @@
     "whatsapp": "Contactar por WhatsApp",
     "whatsappPrefill": "Hola, estoy interesado en el {car} por {price} ¿Está disponible?",
     "description": "Descripción",
-    "powerUnit": "HP",
+    "powerUnit": "CV",
     "imageAlt": "{name} — imagen {index}",
     "mainImageAlt": "{name} — imagen principal",
     "thumbnailAlt": "{name} — miniatura {index}",
