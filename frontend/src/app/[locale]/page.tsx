@@ -102,7 +102,9 @@ export default async function Home({
       <TrustStrip />
       <FeaturedCars cars={featuredCars} />
       <AboutUs />
-      <CompanyInfo />
+      <div className="pb-8 sm:pb-12">
+        <CompanyInfo />
+      </div>
     </>
   );
 }
