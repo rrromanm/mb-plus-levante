@@ -19,7 +19,7 @@ export async function POST(request: Request) {
     );
   }
 
-  tags.forEach((tag) => revalidateTag(tag));
+  tags.forEach((tag) => revalidateTag(tag, { expire: 0 }));
 
   return NextResponse.json({ revalidated: true, tags });
 }
