@@ -11,6 +11,7 @@ const CarsApi = {
   ): Promise<CarDto[]> => {
     const response = await fetch(
       `${BASE_API_URL}/getAll?sort=${sort}&order=${order}`,
+      { next: { revalidate: 300, tags: ["cars"] } },
     );
 
     if (!response.ok) {
@@ -28,7 +29,9 @@ const CarsApi = {
     return response.json() as Promise<CarDetailsDto>;
   },
   getCarBySlug: async (slug: string): Promise<CarDetailsDto> => {
-    const response = await fetch(`${BASE_API_URL}/getCarBySlug/${slug}`);
+    const response = await fetch(`${BASE_API_URL}/getCarBySlug/${slug}`, {
+      next: { revalidate: 120, tags: ["cars"] },
+    });
 
     if (!response.ok) {
       throw new Error(`Failed to fetch car with slug: ${slug}`);
@@ -37,7 +40,9 @@ const CarsApi = {
     return response.json() as Promise<CarDetailsDto>;
   },
   getFeaturedCars: async (): Promise<CarDto[]> => {
-    const response = await fetch(`${BASE_API_URL}/getFeaturedCars`);
+    const response = await fetch(`${BASE_API_URL}/getFeaturedCars`, {
+      next: { revalidate: 300, tags: ["featured-cars"] },
+    });
 
     if (!response.ok) {
       throw new Error("Failed to fetch featured cars");
@@ -46,7 +51,9 @@ const CarsApi = {
     return response.json() as Promise<CarDto[]>;
   },
   getRecommendedCars: async (slug: string): Promise<CarDto[]> => {
-    const response = await fetch(`${BASE_API_URL}/slug/${slug}/recommended`);
+    const response = await fetch(`${BASE_API_URL}/slug/${slug}/recommended`, {
+      next: { revalidate: 300, tags: ["cars"] },
+    });
 
     if (!response.ok) {
       throw new Error("Failed to fetch recommended cars");
@@ -54,8 +61,12 @@ const CarsApi = {
 
     return response.json() as Promise<CarDto[]>;
   },
-  getSitemapCars: async (): Promise<{ slug: string; lastModified: string }[]> => {
-    const response = await fetch(`${BASE_API_URL}/sitemap`);
+  getSitemapCars: async (): Promise<
+    { slug: string; lastModified: string }[]
+  > => {
+    const response = await fetch(`${BASE_API_URL}/sitemap`, {
+      next: { revalidate: 3600, tags: ["cars"] },
+    });
 
     if (!response.ok) {
       throw new Error("Failed to fetch sitemap cars");
