@@ -52,7 +52,7 @@ public class CarServiceImpl implements CarService {
         Sort sorting = Sort.by(direction, sort);
 
         return carRepository
-                .findByStatus(CarStatus.ACTIVE, sorting)
+                .findByDeletedAtIsNullAndCarSaleStatusNot(CarStatus.SOLD, sorting)
                 .stream()
                 .map(car -> new CarDto(
                         car.getId(),
@@ -194,8 +194,11 @@ public class CarServiceImpl implements CarService {
     public void markCarAsSold(Long id) {
         Car car = carRepository.findById(id).orElseThrow(() -> new RuntimeException("Car not found"));
 
-        car.setSoldAt(LocalDateTime.now());
-        car.setStatus(CarStatus.SOLD);
+        CarSale carSale = car.getCarSale();
+        if (carSale == null) throw new RuntimeException("Car has no sale listing");
+
+        carSale.setStatus(CarStatus.SOLD);
+        carSale.setSoldAt(LocalDateTime.now());
     }
 
     @Override
@@ -204,14 +207,13 @@ public class CarServiceImpl implements CarService {
                 .orElseThrow(() -> new RuntimeException("Car not found"));
 
         car.setDeletedAt(LocalDateTime.now());
-        car.setStatus(CarStatus.DELETED);
         car.setFeatured(false);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<CarDto> getFeaturedCars() {
-        return carRepository.findByFeaturedTrueAndStatusOrderByCreatedAtDesc(CarStatus.ACTIVE)
+        return carRepository.findByFeaturedTrueAndDeletedAtIsNullAndCarSaleStatusNotOrderByCreatedAtDesc(CarStatus.SOLD)
                 .stream()
                 .map(car -> new CarDto(
                         car.getId(),
@@ -246,7 +248,7 @@ public class CarServiceImpl implements CarService {
                 .orElseThrow(() -> new RuntimeException("Car not found"));
 
         List<Long> carIds = new ArrayList<>(
-                carRepository.findIdsByStatusAndIdNot(CarStatus.ACTIVE, car.getId())
+                carRepository.findIdsByStatusNotAndIdNot(CarStatus.SOLD, car.getId())
         );
         if (carIds.isEmpty()) return List.of();
         Collections.shuffle(carIds);

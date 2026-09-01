@@ -44,7 +44,8 @@ const BODY_SCHEMA: Partial<Record<BodyType, string>> = {
 };
 
 const AVAILABILITY_SCHEMA: Record<CarStatus, string | undefined> = {
-  ACTIVE: "https://schema.org/InStock",
+  AVAILABLE: "https://schema.org/InStock",
+  RESERVED: "https://schema.org/InStock",
   SOLD: "https://schema.org/SoldOut",
   DELETED: undefined,
 };
