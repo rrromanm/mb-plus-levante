@@ -5,11 +5,15 @@ export function useAddCar() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const addCar = async (formData: FormData) => {
+  const addCar = async (
+    formData: FormData,
+    variant: "sale" | "rental" = "sale",
+  ) => {
     try {
       setLoading(true);
       setError(null);
-      await AdminApi.addCar(formData);
+      if (variant === "rental") await AdminApi.addRentalCar(formData);
+      else await AdminApi.addCar(formData);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
       throw err;

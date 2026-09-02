@@ -17,6 +17,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  title: {
+    default: "Admin | MB Plus Benidorm",
+    template: "%s | Admin | MB Plus Benidorm",
+  },
   robots: { index: false, follow: false },
 };
 

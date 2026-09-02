@@ -19,17 +19,25 @@ import { useAddCar } from "@/controller/useAddCar";
 import { toast } from "react-hot-toast";
 import FUEL_CONFIG from "@/lib/FUEL_CONFIG";
 
+type AddVehicleForm = AddCarDto & {
+  pricePerDay: number;
+  pricePerMonth?: number;
+};
+
 type AddVehicleModalProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSuccess?: () => void;
+  variant?: "sale" | "rental";
 };
 
 export default function AddVehicleModal({
   open,
   onOpenChange,
   onSuccess,
+  variant = "sale",
 }: AddVehicleModalProps) {
+  const isRental = variant === "rental";
   const { data: brands, loading } = useGetAllBrands();
   const [selectedBrand, setSelectedBrand] = useState<Brand | null>(null);
   const [selectedFuelType, setSelectedFuelType] = useState<string>("");
@@ -43,7 +51,7 @@ export default function AddVehicleModal({
     setValue,
     watch,
     formState: { errors },
-  } = useForm<AddCarDto>();
+  } = useForm<AddVehicleForm>();
   const { addCar, loading: adding, error: addError } = useAddCar();
 
   const descriptionValue = watch("description") ?? "";
@@ -89,7 +97,7 @@ export default function AddVehicleModal({
     [],
   );
 
-  const onSubmit = async (data: AddCarDto) => {
+  const onSubmit = async (data: AddVehicleForm) => {
     if (files.length === 0) {
       toast.error("Por favor, sube al menos una imagen");
       return;
@@ -102,7 +110,13 @@ export default function AddVehicleModal({
       formData.append("model", data.model);
       formData.append("year", data.year.toString());
       formData.append("mileageKm", data.mileageKm.toString());
-      formData.append("price", data.price.toString());
+      if (isRental) {
+        formData.append("pricePerDay", data.pricePerDay.toString());
+        if (data.pricePerMonth)
+          formData.append("pricePerMonth", data.pricePerMonth.toString());
+      } else {
+        formData.append("price", data.price.toString());
+      }
       formData.append("fuelType", data.fuelType);
       formData.append("transmission", data.transmission);
 
@@ -115,7 +129,7 @@ export default function AddVehicleModal({
         formData.append("images", file);
       });
 
-      await addCar(formData);
+      await addCar(formData, variant);
       toast.success("Vehículo añadido correctamente");
       onSuccess?.();
       onOpenChange(false);
@@ -154,7 +168,9 @@ export default function AddVehicleModal({
             <X />
           </button>
 
-          <h3 className="mb-6 text-lg font-semibold">Añadir Vehículo</h3>
+          <h3 className="mb-6 text-lg font-semibold">
+            {isRental ? "Añadir Vehículo en alquiler" : "Añadir Vehículo"}
+          </h3>
 
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <div>
@@ -247,18 +263,47 @@ export default function AddVehicleModal({
                         />
                       </div>
 
-                      <div>
-                        <label className="mb-1 block text-xs text-gray-500">
-                          Precio (€) <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="number"
-                          required
-                          {...register("price")}
-                          className="w-full rounded-md border bg-white px-3 py-2 font-medium"
-                          placeholder="24.900"
-                        />
-                      </div>
+                      {isRental ? (
+                        <>
+                          <div>
+                            <label className="mb-1 block text-xs text-gray-500">
+                              Precio / día (€){" "}
+                              <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                              type="number"
+                              required
+                              {...register("pricePerDay")}
+                              className="w-full rounded-md border bg-white px-3 py-2 font-medium"
+                              placeholder="60"
+                            />
+                          </div>
+                          <div>
+                            <label className="mb-1 block text-xs text-gray-500">
+                              Precio / mes (€)
+                            </label>
+                            <input
+                              type="number"
+                              {...register("pricePerMonth")}
+                              className="w-full rounded-md border bg-white px-3 py-2 font-medium"
+                              placeholder="900"
+                            />
+                          </div>
+                        </>
+                      ) : (
+                        <div>
+                          <label className="mb-1 block text-xs text-gray-500">
+                            Precio (€) <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            type="number"
+                            required
+                            {...register("price")}
+                            className="w-full rounded-md border bg-white px-3 py-2 font-medium"
+                            placeholder="24.900"
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
 

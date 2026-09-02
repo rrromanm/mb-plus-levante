@@ -1,5 +1,7 @@
 import Sidebar from "@/components/admin/Sidebar";
 
+export const metadata = { title: "Alquiler de coches" };
+
 export default function AdminRentals() {
   return (
     <div className="flex flex-col md:flex-row h-screen overflow-hidden bg-gray-100">

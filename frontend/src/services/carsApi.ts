@@ -1,6 +1,7 @@
 import { FeaturedCarDto } from "@/types/car/featuredCarDto";
 import { CarDto } from "@/types/car/carDto";
 import { CarDetailsDto } from "@/types/car/carDetailsDto";
+import { RentalCarDto } from "@/types/car/rentalCarDto";
 
 const BASE_API_URL = process.env.NEXT_PUBLIC_API_URL + "/cars";
 
@@ -15,6 +16,21 @@ const CarsApi = {
 
     if (!response.ok) {
       throw new Error("Failed to fetch cars");
+    }
+
+    return response.json();
+  },
+  // ponytail: endpoint not implemented in the backend yet
+  getAllRentals: async (
+    sort: string = "createdAt",
+    order: "asc" | "desc" = "desc",
+  ): Promise<RentalCarDto[]> => {
+    const response = await fetch(
+      `${BASE_API_URL}/rentals?sort=${sort}&order=${order}`,
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch rental cars");
     }
 
     return response.json();
