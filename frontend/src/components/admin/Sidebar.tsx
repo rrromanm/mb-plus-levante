@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { House, LogOut, Menu, X, ArrowLeft } from "lucide-react";
+import { Car, House, KeyRound, LogOut, Menu, X, ArrowLeft } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
@@ -13,16 +13,16 @@ const menuItems = [
     href: "/admin/dashboard",
     icon: <House className="w-5 h-5" />,
   },
-  // {
-  //   name: "Vehículos",
-  //   href: "/admin/cars",
-  //   icon: <Car className="w-5 h-5" />,
-  // },
-  // {
-  //   name: "Alquileres",
-  //   href: "/admin/rentals",
-  //   icon: <KeyRound className="w-5 h-5" />,
-  // },
+  {
+    name: "Coches en venta",
+    href: "/admin/cars",
+    icon: <Car className="w-5 h-5" />,
+  },
+  {
+    name: "Alquiler de coches",
+    href: "/admin/rentals",
+    icon: <KeyRound className="w-5 h-5" />,
+  },
 ];
 
 export default function Sidebar() {
