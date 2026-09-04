@@ -19,11 +19,11 @@ public class ImageServiceImpl implements ImageService {
         this.cloudinary = cloudinary;
     }
     @Override
-    public String upload(MultipartFile file) {
+    public String upload(MultipartFile file, String subfolder) {
         try {
 
             Map<String, Object> options = new HashMap<>();
-            options.put("folder", baseFolder);
+            options.put("folder", subfolder.isBlank() ? baseFolder : baseFolder + "/" + subfolder);
 
             Map<?, ?> result = cloudinary.uploader().upload(
                     file.getBytes(),

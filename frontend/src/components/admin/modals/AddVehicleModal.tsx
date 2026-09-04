@@ -235,7 +235,9 @@ export default function AddVehicleModal({
                       </div>
                     </div>
 
-                    <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+                    <div
+                      className={`mt-4 grid grid-cols-1 gap-4 ${isRental ? "sm:grid-cols-4" : "sm:grid-cols-3"}`}
+                    >
                       <div>
                         <label className="mb-1 block text-xs text-gray-500">
                           Año <span className="text-red-500">*</span>
@@ -375,76 +377,80 @@ export default function AddVehicleModal({
                       </div>
                     </div>
 
-                    <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
-                      <div>
-                        <label className="mb-1 block text-xs text-gray-500">
-                          Motor
-                        </label>
-                        <input
-                          type="text"
-                          {...register("engine")}
-                          className="w-full rounded-md border px-3 py-2"
-                          placeholder="2.0"
-                        />
-                      </div>
+                    {!isRental && (
+                      <>
+                        <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+                          <div>
+                            <label className="mb-1 block text-xs text-gray-500">
+                              Motor
+                            </label>
+                            <input
+                              type="text"
+                              {...register("engine")}
+                              className="w-full rounded-md border px-3 py-2"
+                              placeholder="2.0"
+                            />
+                          </div>
 
-                      <div>
-                        <label className="mb-1 block text-xs text-gray-500">
-                          Potencia (hp)
-                        </label>
-                        <input
-                          type="number"
-                          {...register("powerHp")}
-                          className="w-full rounded-md border px-3 py-2"
-                          placeholder="194"
-                        />
-                      </div>
+                          <div>
+                            <label className="mb-1 block text-xs text-gray-500">
+                              Potencia (hp)
+                            </label>
+                            <input
+                              type="number"
+                              {...register("powerHp")}
+                              className="w-full rounded-md border px-3 py-2"
+                              placeholder="194"
+                            />
+                          </div>
 
-                      <div>
-                        <label className="mb-1 block text-xs text-gray-500">
-                          Carrocería <span className="text-red-500">*</span>
-                        </label>
-                        <FilterSelect
-                          options={bodyTypeOptions}
-                          placeholder="Seleccionar"
-                          value={selectedBodyType}
-                          onChange={(value) => {
-                            setSelectedBodyType(value);
-                            setValue("bodyType", value as BodyType, {
-                              shouldValidate: true,
-                            });
-                          }}
-                        />
-                        <input
-                          type="hidden"
-                          {...register("bodyType", {
-                            required: "La carrocería es obligatoria",
-                          })}
-                          value={selectedBodyType}
-                        />
-                        {errors.bodyType && (
-                          <p className="mt-1 text-xs text-red-500">
-                            {errors.bodyType.message}
-                          </p>
-                        )}
-                      </div>
-                    </div>
+                          <div>
+                            <label className="mb-1 block text-xs text-gray-500">
+                              Carrocería <span className="text-red-500">*</span>
+                            </label>
+                            <FilterSelect
+                              options={bodyTypeOptions}
+                              placeholder="Seleccionar"
+                              value={selectedBodyType}
+                              onChange={(value) => {
+                                setSelectedBodyType(value);
+                                setValue("bodyType", value as BodyType, {
+                                  shouldValidate: true,
+                                });
+                              }}
+                            />
+                            <input
+                              type="hidden"
+                              {...register("bodyType", {
+                                required: "La carrocería es obligatoria",
+                              })}
+                              value={selectedBodyType}
+                            />
+                            {errors.bodyType && (
+                              <p className="mt-1 text-xs text-red-500">
+                                {errors.bodyType.message}
+                              </p>
+                            )}
+                          </div>
+                        </div>
 
-                    <div className="mt-4">
-                      <div className="mb-1 flex items-center justify-between text-xs text-gray-500">
-                        <span>Descripción</span>
-                        <span>
-                          {remainingDescriptionChars} caracteres restantes
-                        </span>
-                      </div>
-                      <textarea
-                        {...register("description")}
-                        className="w-full rounded-md border px-3 py-2"
-                        rows={4}
-                        maxLength={800}
-                        placeholder="Añade detalles relevantes del vehículo"
-                      />
-                    </div>
+                        <div className="mt-4">
+                          <div className="mb-1 flex items-center justify-between text-xs text-gray-500">
+                            <span>Descripción</span>
+                            <span>
+                              {remainingDescriptionChars} caracteres restantes
+                            </span>
+                          </div>
+                          <textarea
+                            {...register("description")}
+                            className="w-full rounded-md border px-3 py-2"
+                            rows={4}
+                            maxLength={800}
+                            placeholder="Añade detalles relevantes del vehículo"
+                          />
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
                 <div className="mt-6 flex justify-end gap-3">

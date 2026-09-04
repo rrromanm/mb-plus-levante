@@ -10,7 +10,6 @@ const AdminApi = {
       body: formData,
     });
   },
-  // ponytail: endpoint not implemented in the backend yet
   addRentalCar: async (formData: FormData) => {
     await apiRequest(`${BASE_API_URL}/addRentalCar`, {
       credentials: "include",

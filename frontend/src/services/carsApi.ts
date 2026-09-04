@@ -20,7 +20,6 @@ const CarsApi = {
 
     return response.json();
   },
-  // ponytail: endpoint not implemented in the backend yet
   getAllRentals: async (
     sort: string = "createdAt",
     order: "asc" | "desc" = "desc",

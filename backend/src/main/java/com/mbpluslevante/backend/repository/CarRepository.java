@@ -16,6 +16,8 @@
         List<Car> findByDeletedAtIsNullAndCarSaleStatusNot(CarStatus status, Sort sort);
         @EntityGraph(attributePaths = {"brand", "carSale", "images"})
         List<Car> findByFeaturedTrueAndDeletedAtIsNullAndCarSaleStatusNotOrderByCreatedAtDesc(CarStatus status);
+        @EntityGraph(attributePaths = {"brand", "carRental", "images"})
+        List<Car> findByDeletedAtIsNullAndCarRentalIsNotNull(Sort sort);
         boolean existsBySlug(String slug);
         Optional<Car> findBySlug(String slug);
         @Query("SELECT c.id FROM Car c WHERE c.deletedAt IS NULL AND c.carSale.status <> :status AND c.id <> :excludeId")
