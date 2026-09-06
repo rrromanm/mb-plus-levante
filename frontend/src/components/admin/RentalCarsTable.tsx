@@ -3,7 +3,7 @@
 import useGetAllRentals from "@/controller/useGetAllRentals";
 import Image from "next/image";
 import { useState } from "react";
-import { Pencil, Plus } from "lucide-react";
+import { CalendarDays, Pencil, Plus } from "lucide-react";
 import AddVehicleModal from "./modals/AddVehicleModal";
 import useDeleteCar from "@/controller/useDeleteCar";
 import toast from "react-hot-toast";
@@ -11,6 +11,7 @@ import { getCloudinaryUrl } from "@/services/cloudinary";
 import DeleteCarDialog from "./modals/DeleteCarDialog";
 import { formatPrice } from "@/lib/utils";
 import { EditVehicleModal } from "@/components/admin/modals/EditVehicleModal";
+import ReservationCalendarModal from "@/components/admin/modals/ReservationCalendarModal";
 import type { RentalCarDto } from "@/types/car/rentalCarDto";
 import {
   Tooltip,
@@ -23,6 +24,7 @@ export default function RentalCarsTable() {
   const { data: rentals, loading, error, refetch } = useGetAllRentals();
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<RentalCarDto | null>(null);
+  const [reserving, setReserving] = useState<RentalCarDto | null>(null);
   const { deleteCar } = useDeleteCar();
 
   const onDelete = async (id: number) => {
@@ -48,6 +50,16 @@ export default function RentalCarsTable() {
             />
           </TooltipTrigger>
           <TooltipContent>Editar vehículo</TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger>
+            <CalendarDays
+              onClick={() => setReserving(car)}
+              stroke="black"
+              className="w-4 h-4 cursor-pointer"
+            />
+          </TooltipTrigger>
+          <TooltipContent>Gestionar reservas</TooltipContent>
         </Tooltip>
         <Tooltip>
           <TooltipTrigger>
@@ -80,6 +92,12 @@ export default function RentalCarsTable() {
         onOpenChange={setOpen}
         variant="rental"
         onSuccess={refetch}
+      />
+
+      <ReservationCalendarModal
+        open={reserving !== null}
+        onOpenChange={(next) => !next && setReserving(null)}
+        car={reserving}
       />
 
       <EditVehicleModal
