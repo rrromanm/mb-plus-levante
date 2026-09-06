@@ -3,17 +3,26 @@
 import useGetAllRentals from "@/controller/useGetAllRentals";
 import Image from "next/image";
 import { useState } from "react";
-import { Plus } from "lucide-react";
+import { Pencil, Plus } from "lucide-react";
 import AddVehicleModal from "./modals/AddVehicleModal";
 import useDeleteCar from "@/controller/useDeleteCar";
 import toast from "react-hot-toast";
 import { getCloudinaryUrl } from "@/services/cloudinary";
 import DeleteCarDialog from "./modals/DeleteCarDialog";
 import { formatPrice } from "@/lib/utils";
+import { EditVehicleModal } from "@/components/admin/modals/EditVehicleModal";
+import type { RentalCarDto } from "@/types/car/rentalCarDto";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
 
 export default function RentalCarsTable() {
   const { data: rentals, loading, error, refetch } = useGetAllRentals();
   const [open, setOpen] = useState(false);
+  const [editing, setEditing] = useState<RentalCarDto | null>(null);
   const { deleteCar } = useDeleteCar();
 
   const onDelete = async (id: number) => {
@@ -27,6 +36,29 @@ export default function RentalCarsTable() {
     }
   };
 
+  const ActionButtons = ({ car }: { car: RentalCarDto }) => (
+    <TooltipProvider>
+      <div className="flex flex-wrap gap-3">
+        <Tooltip>
+          <TooltipTrigger>
+            <Pencil
+              onClick={() => setEditing(car)}
+              stroke="black"
+              className="w-4 h-4 cursor-pointer"
+            />
+          </TooltipTrigger>
+          <TooltipContent>Editar vehículo</TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger>
+            <DeleteCarDialog onDelete={onDelete} car={car} />
+          </TooltipTrigger>
+          <TooltipContent>Eliminar vehículo</TooltipContent>
+        </Tooltip>
+      </div>
+    </TooltipProvider>
+  );
+
   return (
     <div className="rounded-lg bg-white shadow">
       <div className="flex flex-col gap-4 border-b border-gray-200 p-6 sm:flex-row sm:items-center sm:justify-between">
@@ -34,7 +66,7 @@ export default function RentalCarsTable() {
           Vehículos en alquiler ({rentals.length})
         </h2>
         <button
-          className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-md
+          className="inline-flex items-center justify-center gap-2 rounded-md
             bg-[#880808] px-4 py-2 text-sm font-medium text-white hover:bg-[#660606]"
           onClick={() => setOpen(true)}
         >
@@ -50,7 +82,16 @@ export default function RentalCarsTable() {
         onSuccess={refetch}
       />
 
-      {/* ponytail: rentals are read-only here — no edit/featured/sold until those endpoints exist */}
+      <EditVehicleModal
+        open={editing !== null}
+        onOpenChange={(next) => !next && setEditing(null)}
+        carId={editing?.id ?? null}
+        rentalCar={editing}
+        variant="rental"
+        onSuccess={refetch}
+      />
+
+      {/* ponytail: no featured/sold for rentals — those endpoints do not exist */}
       <div className="p-4 sm:p-6">
         {loading ? (
           <div className="p-8 text-center text-gray-500">
@@ -115,7 +156,7 @@ export default function RentalCarsTable() {
                         </span>
                       </td>
                       <td className="px-4 py-3">
-                        <DeleteCarDialog onDelete={onDelete} car={car} />
+                        <ActionButtons car={car} />
                       </td>
                     </tr>
                   ))}
@@ -162,7 +203,7 @@ export default function RentalCarsTable() {
                     </div>
                   </div>
                   <div className="mt-4">
-                    <DeleteCarDialog onDelete={onDelete} car={car} />
+                    <ActionButtons car={car} />
                   </div>
                 </div>
               ))}

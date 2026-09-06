@@ -127,7 +127,7 @@ export default function SaleCarsTable() {
           Vehículos en venta ({cars.length})
         </h2>
         <button
-          className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-md
+          className="inline-flex items-center justify-center gap-2 rounded-md
             bg-[#880808] px-4 py-2 text-sm font-medium text-white hover:bg-[#660606]"
           onClick={() => setOpen(true)}
         >

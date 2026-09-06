@@ -31,7 +31,7 @@ export function FilterSelect({
 
   return (
     <Select value={normalizedValue} onValueChange={onChange}>
-      <SelectTrigger className="w-full cursor-pointer">
+      <SelectTrigger className="w-full">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
 

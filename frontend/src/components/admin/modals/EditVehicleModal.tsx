@@ -12,6 +12,8 @@ import type { BodyType } from "@/lib/enums/bodyType";
 import { useGetAllBrands } from "@/controller/useGetAllBrands";
 import { useGetCarById } from "@/controller/useGetCarById";
 import useEditCar from "@/controller/useEditCar";
+import useEditRentalCar from "@/controller/useEditRentalCar";
+import type { RentalCarDto } from "@/types/car/rentalCarDto";
 import toast from "react-hot-toast";
 import FUEL_CONFIG from "@/lib/FUEL_CONFIG";
 
@@ -20,6 +22,26 @@ type EditVehicleModalProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSuccess?: () => void;
+  variant?: "sale" | "rental";
+  /** rental variant seeds the form from the table row — no detail endpoint needed */
+  rentalCar?: RentalCarDto | null;
+};
+
+const emptyForm = {
+  brandId: "",
+  model: "",
+  year: "",
+  mileageKm: "",
+  price: "",
+  engine: "",
+  powerHp: "",
+  description: "",
+  fuelType: "",
+  transmission: "",
+  bodyType: "",
+  pricePerDay: "",
+  pricePerMonth: "",
+  active: true,
 };
 
 export const EditVehicleModal = ({
@@ -27,65 +49,58 @@ export const EditVehicleModal = ({
   onOpenChange,
   carId,
   onSuccess,
+  variant = "sale",
+  rentalCar = null,
 }: EditVehicleModalProps) => {
-  const { data: carDetails, loading: loadingCar } = useGetCarById(carId);
+  const isRental = variant === "rental";
+  const { data: carDetails, loading: loadingCar } = useGetCarById(
+    isRental ? null : carId,
+  );
   const { data: brands, loading: loadingBrands } = useGetAllBrands();
-  const { editCar, loading: saving } = useEditCar();
+  const { editCar, loading: savingCar } = useEditCar();
+  const { editRentalCar, loading: savingRental } = useEditRentalCar();
+  const saving = isRental ? savingRental : savingCar;
 
-  const [form, setForm] = useState({
-    brandId: "",
-    model: "",
-    year: "",
-    mileageKm: "",
-    price: "",
-    engine: "",
-    powerHp: "",
-    description: "",
-    fuelType: "",
-    transmission: "",
-    bodyType: "",
-  });
+  const [form, setForm] = useState(emptyForm);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const remainingDescriptionChars = 800 - form.description.length;
 
   useEffect(() => {
-    if (!carDetails || !brands) return;
+    const source = isRental ? rentalCar : carDetails;
+    if (!source || !brands) return;
 
     const matchedBrand = brands.find(
-      (b) => b.name.toUpperCase() === carDetails.brand?.toUpperCase(),
+      (b) => b.name.toUpperCase() === source.brand?.toUpperCase(),
     );
 
     setForm({
+      ...emptyForm,
       brandId: matchedBrand?.id?.toString() || "",
-      model: carDetails.model || "",
-      year: carDetails.year?.toString() || "",
-      mileageKm: carDetails.mileageKm?.toString() || "",
-      price: carDetails.price?.toString() || "",
-      engine: carDetails.engine || "",
-      powerHp: carDetails.powerHp?.toString() || "",
-      description: carDetails.description || "",
-      fuelType: carDetails.fuelType || "",
-      transmission: carDetails.transmission || "",
-      bodyType: carDetails.bodyType || "",
+      model: source.model || "",
+      year: source.year?.toString() || "",
+      mileageKm: source.mileageKm?.toString() || "",
+      fuelType: source.fuelType || "",
+      transmission: source.transmission || "",
+      ...(isRental
+        ? {
+            pricePerDay: rentalCar?.pricePerDay?.toString() || "",
+            pricePerMonth: rentalCar?.pricePerMonth?.toString() || "",
+            active: rentalCar?.active ?? true,
+          }
+        : {
+            price: carDetails?.price?.toString() || "",
+            engine: carDetails?.engine || "",
+            powerHp: carDetails?.powerHp?.toString() || "",
+            description: carDetails?.description || "",
+            bodyType: carDetails?.bodyType || "",
+          }),
     });
-  }, [carDetails, brands]);
+  }, [carDetails, rentalCar, brands, isRental]);
 
   useEffect(() => {
     if (!open) {
-      setForm({
-        brandId: "",
-        model: "",
-        year: "",
-        mileageKm: "",
-        price: "",
-        engine: "",
-        powerHp: "",
-        description: "",
-        fuelType: "",
-        transmission: "",
-        bodyType: "",
-      });
+      setForm(emptyForm);
       setErrors({});
     }
   }, [open]);
@@ -98,14 +113,22 @@ export const EditVehicleModal = ({
     if (!form.model.trim()) nextErrors.model = "El modelo es obligatorio";
     if (!form.year) nextErrors.year = "El año es obligatorio";
     if (!form.mileageKm) nextErrors.mileageKm = "El kilometraje es obligatorio";
-    if (!form.price) nextErrors.price = "El precio es obligatorio";
+    if (isRental) {
+      if (!form.pricePerDay) {
+        nextErrors.pricePerDay = "El precio por día es obligatorio";
+      }
+    } else if (!form.price) {
+      nextErrors.price = "El precio es obligatorio";
+    }
     if (!form.fuelType) {
       nextErrors.fuelType = "El tipo de combustible es obligatorio";
     }
     if (!form.transmission) {
       nextErrors.transmission = "La transmisión es obligatoria";
     }
-    if (!form.bodyType) nextErrors.bodyType = "La carrocería es obligatoria";
+    if (!isRental && !form.bodyType) {
+      nextErrors.bodyType = "La carrocería es obligatoria";
+    }
 
     if (Object.keys(nextErrors).length > 0) {
       setErrors(nextErrors);
@@ -114,6 +137,25 @@ export const EditVehicleModal = ({
     }
 
     try {
+      if (isRental) {
+        await editRentalCar(carId, {
+          brandId: Number(form.brandId),
+          model: form.model,
+          year: Number(form.year),
+          mileageKm: Number(form.mileageKm),
+          fuelType: form.fuelType as FuelType,
+          transmission: form.transmission as Transmission,
+          pricePerDay: Number(form.pricePerDay),
+          pricePerMonth: form.pricePerMonth ? Number(form.pricePerMonth) : null,
+          active: form.active,
+        });
+
+        toast.success("Vehículo actualizado correctamente");
+        onSuccess?.();
+        onOpenChange(false);
+        return;
+      }
+
       await editCar(carId, {
         brandId: Number(form.brandId),
         model: form.model,
@@ -195,7 +237,9 @@ export const EditVehicleModal = ({
             <X />
           </button>
 
-          <h3 className="mb-6 text-lg font-semibold">Editar Vehículo</h3>
+          <h3 className="mb-6 text-lg font-semibold">
+            {isRental ? "Editar Vehículo en alquiler" : "Editar Vehículo"}
+          </h3>
 
           <div className="space-y-6 text-sm text-gray-700">
             <div className="rounded-lg border bg-gray-50 p-4">
@@ -242,7 +286,9 @@ export const EditVehicleModal = ({
                 </div>
               </div>
 
-              <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div
+                className={`mt-4 grid grid-cols-1 gap-4 ${isRental ? "sm:grid-cols-4" : "sm:grid-cols-3"}`}
+              >
                 <div>
                   <label className="mb-1 block text-xs text-gray-500">
                     Año <span className="text-red-500">*</span>
@@ -281,6 +327,45 @@ export const EditVehicleModal = ({
                   )}
                 </div>
 
+                {isRental ? (
+                  <>
+                    <div>
+                      <label className="mb-1 block text-xs text-gray-500">
+                        Precio / día (€) <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="number"
+                        value={form.pricePerDay}
+                        onChange={(e) => {
+                          setForm({ ...form, pricePerDay: e.target.value });
+                          setErrors((prev) => ({ ...prev, pricePerDay: "" }));
+                        }}
+                        className="w-full rounded-md border bg-white px-3 py-2 font-medium"
+                        placeholder="90"
+                      />
+                      {errors.pricePerDay && (
+                        <p className="mt-1 text-xs text-red-500">
+                          {errors.pricePerDay}
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="mb-1 block text-xs text-gray-500">
+                        Precio / mes (€)
+                      </label>
+                      <input
+                        type="number"
+                        value={form.pricePerMonth}
+                        onChange={(e) =>
+                          setForm({ ...form, pricePerMonth: e.target.value })
+                        }
+                        className="w-full rounded-md border bg-white px-3 py-2 font-medium"
+                        placeholder="1500"
+                      />
+                    </div>
+                  </>
+                ) : (
                 <div>
                   <label className="mb-1 block text-xs text-gray-500">
                     Precio (€) <span className="text-red-500">*</span>
@@ -299,6 +384,7 @@ export const EditVehicleModal = ({
                     <p className="mt-1 text-xs text-red-500">{errors.price}</p>
                   )}
                 </div>
+                )}
               </div>
             </div>
 
@@ -347,6 +433,20 @@ export const EditVehicleModal = ({
                 </div>
               </div>
 
+              {isRental ? (
+                <label className="mt-4 flex items-center gap-2 text-sm text-gray-700">
+                  <input
+                    type="checkbox"
+                    checked={form.active}
+                    onChange={(e) =>
+                      setForm({ ...form, active: e.target.checked })
+                    }
+                    className="h-4 w-4"
+                  />
+                  Activo (visible en el catálogo de alquiler)
+                </label>
+              ) : (
+                <>
               <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <div>
                   <label className="mb-1 block text-xs text-gray-500">Motor</label>
@@ -408,6 +508,8 @@ export const EditVehicleModal = ({
                   placeholder="Añade detalles relevantes del vehículo"
                 />
               </div>
+                </>
+              )}
             </div>
 
             <div className="mt-6 flex justify-end gap-3">

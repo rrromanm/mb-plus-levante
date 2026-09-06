@@ -249,6 +249,29 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    public void editRentalCar(Long id, EditRentalCarDto dto) {
+        Car car = carRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Car not found"));
+
+        CarRental rental = car.getCarRental();
+        if (rental == null) throw new RuntimeException("Car has no rental listing");
+
+        Brand brand = brandRepository.findById(dto.brandId)
+                .orElseThrow(() -> new RuntimeException("Brand not found"));
+
+        car.setBrand(brand);
+        car.setModel(dto.model);
+        car.setYear(dto.year);
+        car.setMileageKm(dto.mileageKm);
+        car.setFuelType(dto.fuelType);
+        car.setTransmission(dto.transmission);
+
+        rental.setPricePerDay(dto.pricePerDay);
+        rental.setPricePerMonth(dto.pricePerMonth);
+        rental.setActive(dto.active);
+    }
+
+    @Override
     public void markCarAsSold(Long id) {
         Car car = carRepository.findById(id).orElseThrow(() -> new RuntimeException("Car not found"));
 

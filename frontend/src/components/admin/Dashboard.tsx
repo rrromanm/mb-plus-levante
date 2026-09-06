@@ -27,7 +27,7 @@ export default function Dashboard() {
                 <button
                   key={value}
                   onClick={() => setMode(value)}
-                  className={`cursor-pointer rounded px-4 py-1.5 text-sm font-medium transition-colors ${
+                  className={`rounded px-4 py-1.5 text-sm font-medium transition-colors ${
                     mode === value
                       ? "bg-[#880808] text-white"
                       : "text-gray-700 hover:bg-gray-100"

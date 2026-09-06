@@ -86,7 +86,7 @@ export default function Sidebar() {
             logout();
             onNavigate?.();
           }}
-          className="flex items-center gap-3 px-4 py-3 w-full rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-200 cursor-pointer"
+          className="flex items-center gap-3 px-4 py-3 w-full rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-200"
         >
           <LogOut className="w-5 h-5" />
           <span className="font-medium">Cerrar sesión</span>

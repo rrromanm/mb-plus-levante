@@ -1,4 +1,5 @@
 import { apiRequest } from "@/lib/apiClient";
+import { EditRentalCarDto } from "@/types/car/editRentalCarDto";
 
 const BASE_API_URL = process.env.NEXT_PUBLIC_API_URL + "/admin";
 
@@ -19,6 +20,16 @@ const AdminApi = {
   },
   editCar: async (id: number, data: any) => {
     await apiRequest(`${BASE_API_URL}/editCar/${id}`, {
+      credentials: "include",
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+  },
+  editRentalCar: async (id: number, data: EditRentalCarDto) => {
+    await apiRequest(`${BASE_API_URL}/editRentalCar/${id}`, {
       credentials: "include",
       method: "PUT",
       headers: {

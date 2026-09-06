@@ -1,11 +1,13 @@
 package com.mbpluslevante.backend.controller;
 
 import com.mbpluslevante.backend.dto.AddRentalCarDto;
+import com.mbpluslevante.backend.dto.EditRentalCarDto;
 import com.mbpluslevante.backend.dto.RentalCarDto;
 import com.mbpluslevante.backend.service.CarService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,5 +38,14 @@ public class RentalCarController
     )
     public void addRentalCar(@Valid @ModelAttribute AddRentalCarDto dto, @RequestParam("images") List<MultipartFile> images) {
         carService.addRentalCar(dto, images);
+    }
+
+    @PutMapping("/admin/editRentalCar/{id}")
+    public ResponseEntity<Void> editRentalCar(
+            @PathVariable Long id,
+            @Valid @RequestBody EditRentalCarDto dto) {
+
+        carService.editRentalCar(id, dto);
+        return ResponseEntity.noContent().build();
     }
 }

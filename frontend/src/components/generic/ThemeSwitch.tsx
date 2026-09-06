@@ -18,7 +18,7 @@ export function ThemeSwitch() {
     return (
       <>
         <Switch
-          className="cursor-pointer"
+         
           id="theme-toggle"
           defaultChecked
           onClick={() => setTheme("dark")}
@@ -30,7 +30,7 @@ export function ThemeSwitch() {
     return (
       <>
         <Switch
-          className="cursor-pointer"
+         
           id="theme-toggle"
           onClick={() => setTheme("light")}
         />
