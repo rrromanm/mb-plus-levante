@@ -10,7 +10,7 @@ import useDeleteCar from "@/controller/useDeleteCar";
 import DeleteCarDialog from "@/components/admin/modals/DeleteCarDialog";
 import AddVehicleModal from "@/components/admin/modals/AddVehicleModal";
 import { EditVehicleModal } from "@/components/admin/modals/EditVehicleModal";
-import ReservationCalendarModal from "@/components/admin/modals/ReservationCalendarModal";
+import BookingsManagerModal from "@/components/admin/modals/BookingsManagerModal";
 import { getCloudinaryUrl } from "@/services/cloudinary";
 import { formatPrice, formatMileage } from "@/lib/utils";
 import { fuelTypes } from "@/lib/enums/fuelType";
@@ -72,7 +72,7 @@ export default function AdminRentals() {
             variant="rental"
             onSuccess={refetch}
           />
-          <ReservationCalendarModal
+          <BookingsManagerModal
             open={reserving !== null}
             onOpenChange={(open) => {
               if (!open) setReserving(null);

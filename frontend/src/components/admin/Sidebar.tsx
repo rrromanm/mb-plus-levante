@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Car, House, KeyRound, LogOut, Menu, X, ArrowLeft } from "lucide-react";
+import { Car, CalendarDays, House, KeyRound, LogOut, Menu, X, ArrowLeft } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
@@ -22,6 +22,11 @@ const menuItems = [
     name: "Alquiler de coches",
     href: "/admin/rentals",
     icon: <KeyRound className="w-5 h-5" />,
+  },
+  {
+    name: "Reservas",
+    href: "/admin/bookings",
+    icon: <CalendarDays className="w-5 h-5" />,
   },
 ];
 

@@ -1,5 +1,6 @@
 import { apiRequest } from "@/lib/apiClient";
 import { EditRentalCarDto } from "@/types/car/editRentalCarDto";
+import { AdminCreateBookingDto, BookingDto, BookingStatus } from "@/types/booking";
 
 const BASE_API_URL = process.env.NEXT_PUBLIC_API_URL + "/admin";
 
@@ -48,6 +49,30 @@ const AdminApi = {
     await apiRequest(`${BASE_API_URL}/toggleFeatured/${id}`, {
       credentials: "include",
       method: "PUT",
+    });
+  },
+  getBookings: async (): Promise<BookingDto[]> =>
+    apiRequest(`${BASE_API_URL}/rentalBookings`, {
+      credentials: "include",
+    }),
+  createBooking: async (data: AdminCreateBookingDto) => {
+    await apiRequest(`${BASE_API_URL}/rentalBookings`, {
+      credentials: "include",
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+  },
+  updateBookingStatus: async (id: number, status: BookingStatus) => {
+    await apiRequest(`${BASE_API_URL}/rentalBookings/${id}/status?status=${status}`, {
+      credentials: "include",
+      method: "PATCH",
+    });
+  },
+  deleteBooking: async (id: number) => {
+    await apiRequest(`${BASE_API_URL}/rentalBookings/${id}`, {
+      credentials: "include",
+      method: "DELETE",
     });
   },
   deleteCar: async (id: number) => {

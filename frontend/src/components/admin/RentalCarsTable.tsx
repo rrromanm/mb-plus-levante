@@ -5,13 +5,13 @@ import Image from "next/image";
 import { useState } from "react";
 import { CalendarDays, Pencil, Plus } from "lucide-react";
 import AddVehicleModal from "./modals/AddVehicleModal";
+import BookingsManagerModal from "./modals/BookingsManagerModal";
 import useDeleteCar from "@/controller/useDeleteCar";
 import toast from "react-hot-toast";
 import { getCloudinaryUrl } from "@/services/cloudinary";
 import DeleteCarDialog from "./modals/DeleteCarDialog";
 import { formatPrice } from "@/lib/utils";
 import { EditVehicleModal } from "@/components/admin/modals/EditVehicleModal";
-import ReservationCalendarModal from "@/components/admin/modals/ReservationCalendarModal";
 import type { RentalCarDto } from "@/types/car/rentalCarDto";
 import {
   Tooltip,
@@ -94,7 +94,7 @@ export default function RentalCarsTable() {
         onSuccess={refetch}
       />
 
-      <ReservationCalendarModal
+      <BookingsManagerModal
         open={reserving !== null}
         onOpenChange={(next) => !next && setReserving(null)}
         car={reserving}
