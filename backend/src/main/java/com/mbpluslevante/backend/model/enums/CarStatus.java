@@ -2,7 +2,8 @@ package com.mbpluslevante.backend.model.enums;
 
 public enum CarStatus
 {
-    ACTIVE,
+    AVAILABLE,
+    RESERVED,
     SOLD,
     DELETED
 }

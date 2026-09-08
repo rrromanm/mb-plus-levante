@@ -1,7 +1,10 @@
 package com.mbpluslevante.backend.model;
+import com.mbpluslevante.backend.model.enums.CarStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -15,8 +18,14 @@ public class CarSale {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_id", nullable = false, unique = true)
     private Car car;
-    
+
     @Column(nullable = false)
     private Integer price;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private CarStatus status = CarStatus.AVAILABLE;
+
+    private LocalDateTime soldAt;
 
 }

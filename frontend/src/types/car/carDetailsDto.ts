@@ -3,7 +3,7 @@ import { CarImageDto } from "./carImageDto";
 import { Transmission } from "@/lib/enums/transmission";
 import { BodyType } from "@/lib/enums/bodyType";
 
-export type CarStatus = "ACTIVE" | "SOLD" | "DELETED";
+export type CarStatus = "AVAILABLE" | "RESERVED" | "SOLD" | "DELETED";
 
 export interface CarDetailsDto {
     brand: string;

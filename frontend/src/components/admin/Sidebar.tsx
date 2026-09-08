@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { House, LogOut, Menu, X, ArrowLeft } from "lucide-react";
+import { Car, CalendarDays, House, KeyRound, LogOut, Menu, X, ArrowLeft } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
@@ -13,16 +13,21 @@ const menuItems = [
     href: "/admin/dashboard",
     icon: <House className="w-5 h-5" />,
   },
-  // {
-  //   name: "Vehículos",
-  //   href: "/admin/cars",
-  //   icon: <Car className="w-5 h-5" />,
-  // },
-  // {
-  //   name: "Alquileres",
-  //   href: "/admin/rentals",
-  //   icon: <KeyRound className="w-5 h-5" />,
-  // },
+  {
+    name: "Coches en venta",
+    href: "/admin/cars",
+    icon: <Car className="w-5 h-5" />,
+  },
+  {
+    name: "Alquiler de coches",
+    href: "/admin/rentals",
+    icon: <KeyRound className="w-5 h-5" />,
+  },
+  {
+    name: "Reservas",
+    href: "/admin/bookings",
+    icon: <CalendarDays className="w-5 h-5" />,
+  },
 ];
 
 export default function Sidebar() {
@@ -86,7 +91,7 @@ export default function Sidebar() {
             logout();
             onNavigate?.();
           }}
-          className="flex items-center gap-3 px-4 py-3 w-full rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-200 cursor-pointer"
+          className="flex items-center gap-3 px-4 py-3 w-full rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-200"
         >
           <LogOut className="w-5 h-5" />
           <span className="font-medium">Cerrar sesión</span>

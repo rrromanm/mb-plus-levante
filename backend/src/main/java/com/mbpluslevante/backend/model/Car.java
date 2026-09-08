@@ -51,10 +51,7 @@ public class Car {
     private String slug;
     private boolean featured = false;
 
-    @Enumerated(EnumType.STRING)
-    private CarStatus status = CarStatus.ACTIVE;
     private LocalDateTime createdAt;
-    private LocalDateTime soldAt;
     private LocalDateTime deletedAt;
 
     @OneToOne(mappedBy = "car")
@@ -73,6 +70,10 @@ public class Car {
 
     public String getBrand(){
         return brand.getName();
+    }
+    public CarStatus getStatus() {
+        if (deletedAt != null) return CarStatus.DELETED;
+        return carSale != null ? carSale.getStatus() : null;
     }
     public Integer getSalePrice() {
         return carSale != null ? carSale.getPrice() : null;

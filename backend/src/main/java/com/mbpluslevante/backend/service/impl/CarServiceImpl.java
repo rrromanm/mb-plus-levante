@@ -4,10 +4,12 @@ import com.mbpluslevante.backend.dto.*;
 import com.mbpluslevante.backend.model.Brand;
 import com.mbpluslevante.backend.model.Car;
 import com.mbpluslevante.backend.model.CarImage;
+import com.mbpluslevante.backend.model.CarRental;
 import com.mbpluslevante.backend.model.CarSale;
 import com.mbpluslevante.backend.model.enums.CarStatus;
 import com.mbpluslevante.backend.repository.BrandRepository;
 import com.mbpluslevante.backend.repository.CarImageRepository;
+import com.mbpluslevante.backend.repository.CarRentalRepository;
 import com.mbpluslevante.backend.repository.CarRepository;
 import com.mbpluslevante.backend.repository.CarSaleRepository;
 import com.mbpluslevante.backend.service.CarService;
@@ -29,14 +31,17 @@ import java.util.concurrent.CompletableFuture;
 public class CarServiceImpl implements CarService {
     private final CarRepository carRepository;
     private final CarSaleRepository carSaleRepository;
+    private final CarRentalRepository carRentalRepository;
     private final BrandRepository brandRepository;
     private final CarImageRepository carImageRepository;
     private final ImageService imageService;
 
-    public CarServiceImpl(CarRepository carRepository, CarSaleRepository carSaleRepository, BrandRepository brandRepository,
+    public CarServiceImpl(CarRepository carRepository, CarSaleRepository carSaleRepository, CarRentalRepository carRentalRepository,
+                          BrandRepository brandRepository,
                           CarImageRepository carImageRepository, ImageService imageService) {
         this.carRepository = carRepository;
         this.carSaleRepository = carSaleRepository;
+        this.carRentalRepository = carRentalRepository;
         this.brandRepository = brandRepository;
         this.carImageRepository = carImageRepository;
         this.imageService = imageService;
@@ -52,7 +57,7 @@ public class CarServiceImpl implements CarService {
         Sort sorting = Sort.by(direction, sort);
 
         return carRepository
-                .findByStatus(CarStatus.ACTIVE, sorting)
+                .findByDeletedAtIsNullAndCarSaleStatusNot(CarStatus.SOLD, sorting)
                 .stream()
                 .map(car -> new CarDto(
                         car.getId(),
@@ -136,7 +141,7 @@ public class CarServiceImpl implements CarService {
     @Override
     public void addCar(AddCarDto dto, List<MultipartFile> images) {
         Brand brand = brandRepository.findById(dto.brandId).orElse(null);
-        String slug = generateSlug(brand, dto);
+        String slug = generateSlug(brand, dto.getModel(), dto.getYear());
         Car car = new Car();
         car.setBrand(brand);
         car.setModel(dto.model);
@@ -156,8 +161,61 @@ public class CarServiceImpl implements CarService {
         carSale.setCar(car);
         carSaleRepository.save(carSale);
 
-        List<CarImage> uploadedImages = uploadCarImages(images, car);
+        List<CarImage> uploadedImages = uploadCarImages(images, car, "");
         carImageRepository.saveAll(uploadedImages);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<RentalCarDto> findAllRentals(String sort, String order) {
+        Sort.Direction direction =
+                order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+
+        return carRepository
+                .findByDeletedAtIsNullAndCarRentalIsNotNull(Sort.by(direction, sort))
+                .stream()
+                .map(car -> new RentalCarDto(
+                        car.getId(),
+                        car.getBrand(),
+                        car.getModel(),
+                        car.getYear(),
+                        car.getMileageKm(),
+                        car.getSlug(),
+                        car.getMainImage(),
+                        car.getFuelType(),
+                        car.getTransmission(),
+                        car.getPowerHp(),
+                        car.isFeatured(),
+                        car.getCreatedAt(),
+                        car.getCarRental().getPricePerDay(),
+                        car.getCarRental().getPricePerMonth(),
+                        car.getCarRental().isActive()
+                ))
+                .toList();
+    }
+
+    @Override
+    public void addRentalCar(AddRentalCarDto dto, List<MultipartFile> images) {
+        Brand brand = brandRepository.findById(dto.brandId)
+                .orElseThrow(() -> new RuntimeException("Brand not found"));
+
+        Car car = new Car();
+        car.setBrand(brand);
+        car.setModel(dto.model);
+        car.setYear(dto.year);
+        car.setMileageKm(dto.mileageKm);
+        car.setFuelType(dto.fuelType);
+        car.setTransmission(dto.transmission);
+        car.setSlug(generateSlug(brand, dto.model, dto.year));
+        carRepository.save(car);
+
+        CarRental rental = new CarRental();
+        rental.setCar(car);
+        rental.setPricePerDay(dto.pricePerDay);
+        rental.setPricePerMonth(dto.pricePerMonth);
+        carRentalRepository.save(rental);
+
+        carImageRepository.saveAll(uploadCarImages(images, car, "rentals"));
     }
 
     @Override
@@ -191,11 +249,37 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    public void editRentalCar(Long id, EditRentalCarDto dto) {
+        Car car = carRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Car not found"));
+
+        CarRental rental = car.getCarRental();
+        if (rental == null) throw new RuntimeException("Car has no rental listing");
+
+        Brand brand = brandRepository.findById(dto.brandId)
+                .orElseThrow(() -> new RuntimeException("Brand not found"));
+
+        car.setBrand(brand);
+        car.setModel(dto.model);
+        car.setYear(dto.year);
+        car.setMileageKm(dto.mileageKm);
+        car.setFuelType(dto.fuelType);
+        car.setTransmission(dto.transmission);
+
+        rental.setPricePerDay(dto.pricePerDay);
+        rental.setPricePerMonth(dto.pricePerMonth);
+        rental.setActive(dto.active);
+    }
+
+    @Override
     public void markCarAsSold(Long id) {
         Car car = carRepository.findById(id).orElseThrow(() -> new RuntimeException("Car not found"));
 
-        car.setSoldAt(LocalDateTime.now());
-        car.setStatus(CarStatus.SOLD);
+        CarSale carSale = car.getCarSale();
+        if (carSale == null) throw new RuntimeException("Car has no sale listing");
+
+        carSale.setStatus(CarStatus.SOLD);
+        carSale.setSoldAt(LocalDateTime.now());
     }
 
     @Override
@@ -204,14 +288,13 @@ public class CarServiceImpl implements CarService {
                 .orElseThrow(() -> new RuntimeException("Car not found"));
 
         car.setDeletedAt(LocalDateTime.now());
-        car.setStatus(CarStatus.DELETED);
         car.setFeatured(false);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<CarDto> getFeaturedCars() {
-        return carRepository.findByFeaturedTrueAndStatusOrderByCreatedAtDesc(CarStatus.ACTIVE)
+        return carRepository.findByFeaturedTrueAndDeletedAtIsNullAndCarSaleStatusNotOrderByCreatedAtDesc(CarStatus.SOLD)
                 .stream()
                 .map(car -> new CarDto(
                         car.getId(),
@@ -246,7 +329,7 @@ public class CarServiceImpl implements CarService {
                 .orElseThrow(() -> new RuntimeException("Car not found"));
 
         List<Long> carIds = new ArrayList<>(
-                carRepository.findIdsByStatusAndIdNot(CarStatus.ACTIVE, car.getId())
+                carRepository.findIdsByStatusNotAndIdNot(CarStatus.SOLD, car.getId())
         );
         if (carIds.isEmpty()) return List.of();
         Collections.shuffle(carIds);
@@ -278,11 +361,9 @@ public class CarServiceImpl implements CarService {
         car.setFeatured(!car.isFeatured());
     }
 
-    private String generateSlug(Brand brand, AddCarDto dto) {
+    private String generateSlug(Brand brand, String model, Integer year) {
         String slug = SlugUtil.slugify(
-                brand.getSlug() + " " +
-                        dto.getModel() + " " +
-                        dto.getYear()
+                brand.getSlug() + " " + model + " " + year
         );
         String uniqueSlug = slug;
         int counter = 2;
@@ -296,7 +377,8 @@ public class CarServiceImpl implements CarService {
 
     private List<CarImage> uploadCarImages(
             List<MultipartFile> images,
-            Car car
+            Car car,
+            String subfolder
     ) {
 
         List<CompletableFuture<CarImage>> futures = new ArrayList<>();
@@ -312,7 +394,7 @@ public class CarServiceImpl implements CarService {
             futures.add(
                     CompletableFuture.supplyAsync(() -> {
 
-                        String publicId = imageService.upload(file);
+                        String publicId = imageService.upload(file, subfolder);
 
                         CarImage image = new CarImage();
                         image.setCar(car);

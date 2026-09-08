@@ -122,7 +122,7 @@ export function ImageUploader({ files, setFiles }: Props) {
               <button
                 type="button"
                 className="rounded-md bg-[#880808] opacity-50 px-4 py-2 text-sm 
-              font-medium text-white disabled:opacity-50 cursor-pointer"
+              font-medium text-white disabled:opacity-50"
               >
                 Subir imagenes
               </button>
