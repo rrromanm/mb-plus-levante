@@ -369,15 +369,9 @@ public class CarServiceImpl implements CarService {
         String slug = SlugUtil.slugify(
                 brand.getSlug() + " " + model + " " + year
         );
-        String uniqueSlug = slug;
-        int counter = 2;
-
-        while (carRepository.existsBySlug(uniqueSlug)) {
-            uniqueSlug = slug + "-" + counter++;
-        }
-
-        return uniqueSlug;
+        return SlugUtil.uniqueSlug(slug, carRepository.findAllSlugs());
     }
+
 
     private List<CarImage> uploadCarImages(
             List<MultipartFile> images,
