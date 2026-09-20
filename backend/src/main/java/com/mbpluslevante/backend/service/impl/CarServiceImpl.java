@@ -317,7 +317,11 @@ public class CarServiceImpl implements CarService {
     @Override
     @Transactional(readOnly = true)
     public List<CarSitemapDto> getSitemapData() {
-        return carRepository.findAll().stream()
+        // Same filter the public catalog uses: not deleted, has a sale listing,
+        // not sold. Sold/deleted cars must not be advertised in the sitemap.
+        return carRepository
+                .findByDeletedAtIsNullAndCarSaleStatusNot(CarStatus.SOLD, Sort.unsorted())
+                .stream()
                 .map(car -> new CarSitemapDto(car.getSlug(), car.getCreatedAt()))
                 .toList();
     }
