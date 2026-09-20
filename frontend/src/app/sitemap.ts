@@ -2,12 +2,11 @@ import { MetadataRoute } from "next";
 import CarsApi from "@/services/carsApi";
 import { routing, type Locale } from "@/i18n/routing";
 import { getPathname } from "@/i18n/navigation";
+import { SITE_URL } from "@/lib/site";
 
 type Href = Parameters<typeof getPathname>[0]["href"];
 
 export const revalidate = 3600;
-
-const baseUrl = "https://mbplusbenidorm.es";
 
 function safeDate(date?: string | Date) {
   const d = date ? new Date(date) : new Date();
@@ -15,7 +14,7 @@ function safeDate(date?: string | Date) {
 }
 
 function localizedUrl(locale: Locale, href: Href) {
-  return `${baseUrl}${getPathname({ locale, href })}`;
+  return `${SITE_URL}${getPathname({ locale, href })}`;
 }
 
 function languagesFor(href: Href) {
@@ -23,6 +22,7 @@ function languagesFor(href: Href) {
   for (const locale of routing.locales) {
     languages[locale] = localizedUrl(locale, href);
   }
+  languages["x-default"] = localizedUrl(routing.defaultLocale, href);
   return languages;
 }
 

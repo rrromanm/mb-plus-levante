@@ -8,8 +8,7 @@ import { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { type Locale } from "@/i18n/routing";
 import { getAlternates, OG_LOCALES } from "@/i18n/seo";
-
-const SITE_URL = "https://mbplusbenidorm.es";
+import { SITE_URL } from "@/lib/site";
 
 const FUEL_SCHEMA: Record<FuelType, string> = {
   PETROL: "Gasoline",

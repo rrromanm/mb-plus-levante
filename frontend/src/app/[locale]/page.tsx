@@ -9,8 +9,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { type Locale } from "@/i18n/routing";
 import { getAlternates } from "@/i18n/seo";
-
-const SITE_URL = "https://mbplusbenidorm.es";
+import { SITE_URL } from "@/lib/site";
 
 export async function generateMetadata({
   params,
