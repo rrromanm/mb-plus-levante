@@ -70,7 +70,12 @@ const CarsApi = {
     return response.json() as Promise<CarDto[]>;
   },
   getSitemapCars: async (): Promise<{ slug: string; lastModified: string }[]> => {
-    const response = await fetch(`${BASE_API_URL}/sitemap`);
+    // Admin-editable: a car sold or deleted in the admin panel must drop out of
+    // the sitemap without a redeploy. Without this the build bakes the response
+    // in permanently.
+    const response = await fetch(`${BASE_API_URL}/sitemap`, {
+      next: { revalidate: 3600 },
+    });
 
     if (!response.ok) {
       throw new Error("Failed to fetch sitemap cars");
