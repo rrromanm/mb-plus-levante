@@ -16,8 +16,7 @@ import { CONTACT } from "@/lib/contactInfo";
 import { formatPrice, formatMileage } from "@/lib/utils";
 import CarsApi from "@/services/carsApi";
 import type { CarDetailsDto, CarStatus } from "@/types/car/carDetailsDto";
-
-const SITE_URL = "https://mbplusbenidorm.es";
+import { SITE_URL } from "@/lib/site";
 
 // schema.org enum values are always English (structured data is locale-agnostic).
 const FUEL_SCHEMA: Record<FuelType, string> = {

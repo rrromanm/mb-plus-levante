@@ -7,6 +7,7 @@ import { getAlternates, OG_LOCALES } from "@/i18n/seo";
 import ClientLayout from "@/app/ClientLayout";
 import GoogleAnalyticsClient from "@/components/GoogleAnalyticsClient";
 import { ConsentProvider } from "@/context/ConsentContext";
+import { SITE_URL } from "@/lib/site";
 
 const gaId = process.env.NEXT_PUBLIC_GA_ID;
 
@@ -29,7 +30,7 @@ export async function generateMetadata({
   const alternates = getAlternates(locale as Locale, "/");
 
   return {
-    metadataBase: new URL("https://mbplusbenidorm.es"),
+    metadataBase: new URL(SITE_URL),
     title: {
       default: t("layoutTitleDefault"),
       template: t("layoutTitleTemplate"),
