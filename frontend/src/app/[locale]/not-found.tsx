@@ -16,7 +16,7 @@ export default function NotFound() {
           </p>
           <Image
             src="/plate.svg"
-            alt="License plate"
+            alt=""
             width={1220}
             height={320}
             className="w-full max-w-lg sm:max-w-xl -rotate-2"

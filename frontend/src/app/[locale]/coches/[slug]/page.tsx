@@ -160,7 +160,7 @@ export async function generateMetadata({
       brand: car.brand,
       model: car.model,
       year: car.year,
-      mileage: formatMileage(car.mileageKm),
+      mileage: formatMileage(car.mileageKm, locale),
       transmission: tTransmission(car.transmission),
       fuel: tFuel(car.fuelType),
     });
@@ -224,7 +224,7 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
     data.images?.sort((a, b) => a.orderIndex - b.orderIndex) || [];
 
   const formattedPrice = formatPrice(data.price);
-  const formattedMileage = formatMileage(data.mileageKm);
+  const formattedMileage = formatMileage(data.mileageKm, locale);
 
   if (data.status === "DELETED") {
     notFound();
@@ -316,7 +316,11 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
             <div className="bg-card border border-border/50 rounded-3xl p-6 sm:p-10 shadow-xl flex flex-col gap-6 sm:gap-7">
               <div className="space-y-2">
                 <h1 className="text-2xl sm:text-4xl font-semibold leading-tight tracking-tight">
-                  {data.year} {data.brand} {data.model}
+                  {t("h1Location", {
+                    year: data.year,
+                    brand: data.brand,
+                    model: data.model,
+                  })}
                 </h1>
                 <p className="text-base text-muted-foreground">
                   {data.year} · {formattedMileage}

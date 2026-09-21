@@ -10,7 +10,7 @@
     "siteName": "MB Plus Benidorm",
     "homeTitle": "Coches de segunda mano en Benidorm | MB Plus",
     "homeDescription": "Concesionario de coches de segunda mano en Benidorm y la Costa Blanca. Más de 15 años de experiencia. Vehículos revisados, garantizados y con ITV.",
-    "catalogTitle": "Coches de Segunda Mano en Benidorm | Catálogo",
+    "catalogTitle": "Catálogo de coches de ocasión en Benidorm",
     "catalogDescription": "Descubre nuestro catálogo de coches de segunda mano en Benidorm. Vehículos revisados, listos para entrega inmediata en MB Plus Alicante.",
     "catalogOgTitle": "Coches de Segunda Mano en Benidorm | MB Plus",
     "catalogOgDescription": "Explora coches de ocasión en Benidorm. Encuentra tu próximo vehículo al mejor precio.",
@@ -19,6 +19,7 @@
     "carNotFoundDescription": "El coche que buscas no está disponible."
   },
   "Header": {
+    "logoAlt": "MB Plus Benidorm — inicio",
     "home": "Inicio",
     "catalog": "Catálogo",
     "about": "Sobre nosotros",
@@ -36,7 +37,7 @@
     "warranty": "Garantía hasta 12 meses",
     "itv": "Revisión técnica e ITV al día",
     "workshop": "Taller propio en L'Albir",
-    "experience": "+10 años de experiencia"
+    "experience": "+15 años de experiencia"
   },
   "Featured": {
     "title": "Coches disponibles en nuestro concesionario",
@@ -48,14 +49,14 @@
     "eyebrow": "Coches de segunda mano en Alicante · MB Plus Benidorm",
     "imageAlt": "Emblema Mercedes-Benz — MB Plus Benidorm, concesionario de coches de ocasión en Alicante",
     "title": "Respaldo profesional desde Benidorm",
-    "intro": "MB Plus Benidorm es un concesionario especializado en la venta de coches de ocasión. Más de 10 años de experiencia avalan nuestro compromiso con la calidad y la transparencia.",
+    "intro": "MB Plus Benidorm es un concesionario especializado en la venta de coches de ocasión. Más de 15 años de experiencia avalan nuestro compromiso con la calidad y la transparencia.",
     "pillarWarrantyTitle": "Garantía de hasta 12 meses",
     "pillarWarrantyDesc": "Todos nuestros vehículos se entregan con inspección técnica reciente y garantía de hasta 12 meses o 10.000 km.",
     "pillarWorkshopTitle": "Taller propio",
     "pillarWorkshopDesc": "Revisamos, preparamos y mantenemos cada coche en nuestras propias instalaciones antes de la entrega.",
     "pillarSpecialistsTitle": "Especialistas en Mercedes-Benz",
     "pillarSpecialistsDesc": "Nuestro enfoque principal son los vehículos Mercedes-Benz, aunque también trabajamos con otras marcas reconocidas.",
-    "pillarExperienceTitle": "Más de 10 años de experiencia",
+    "pillarExperienceTitle": "Más de 15 años de experiencia",
     "pillarExperienceDesc": "Más de una década ayudando a nuestros clientes a encontrar el coche que necesitan, al precio que buscan.",
     "statSoldLabel": "Coches vendidos",
     "statItvValue": "ITV",
@@ -115,6 +116,7 @@
     "powerUnit": "CV"
   },
   "CarDetail": {
+    "h1Location": "{year} {brand} {model} en Benidorm",
     "breadcrumbHome": "Inicio",
     "breadcrumbCatalog": "Catálogo",
     "unavailableBadge": "Vendido",

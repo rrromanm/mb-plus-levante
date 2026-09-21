@@ -36,7 +36,6 @@ export async function generateMetadata({
       template: t("layoutTitleTemplate"),
     },
     description: t("layoutDescription"),
-    alternates,
     openGraph: {
       title: t("layoutOgTitle"),
       description: t("layoutOgDescription"),
@@ -57,10 +56,6 @@ export async function generateMetadata({
       title: t("layoutTwitterTitle"),
       description: t("layoutTwitterDescription"),
       images: ["/wheel.avif"],
-    },
-    robots: {
-      index: true,
-      follow: true,
     },
     other: {
       "geo.region": "ES-A",

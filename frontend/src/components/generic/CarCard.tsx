@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { getCloudinaryUrl } from "@/services/cloudinary";
 import { cn, formatPrice, formatMileage } from "@/lib/utils";
@@ -14,6 +14,7 @@ type CarCardProps = {
 };
 
 export function CarCard({ car, className }: CarCardProps) {
+    const locale = useLocale();
     const t = useTranslations("CarCard");
     const tFuel = useTranslations("Enums.fuel");
     const tTransmission = useTranslations("Enums.transmission");
@@ -58,7 +59,7 @@ export function CarCard({ car, className }: CarCardProps) {
                             </span>
                             <span className="flex items-center gap-1.5">
                                 <Gauge className="h-4 w-4" />
-                                {formatMileage(car.mileageKm)}
+                                {formatMileage(car.mileageKm, locale)}
                             </span>
                             <span className="flex items-center gap-1.5">
                                 <Zap className="h-4 w-4" />

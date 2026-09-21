@@ -23,10 +23,6 @@ export default function Header() {
     mounted && resolvedTheme === "dark"
       ? "/mb-plus-white.svg"
       : "/mb-plus-black.svg";
-  const logoAlt =
-    mounted && resolvedTheme === "dark"
-      ? "MB Plus Logo (white)"
-      : "MB Plus Logo (black)";
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-card/90 text-foreground shadow-sm backdrop-blur supports-backdrop-filter:bg-card/70">
@@ -35,7 +31,7 @@ export default function Header() {
           <Link href="/" className="flex items-center" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
             <Image
               src={logoSrc}
-              alt={logoAlt}
+              alt={t("logoAlt")}
               width={160}
               height={60}
               priority
