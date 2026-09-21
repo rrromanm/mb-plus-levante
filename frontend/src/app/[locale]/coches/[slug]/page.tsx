@@ -5,7 +5,7 @@ import { FaWhatsapp } from "react-icons/fa";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { type Locale } from "@/i18n/routing";
-import { getAlternates } from "@/i18n/seo";
+import { absoluteUrl, getAlternates } from "@/i18n/seo";
 import CarCarousel from "@/components/cars/CarCarousel";
 import ShareButton from "@/components/cars/ShareButton";
 import { FuelType } from "@/lib/enums/fuelType";
@@ -49,10 +49,14 @@ const AVAILABILITY_SCHEMA: Record<CarStatus, string | undefined> = {
   DELETED: undefined,
 };
 
+function carUrl(locale: Locale, slug: string) {
+  return absoluteUrl(locale, { pathname: "/coches/[slug]", params: { slug } });
+}
+
 function buildBreadcrumbJsonLd(
   car: CarDetailsDto,
   labels: { home: string; catalog: string },
-  locale: string,
+  locale: Locale,
 ) {
   return {
     "@context": "https://schema.org",
@@ -63,25 +67,26 @@ function buildBreadcrumbJsonLd(
         "@type": "ListItem",
         position: 1,
         name: labels.home,
-        item: SITE_URL,
+        item: absoluteUrl(locale, "/"),
       },
       {
         "@type": "ListItem",
         position: 2,
         name: labels.catalog,
-        item: `${SITE_URL}/coches`,
+        item: absoluteUrl(locale, "/coches"),
       },
       {
         "@type": "ListItem",
         position: 3,
         name: `${car.brand} ${car.model} ${car.year}`,
+        item: carUrl(locale, car.slug),
       },
     ],
   };
 }
 
-function buildVehicleJsonLd(car: CarDetailsDto, locale: string) {
-  const url = `${SITE_URL}/coches/${car.slug}`;
+function buildCarJsonLd(car: CarDetailsDto, locale: Locale) {
+  const url = carUrl(locale, car.slug);
   const images = (car.images ?? [])
     .slice()
     .sort((a, b) => a.orderIndex - b.orderIndex)
@@ -89,7 +94,7 @@ function buildVehicleJsonLd(car: CarDetailsDto, locale: string) {
 
   return {
     "@context": "https://schema.org",
-    "@type": "Vehicle",
+    "@type": "Car",
     "@id": `${url}#vehicle`,
     inLanguage: locale,
     name: `${car.brand} ${car.model} ${car.year}`,
@@ -174,7 +179,7 @@ export async function generateMetadata({
         title,
         description,
         type: "website",
-        url: `${SITE_URL}/coches/${slug}`,
+        url: carUrl(locale as Locale, slug),
         images: car.images?.[0]?.imageUrl
           ? [{ url: car.images[0].imageUrl, width: 1200, height: 630 }]
           : [],
@@ -226,22 +231,23 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
   }
 
   const isSold = data.status === "SOLD";
-  const vehicleJsonLd = buildVehicleJsonLd(data, locale);
-  const breadcrumbJsonLd = buildBreadcrumbJsonLd(data, {
-    home: t("breadcrumbHome"),
-    catalog: t("breadcrumbCatalog"),
-  }, locale);
+  const carJsonLd = buildCarJsonLd(data, locale as Locale);
+  const breadcrumbJsonLd = buildBreadcrumbJsonLd(
+    data,
+    { home: t("breadcrumbHome"), catalog: t("breadcrumbCatalog") },
+    locale as Locale,
+  );
 
   const whatsappText = `${t("whatsappPrefill", {
     car: `${data.brand} ${data.model} (${data.year})`,
     price: formattedPrice,
-  })}\n${SITE_URL}/coches/${data.slug}`;
+  })}\n${carUrl(locale as Locale, data.slug)}`;
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(vehicleJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(carJsonLd) }}
       />
       <script
         type="application/ld+json"

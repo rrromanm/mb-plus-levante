@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { routing, type Locale } from "./routing";
 import { getPathname } from "./navigation";
+import { SITE_URL } from "@/lib/site";
 
 // Open Graph locale codes per supported language.
 export const OG_LOCALES: Record<Locale, string> = {
@@ -9,7 +10,12 @@ export const OG_LOCALES: Record<Locale, string> = {
   ru: "ru_RU",
 };
 
-type Href = Parameters<typeof getPathname>[0]["href"];
+export type Href = Parameters<typeof getPathname>[0]["href"];
+
+export function absoluteUrl(locale: Locale, href: Href) {
+  const path = getPathname({ locale, href });
+  return path === "/" ? SITE_URL : `${SITE_URL}${path}`;
+}
 
 export function getAlternates(
   locale: Locale,
