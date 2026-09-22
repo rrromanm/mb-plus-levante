@@ -20,6 +20,8 @@
   },
   "Header": {
     "logoAlt": "MB Plus Benidorm — inicio",
+    "call": "Llamar al",
+    "themeToggle": "Cambiar entre tema claro y oscuro",
     "home": "Inicio",
     "catalog": "Catálogo",
     "about": "Sobre nosotros",
@@ -163,6 +165,7 @@
     "catalog": "Ver catálogo completo"
   },
   "Sort": {
+    "label": "Ordenar vehículos",
     "price-asc": "Precio: menor a mayor",
     "price-desc": "Precio: mayor a menor",
     "year-desc": "Año: más reciente",

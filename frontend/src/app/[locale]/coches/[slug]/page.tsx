@@ -362,7 +362,7 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
                   href={`https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(whatsappText)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 bg-green-500 text-white px-8 py-3 rounded-full font-medium shadow-md hover:bg-green-600 transition"
+                  className="inline-flex items-center justify-center gap-2 bg-green-700 text-white px-8 py-3 rounded-full font-medium shadow-md hover:bg-green-800 transition"
                 >
                   <FaWhatsapp className="w-4 h-4" />
                   {t("whatsapp")}

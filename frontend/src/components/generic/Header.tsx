@@ -57,6 +57,7 @@ export default function Header() {
         <div className="flex items-center gap-4">
           <a
             href={`tel:${CONTACT.phone}`}
+            aria-label={`${t("call")} ${CONTACT.phone}`}
             className="flex items-center gap-2 text-sm font-medium text-foreground/70 hover:text-foreground transition-colors group"
           >
             <span className="flex items-center justify-center size-8 rounded-full border border-border group-hover:border-foreground/40 transition-colors">

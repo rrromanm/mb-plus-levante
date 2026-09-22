@@ -57,7 +57,21 @@ for (const [locale, ...paths] of PAGES) {
         assert.ok(!SPANISH.test(text), `${at}: Spanish heading — ${text}`);
       }
     }
+    
+    for (const [, tag, attrs, inner] of html.matchAll(
+      /<(a|button)\b([^>]*)>(.*?)<\/\1>/gs,
+    )) {
+      if (/\saria-hidden="true"/.test(attrs)) continue;
+      if (tag === "a" && !/\shref=/.test(attrs)) continue;
+      const name =
+        attrs.match(/\saria-label="([^"]*)"/)?.[1] ??
+        [strip(inner), ...(inner.match(/\balt="([^"]*)"/g) ?? [])].join(" ");
+      assert.ok(
+        name.trim(),
+        `${at}: <${tag}> with no accessible name — ${attrs.slice(0, 120)}`,
+      );
+    }
   }
 }
 
-console.log("i18n content checks passed");
+console.log("i18n + a11y-name checks passed");

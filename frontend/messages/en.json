@@ -20,6 +20,8 @@
   },
   "Header": {
     "logoAlt": "MB Plus Benidorm — home",
+    "call": "Call",
+    "themeToggle": "Switch between light and dark theme",
     "home": "Home",
     "catalog": "Browse cars",
     "about": "About us",
@@ -163,6 +165,7 @@
     "catalog": "Browse all cars"
   },
   "Sort": {
+    "label": "Sort vehicles",
     "price-asc": "Price: low to high",
     "price-desc": "Price: high to low",
     "year-desc": "Year: newest first",
