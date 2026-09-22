@@ -41,7 +41,7 @@ export function CompanyInfo() {
               href={`https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(t("whatsappPrefill"))}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 bg-green-500 text-white px-5 py-3 rounded-xl font-medium hover:bg-green-600 transition text-sm"
+              className="inline-flex items-center justify-center gap-2 bg-green-700 text-white px-5 py-3 rounded-xl font-medium hover:bg-green-800 transition text-sm"
             >
               <FaWhatsapp className="w-4 h-4" />
               {t("whatsapp")}

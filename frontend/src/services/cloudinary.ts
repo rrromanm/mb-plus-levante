@@ -18,3 +18,8 @@ export const getCloudinaryUrl = (
 
   return `https://res.cloudinary.com/${cloudName}/image/upload/${transformations}/${publicId}`;
 };
+
+export const cloudinaryLoader =
+  (aspect: number, quality: "eco" | "good" | "best" = "good") =>
+  ({ src, width }: { src: string; width: number }) =>
+    getCloudinaryUrl(src, width, Math.round(width / aspect), quality);

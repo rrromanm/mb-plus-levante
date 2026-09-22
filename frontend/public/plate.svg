@@ -13,7 +13,7 @@
 
   <text x="36" y="130" fill="#ffffff" font-size="30" font-weight="700" text-anchor="middle">E</text>
 
-  <text x="355" y="106" fill="#15151a" font-size="50" font-weight="700" text-anchor="middle" letter-spacing="4">NO ENCONTRADO</text>
+  <text x="355" y="106" fill="#15151a" font-size="50" font-weight="700" text-anchor="middle" letter-spacing="8">404</text>
 
   <g fill="#c2c4bf"><circle cx="92" cy="20" r="4"></circle><circle cx="622" cy="20" r="4"></circle><circle cx="92" cy="140" r="4"></circle><circle cx="622" cy="140" r="4"></circle></g>
 </svg>

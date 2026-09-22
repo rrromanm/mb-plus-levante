@@ -7,9 +7,8 @@ import { CarDto } from "@/types/car/carDto";
 import { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { type Locale } from "@/i18n/routing";
-import { getAlternates, OG_LOCALES } from "@/i18n/seo";
-
-const SITE_URL = "https://mbplusbenidorm.es";
+import { absoluteUrl, getAlternates, OG_LOCALES } from "@/i18n/seo";
+import { SITE_URL } from "@/lib/site";
 
 const FUEL_SCHEMA: Record<FuelType, string> = {
   PETROL: "Gasoline",
@@ -23,7 +22,7 @@ const TRANSMISSION_SCHEMA: Record<Transmission, string> = {
   AUTOMATIC: "Automatic",
 };
 
-function buildCatalogJsonLd(cars: CarDto[], name: string, locale: string) {
+function buildCatalogJsonLd(cars: CarDto[], name: string, locale: Locale) {
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -31,12 +30,15 @@ function buildCatalogJsonLd(cars: CarDto[], name: string, locale: string) {
     inLanguage: locale,
     numberOfItems: cars.length,
     itemListElement: cars.map((car, index) => {
-      const url = `${SITE_URL}/coches/${car.slug}`;
+      const url = absoluteUrl(locale, {
+        pathname: "/coches/[slug]",
+        params: { slug: car.slug },
+      });
       return {
         "@type": "ListItem",
         position: index + 1,
         item: {
-          "@type": "Vehicle",
+          "@type": "Car",
           "@id": `${url}#vehicle`,
           name: `${car.brand} ${car.model} ${car.year}`,
           url,
@@ -126,7 +128,7 @@ export default async function CochesPage({ params, searchParams }: CochesPagePro
     (car) => new Date(car.createdAt) >= month
   );
 
-  const catalogJsonLd = buildCatalogJsonLd(cars, t("pageTitle"), locale);
+  const catalogJsonLd = buildCatalogJsonLd(cars, t("pageTitle"), locale as Locale);
 
   return (
     <>

@@ -13,13 +13,11 @@ export const ConsentProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [consent, setConsent] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const stored = localStorage.getItem("ga-consent");
     // Load GA only if user has explicitly accepted
     setConsent(stored === "accepted");
-    setIsLoaded(true);
   }, []);
 
   const handleSetConsent = (value: boolean) => {
@@ -29,7 +27,7 @@ export const ConsentProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <ConsentContext.Provider value={{ consent, setConsent: handleSetConsent }}>
-      {isLoaded && children}
+      {children}
     </ConsentContext.Provider>
   );
 };
