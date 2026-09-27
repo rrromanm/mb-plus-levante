@@ -1,12 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { getCloudinaryUrl } from "@/services/cloudinary";
+import { cloudinaryLoader } from "@/services/cloudinary";
 import { cn, formatPrice, formatMileage } from "@/lib/utils";
 import { Calendar, Fuel, Gauge, Settings, Zap } from "lucide-react";
 import { CarDto } from "@/types/car/carDto";
+
+const cardLoader = cloudinaryLoader(16 / 9, "good");
 
 type CarCardProps = {
     car: CarDto;
@@ -14,6 +16,7 @@ type CarCardProps = {
 };
 
 export function CarCard({ car, className }: CarCardProps) {
+    const locale = useLocale();
     const t = useTranslations("CarCard");
     const tFuel = useTranslations("Enums.fuel");
     const tTransmission = useTranslations("Enums.transmission");
@@ -23,15 +26,14 @@ export function CarCard({ car, className }: CarCardProps) {
         <Link
             href={{ pathname: "/coches/[slug]", params: { slug: car.slug } }}
             className={cn("block", className)}
-            aria-label={carName}
         >
             <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
                 <div className="relative aspect-video w-full overflow-hidden">
                     <Image
-                        src={getCloudinaryUrl(car.mainImageUrl, 1200, 800, "good")}
+                        src={car.mainImageUrl}
+                        loader={cardLoader}
                         alt={carName}
                         fill
-                        unoptimized
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
                         sizes="(min-width: 1024px) 30vw, (min-width: 768px) 45vw, 100vw"
                     />
@@ -58,7 +60,7 @@ export function CarCard({ car, className }: CarCardProps) {
                             </span>
                             <span className="flex items-center gap-1.5">
                                 <Gauge className="h-4 w-4" />
-                                {formatMileage(car.mileageKm)}
+                                {formatMileage(car.mileageKm, locale)}
                             </span>
                             <span className="flex items-center gap-1.5">
                                 <Zap className="h-4 w-4" />

@@ -104,6 +104,7 @@ export default function CatalogCars({
           </h2>
         </div>
         <SortSelect
+          label={tSort("label")}
           options={sortOptions}
           value={currentSort}
           onChange={onSortChange}

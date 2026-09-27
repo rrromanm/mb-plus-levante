@@ -7,10 +7,9 @@ import CarsApi from "@/services/carsApi";
 import { CONTACT } from "@/lib/contactInfo";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { type Locale } from "@/i18n/routing";
+import { routing, type Locale } from "@/i18n/routing";
 import { getAlternates } from "@/i18n/seo";
-
-const SITE_URL = "https://mbplusbenidorm.es";
+import { SITE_URL } from "@/lib/site";
 
 export async function generateMetadata({
   params,
@@ -26,6 +25,12 @@ export async function generateMetadata({
   };
 }
 
+const SAME_AS = [
+  "https://maps.google.com/?cid=2235880023792833369",
+  "https://www.facebook.com/janis.mobil",
+  "https://www.instagram.com/mb.pluss",
+].filter((url) => !url.includes("{{"));
+
 const dealerJsonLd = {
   "@context": "https://schema.org",
   "@type": "AutoDealer",
@@ -37,6 +42,8 @@ const dealerJsonLd = {
   telephone: CONTACT.phone,
   email: CONTACT.email,
   priceRange: "€€",
+  knowsLanguage: routing.locales,
+  ...(SAME_AS.length > 0 && { sameAs: SAME_AS }),
   address: {
     "@type": "PostalAddress",
     streetAddress: "Av. d'Europa 204",

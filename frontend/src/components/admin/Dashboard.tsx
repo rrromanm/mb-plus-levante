@@ -151,7 +151,7 @@ export default function Dashboard() {
             <div>
               <p className="text-xs uppercase text-gray-500">Kilometraje</p>
               <p className="font-medium text-gray-900">
-                {formatMileage(car.mileageKm)}
+                {formatMileage(car.mileageKm, "es")}
               </p>
             </div>
             <div>
@@ -286,7 +286,7 @@ export default function Dashboard() {
                               {car.year}
                             </td>
                             <td className="px-4 py-3 text-gray-900">
-                              {formatMileage(car.mileageKm)}
+                              {formatMileage(car.mileageKm, "es")}
                             </td>
                             <td className="px-4 py-3 text-gray-900">
                               {formatPrice(car.price)}

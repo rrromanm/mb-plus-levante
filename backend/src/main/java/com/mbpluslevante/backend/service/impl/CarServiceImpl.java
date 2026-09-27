@@ -234,7 +234,9 @@ public class CarServiceImpl implements CarService {
     @Override
     @Transactional(readOnly = true)
     public List<CarSitemapDto> getSitemapData() {
-        return carRepository.findAll().stream()
+        return carRepository
+                .findByStatus(CarStatus.ACTIVE, Sort.unsorted())
+                .stream()
                 .map(car -> new CarSitemapDto(car.getSlug(), car.getCreatedAt()))
                 .toList();
     }

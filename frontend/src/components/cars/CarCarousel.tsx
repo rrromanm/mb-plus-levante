@@ -5,8 +5,11 @@ import { createPortal } from "react-dom";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, X, Images } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { getCloudinaryUrl } from "@/services/cloudinary";
+import { cloudinaryLoader } from "@/services/cloudinary";
 import type { CarImageDto } from "@/types/car/carImageDto";
+
+const mainLoader = cloudinaryLoader(4 / 3, "best");
+const thumbLoader = cloudinaryLoader(4 / 3, "eco");
 
 type Props = {
   images: CarImageDto[];
@@ -24,7 +27,7 @@ export default function CarCarousel({ images, carName, autoPlayInterval = 5000 }
   const [lbLoaded, setLbLoaded] = useState(false);
   const [inView, setInView] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const thumbRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const thumbRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const touchStartX = useRef<number | null>(null);
 
   const prev = useCallback(() => {
@@ -48,13 +51,6 @@ export default function CarCarousel({ images, carName, autoPlayInterval = 5000 }
     setLbLoaded(false);
     setLightboxOpen(true);
   };
-
-  useEffect(() => {
-    if (sorted.length <= 1) return;
-    const nextIndex = (current + 1) % sorted.length;
-    const img = new window.Image();
-    img.src = getCloudinaryUrl(sorted[nextIndex].imageUrl, 1200, 800, "best");
-  }, [current, sorted]);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -112,13 +108,12 @@ export default function CarCarousel({ images, carName, autoPlayInterval = 5000 }
         >
           <Image
             key={current}
-            src={getCloudinaryUrl(sorted[current].imageUrl, 1200, 800, "best")}
+            src={sorted[current].imageUrl}
+            loader={mainLoader}
             fill
-            priority
             sizes="(min-width: 1024px) 50vw, 100vw"
             className="object-cover transition-opacity duration-700"
             alt={t("imageAlt", { name: carName, index: current + 1 })}
-            unoptimized
           />
 
           {sorted.length > 1 && (
@@ -159,23 +154,26 @@ export default function CarCarousel({ images, carName, autoPlayInterval = 5000 }
         {sorted.length > 1 && (
           <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-1 scrollbar-none">
             {sorted.map(({ imageUrl }, index) => (
-              <div
+              <button
+                type="button"
                 key={index}
                 ref={(el) => { thumbRefs.current[index] = el; }}
                 onClick={() => setCurrent(index)}
+                aria-label={t("goToImage", { index: index + 1 })}
+                aria-current={index === current}
                 className={`relative w-20 h-14 sm:w-28 sm:h-20 shrink-0 rounded-lg overflow-hidden cursor-pointer border-2 transition ${
                   index === current ? "border-foreground" : "border-transparent opacity-60 hover:opacity-100"
                 }`}
               >
                 <Image
-                  src={getCloudinaryUrl(imageUrl, 300, 200, "eco")}
+                  src={imageUrl}
+                  loader={thumbLoader}
                   fill
                   sizes="112px"
                   className="object-cover"
                   alt={t("thumbnailAlt", { name: carName, index: index + 1 })}
-                  unoptimized
                 />
-              </div>
+              </button>
             ))}
           </div>
         )}
@@ -186,13 +184,13 @@ export default function CarCarousel({ images, carName, autoPlayInterval = 5000 }
         onClick={() => openLightbox(0)}
       >
         <Image
-          src={getCloudinaryUrl(sorted[0].imageUrl, 800, 600, "good")}
+          src={sorted[0].imageUrl}
+          loader={mainLoader}
           fill
           priority
           sizes="100vw"
           className="object-cover"
           alt={t("mainImageAlt", { name: carName })}
-          unoptimized
         />
         {sorted.length > 1 && (
           <span className="absolute bottom-3 right-3 flex items-center gap-1.5 bg-black/60 text-white text-xs font-medium px-2.5 py-1 rounded-full backdrop-blur-sm pointer-events-none">
@@ -238,13 +236,13 @@ export default function CarCarousel({ images, carName, autoPlayInterval = 5000 }
           >
             <Image
               key={lightboxIndex}
-              src={getCloudinaryUrl(sorted[lightboxIndex].imageUrl, 1200, 900, "best")}
+              src={sorted[lightboxIndex].imageUrl}
+              loader={mainLoader}
               fill
               sizes="100vw"
               className={`object-contain transition-opacity duration-300 ${lbLoaded ? "opacity-100" : "opacity-0"}`}
               alt={t("imageAlt", { name: carName, index: lightboxIndex + 1 })}
               onLoad={() => setLbLoaded(true)}
-              unoptimized
             />
             {!lbLoaded && (
               <div className="absolute inset-0 flex items-center justify-center">
@@ -280,22 +278,25 @@ export default function CarCarousel({ images, carName, autoPlayInterval = 5000 }
               onClick={(e) => e.stopPropagation()}
             >
               {sorted.map(({ imageUrl }, index) => (
-                <div
+                <button
+                  type="button"
                   key={index}
                   onClick={() => { setLbLoaded(false); setLightboxIndex(index); }}
+                  aria-label={t("goToImage", { index: index + 1 })}
+                  aria-current={index === lightboxIndex}
                   className={`relative w-16 h-12 shrink-0 rounded-md overflow-hidden cursor-pointer border-2 transition ${
                     index === lightboxIndex ? "border-white" : "border-transparent opacity-50 hover:opacity-100"
                   }`}
                 >
                   <Image
-                    src={getCloudinaryUrl(imageUrl, 200, 150, "eco")}
+                    src={imageUrl}
+                    loader={thumbLoader}
                     fill
                     sizes="64px"
                     className="object-cover"
                     alt={t("thumbnailAlt", { name: carName, index: index + 1 })}
-                    unoptimized
                   />
-                </div>
+                </button>
               ))}
             </div>
           )}

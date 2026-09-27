@@ -8,9 +8,9 @@
     "layoutTwitterTitle": "Used Cars in Benidorm, Alicante | MB Plus Benidorm",
     "layoutTwitterDescription": "Inspected, warrantied pre-owned cars in Benidorm at the best price.",
     "siteName": "MB Plus Benidorm",
-    "homeTitle": "Used Cars for Sale in Benidorm (Alicante)",
-    "homeDescription": "Buy a used car in Benidorm with MB Plus: inspected, warrantied pre-owned cars on the Costa Blanca. Mercedes-Benz specialists, ready for delivery.",
-    "catalogTitle": "Used Cars for Sale in Benidorm | Second-Hand Cars",
+    "homeTitle": "Used Cars for Sale in Benidorm | MB Plus",
+    "homeDescription": "Used car dealer in Benidorm and across the Costa Blanca. 15+ years of experience, English speaking staff, every car inspected and warrantied.",
+    "catalogTitle": "Used Car Catalogue in Benidorm",
     "catalogDescription": "Browse our full range of used cars for sale in Benidorm (Alicante). Inspected, warrantied cars on the Costa Blanca, ready for delivery at MB Plus.",
     "catalogOgTitle": "Used Cars for Sale in Benidorm | MB Plus",
     "catalogOgDescription": "Explore our range of inspected, warrantied second-hand cars in Benidorm. Find your next car at the best price.",
@@ -19,6 +19,9 @@
     "carNotFoundDescription": "The car you are looking for is not available."
   },
   "Header": {
+    "logoAlt": "MB Plus Benidorm — home",
+    "call": "Call",
+    "themeToggle": "Switch between light and dark theme",
     "home": "Home",
     "catalog": "Browse cars",
     "about": "About us",
@@ -36,7 +39,7 @@
     "warranty": "Up to 12 months warranty",
     "itv": "ITV inspection up to date",
     "workshop": "In-house workshop in L'Albir",
-    "experience": "10+ years of experience"
+    "experience": "15+ years of experience"
   },
   "Featured": {
     "title": "Cars available at our dealership",
@@ -48,14 +51,14 @@
     "eyebrow": "Used cars in Benidorm · Costa Blanca",
     "imageAlt": "Mercedes-Benz emblem — MB Plus Benidorm used car dealership, Alicante",
     "title": "Used car dealership in Benidorm",
-    "intro": "MB Plus Benidorm is a used car dealership in Benidorm specialising in quality pre-owned cars across the Costa Blanca, with a focus on Mercedes-Benz. With over 10 years of experience and our own workshop, every car is inspected, prepared and backed by warranty before delivery.",
+    "intro": "MB Plus Benidorm is a used car dealership in Benidorm specialising in quality pre-owned cars across the Costa Blanca, with a focus on Mercedes-Benz. With over 15 years of experience and our own workshop, every car is inspected, prepared and backed by warranty before delivery.",
     "pillarWarrantyTitle": "Up to 12 months warranty",
     "pillarWarrantyDesc": "All our cars are delivered with a recent technical inspection and a warranty of up to 12 months or 10,000 km.",
     "pillarWorkshopTitle": "In-house workshop",
     "pillarWorkshopDesc": "We inspect, prepare and maintain every car at our own workshop in L'Albir before delivery.",
     "pillarSpecialistsTitle": "Mercedes-Benz specialists",
     "pillarSpecialistsDesc": "Our main focus is Mercedes-Benz cars, although we also work with other well-known brands.",
-    "pillarExperienceTitle": "Over 10 years of experience",
+    "pillarExperienceTitle": "Over 15 years of experience",
     "pillarExperienceDesc": "More than a decade helping our customers find the car they need, at the price they are looking for.",
     "statSoldLabel": "Cars sold",
     "statItvValue": "ITV",
@@ -115,12 +118,13 @@
     "powerUnit": "HP"
   },
   "CarDetail": {
+    "h1Location": "{year} {brand} {model} in Benidorm",
     "breadcrumbHome": "Home",
     "breadcrumbCatalog": "Browse cars",
-    "unavailableBadge": "Unavailable",
-    "notForSaleLine1": "This car is no longer",
-    "notForSaleLine2": "for sale",
-    "notForSaleDesc": "It may have been sold or removed from our listings.",
+    "unavailableBadge": "Sold",
+    "notForSaleLine1": "This car has",
+    "notForSaleLine2": "already been sold",
+    "notForSaleDesc": "Take a look at similar cars available below.",
     "specYear": "Year",
     "specMileage": "Mileage",
     "specFuel": "Fuel",
@@ -161,6 +165,7 @@
     "catalog": "Browse all cars"
   },
   "Sort": {
+    "label": "Sort vehicles",
     "price-asc": "Price: low to high",
     "price-desc": "Price: high to low",
     "year-desc": "Year: newest first",

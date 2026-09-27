@@ -11,6 +11,10 @@ export function formatPrice(value: number): string {
   return `${esES.format(value)} €`;
 }
 
-export function formatMileage(value: number): string {
-  return `${esES.format(value)} km`;
+export function formatMileage(value: number, locale: string): string {
+  return new Intl.NumberFormat(locale, {
+    style: "unit",
+    unit: "kilometer",
+    unitDisplay: "short",
+  }).format(value);
 }
